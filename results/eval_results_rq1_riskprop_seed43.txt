@@ -5,6 +5,9 @@ Proposal mAP: 0.7658
   AP@1.5s: 0.6845
 Video AUC: 0.7774
 mTTA@FAR<=0.1: 1.109s (coverage=67.3%)
+Recall@FAR<=0.1@0.5s: 0.6000
+Recall@FAR<=0.1@1.0s: 0.4333
+Recall@FAR<=0.1@1.5s: 0.3267
 mAUC01@0.5s=0.3724
 mAUC01@1.0s=0.2342
 mAUC01@1.5s=0.1671
@@ -12,3 +15,7 @@ mAUC01_mean=0.2579
 mTTA01_all=0.747
 mTTA01_detected=1.109
 coverage=0.673
+
+GHI CHU: FAR thuc te va Threshold duoc chon CHUA duoc luu trong lan chay nay
+(code goc chi tinh noi bo, khong in/ghi ra). Se bo sung trong lan chay lai
+eval tiep theo cung voi AdaLEA/TOP 3-seed.
