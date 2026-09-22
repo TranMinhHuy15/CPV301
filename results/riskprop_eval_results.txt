@@ -1,0 +1,14 @@
+RiskProp Baseline (cached, 5-frame) - Evaluation Results (RQ1)
+Proposal mAP: 0.6749
+  AP@0.5s: 0.6923
+  AP@1.0s: 0.6767
+  AP@1.5s: 0.6558
+Video AUC: 0.7124
+mTTA@FAR<=0.1: 1.266s (coverage=41.3%)
+mAUC01@0.5s=0.1516
+mAUC01@1.0s=0.1364
+mAUC01@1.5s=0.1284
+mAUC01_mean=0.1388
+mTTA01_all=0.523
+mTTA01_detected=1.266
+coverage=0.413
