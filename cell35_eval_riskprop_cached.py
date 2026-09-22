@@ -12,13 +12,19 @@ from torch.utils.data import DataLoader
 from sklearn.metrics import (
     average_precision_score, roc_auc_score, roc_curve, auc)
 
-sys.path.insert(0, "/kaggle/working")
+sys.path.insert(0, "/workspace/CPV301")
 from cell33_riskprop_dataset import RiskPropValDataset
 from cell31_model_riskprop import RiskPropModel
 
-CACHE_DIR   = "/kaggle/working/data/nexar_cache_5f"
-OUTPUT_DIR  = "/kaggle/working/outputs_riskprop"
-CKPT_PATH   = os.path.join(OUTPUT_DIR, "best_riskprop.pth")
+# v2: SEED selects which seed's checkpoint to evaluate (RISKPROP_SEED env
+# var, same convention as cell34). Results are written per-seed so all 3
+# seeds' eval outputs coexist under results/.
+SEED = int(os.environ.get("RISKPROP_SEED", "42"))
+SUFFIX = f"_seed{SEED}"
+
+CACHE_DIR   = "/workspace/CPV301/data/nexar_cache_5f"
+OUTPUT_DIR  = "/workspace/CPV301/outputs_riskprop"
+CKPT_PATH   = os.path.join(OUTPUT_DIR, f"best_riskprop{SUFFIX}.pth")
 BATCH_SIZE  = 8
 NUM_WORKERS = 4
 LEAD_TIMES  = [0.5, 1.0, 1.5]
@@ -31,7 +37,8 @@ model = RiskPropModel().to(device)
 ckpt = torch.load(CKPT_PATH, map_location=device, weights_only=False)
 model.load_state_dict(ckpt["model"])
 model.eval()
-print(f"  Epoch: {ckpt['epoch']}, Val Loss: {ckpt['best_val_loss']:.4f}")
+print(f"  Epoch: {ckpt['epoch']}, Best Val mAP (checkpoint criterion): "
+      f"{ckpt.get('best_val_map', float('nan')):.4f}")
 
 
 def run_inference(lead_time):
@@ -106,9 +113,9 @@ print(f"   mAUC^0.1 (mean 3 horizons) = {mauc_mean:.4f}")
 print(f"   mTTA^0.1 (undetected=0)    = {mtta_all:.3f}s  | detected-only = {mtta:.3f}s")
 print(f"{'='*65}")
 
-results_path = os.path.join(OUTPUT_DIR, "eval_results_rq1_riskprop.txt")
+results_path = os.path.join(OUTPUT_DIR, f"eval_results_rq1_riskprop{SUFFIX}.txt")
 with open(results_path, "w") as f:
-    f.write("RiskProp Baseline (cached, 5-frame) - Evaluation Results (RQ1)\n")
+    f.write(f"RiskProp v2 Baseline (cached, 5-frame, seed={SEED}) - Evaluation Results (RQ1)\n")
     f.write(f"Proposal mAP: {proposal_map:.4f}\n")
     for l in LEAD_TIMES:
         f.write(f"  AP@{l:.1f}s: {results[l]['AP']:.4f}\n")
