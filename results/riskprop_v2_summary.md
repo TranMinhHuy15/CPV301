@@ -8,6 +8,9 @@ Sau khi áp dụng các thay đổi theo góp ý của partner (xem `RISKPROP_V2
 |---|---|---|---|---|
 | Proposal mAP | 0.7646 | 0.7658 | 0.7464 | **0.7589 ± 0.0089** |
 | mAUC@0.1 (mean 3 horizon) | 0.2388 | 0.2579 | 0.2501 | **0.2489 ± 0.0078** |
+| Recall@FAR<=0.1 @0.5s | 0.5733 | 0.6000 | 0.5933 | **0.5889 ± 0.0140** |
+| Recall@FAR<=0.1 @1.0s | 0.3800 | 0.4333 | 0.4000 | **0.4044 ± 0.0269** |
+| Recall@FAR<=0.1 @1.5s | 0.3267 | 0.3267 | 0.3067 | **0.3200 ± 0.0115** |
 | mTTA@FAR<=0.1 (detected) | 1.115s | 1.109s | 1.092s | **1.105s ± 0.010s** |
 | Coverage | 64.0% | 67.3% | 65.3% | **65.5% ± 1.4%** |
 | Video-level AUC | 0.7797 | 0.7774 | 0.7674 | **0.7748 ± 0.0053** |
@@ -46,6 +49,14 @@ Sau khi áp dụng các thay đổi theo góp ý của partner (xem `RISKPROP_V2
 - FFR: tính trên raw logit -> tính trên sigmoid probability
 - Thêm gradient clipping (max norm 1.0)
 - Checkpoint + early stopping: theo val_loss -> theo val mAP (patience 7 epoch)
+
+## Giới hạn / Chưa hoàn thành (theo góp ý review nội bộ)
+
+Kết luận "RiskProp v2 thắng AdaLEA" hiện được **ủng hộ mạnh trên tập validation**, nhưng để kết luận chắc chắn, cần bổ sung thêm:
+
+1. **AdaLEA và TOP hiện mới có 1 seed** (chạy 1 lần duy nhất), trong khi RiskProp v2 đã có 3 seed — cần chạy lại AdaLEA và TOP với cùng 3 seed (42/43/44) để so sánh công bằng về mặt thống kê (biết được cả độ dao động của AdaLEA/TOP, không chỉ 1 con số đơn lẻ).
+2. **FAR thực tế và Threshold được chọn** của RiskProp v2 chưa được lưu lại (chỉ tính nội bộ lúc eval, không in/ghi ra) — cần sửa script eval và chạy lại (không cần train lại, chỉ eval lại từ checkpoint đã có).
+3. **Chưa đánh giá trên official test set** (`solution.csv` của Kaggle/HuggingFace) — toàn bộ kết quả hiện tại đều trên val-split nội bộ (300/1500 video tách từ train).
 
 ## File liên quan
 
