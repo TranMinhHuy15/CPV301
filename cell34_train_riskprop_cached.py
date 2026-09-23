@@ -62,11 +62,23 @@ CACHE_DIR_SEQ = "/workspace/CPV301/data/nexar_cache_riskprop"   # train
 CACHE_DIR_VAL = "/workspace/CPV301/data/nexar_cache_5f"          # val (shared)
 USE_FFR       = True   # RQ1 full model. RQ2 ablation later flips these.
 USE_AMC       = True
-PAIRING_MODE  = "fixed"  # was "random" in v1; see cell32 v2 (FIXED_LAG_SEC=1.0)
+# PAIRING_MODE overridable via RISKPROP_PAIRING env var ("fixed" or "random"),
+# falls back to "fixed" (v2 default). This lets the SAME script produce both:
+#   - PAIRING_MODE=random -> "RiskProp" proper (paper's random-offset AMC),
+#     the correct RQ1 anchor / RQ3 baseline -- NOT yet trained under v2's
+#     tuned hyperparams (LR=0.002, grad clip, early-stop). What was
+#     previously called "riskprop_v2" is actually PAIRING_MODE=fixed, i.e.
+#     FixedLag-RiskProp (RQ3's proposed method), mislabeled as the RQ1
+#     RiskProp entry -- see chat discussion 2026-09-23.
+#   - PAIRING_MODE=fixed  -> FixedLag-RiskProp (tau=1.0s), RQ3 proposed
+#     method (already trained, 3 seeds, under the old "riskprop_v2" name).
+PAIRING_MODE  = os.environ.get("RISKPROP_PAIRING", "fixed")
 
 SEED = int(os.environ.get("RISKPROP_SEED", "42"))
 OUTPUT_DIR = "/workspace/CPV301/outputs_riskprop"
-SUFFIX = f"_seed{SEED}"
+# Suffix now encodes both seed AND pairing mode, so random-offset and
+# fixed-lag runs never overwrite each other's checkpoints/logs.
+SUFFIX = f"_{PAIRING_MODE}_seed{SEED}"
 # ==========================================================
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -125,7 +137,8 @@ if start_epoch == 0:
             ["epoch", "train_loss", "train_bce", "train_reg", "train_mono",
              "val_loss", "val_mAP", "lr", "time_sec", "best_val_mAP"])
 
-print(f"\n{'='*50}\n[seed={SEED}] Training RiskProp v2 (cached, FFR={USE_FFR} AMC={USE_AMC} "
+_model_label = "FixedLag-RiskProp (RQ3)" if PAIRING_MODE == "fixed" else "RiskProp random-offset (RQ1 anchor)"
+print(f"\n{'='*50}\n[seed={SEED}] Training {_model_label} (cached, FFR={USE_FFR} AMC={USE_AMC} "
       f"pairing={PAIRING_MODE}, LR={LR}, grad_clip={GRAD_CLIP_NORM}, "
       f"early_stop_patience={EARLY_STOP_PATIENCE}): epoch {start_epoch} -> {EPOCHS-1}\n{'='*50}\n")
 
