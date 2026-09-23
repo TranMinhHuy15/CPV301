@@ -15,9 +15,29 @@ EXISTING nexar_cache_5f/val (single fixed-lead-time windows, same as
 TOP-5f/AdaLEA-5f).
 
 ---
-v2 UPDATE (post-RQ1 optimization pass, per partner feedback
-"KE HOACH KHAC PHUC VA TOI UU RISKPROP" -- goal: RiskProp > AdaLEA on
-mAP and mAUC@0.1 while keeping mTTA/coverage/FAR at least as good):
+v3 UPDATE (2026-09-23, RQ1 rigor fix -- reverts the v2 "optimization pass"
+below, which is NO LONGER used for the RQ1/RQ3 comparison because it broke
+proposal 5.5's Controls requirement: "Identical ... checkpoint-selection
+rule, ... optimizer schedule, early-stopping rule, ... for each paired
+comparison." v2 changed LR/grad-clip/checkpoint-rule/early-stopping all at
+once relative to TOP (cell15) and AdaLEA (cell23), so RiskProp was no
+longer on a matched budget with the other two RQ1 models -- any RiskProp
+win could not be attributed to the model/loss alone.
+v3 reverts ALL FOUR of v2's hyperparameter changes back to the
+matched-budget recipe shared with TOP/AdaLEA:
+- LR: 0.002 -> 0.01 (back to matched-budget value; same as TOP/AdaLEA).
+- Gradient clipping: removed (TOP/AdaLEA use none either).
+- Checkpoint selection: back to lowest val BCE loss (same rule/metric as
+  cell23_train_adalea_cached.py), not val mAP.
+- Early stopping: removed -- always runs the full EPOCHS, same as
+  TOP/AdaLEA (no early-stopping rule there either).
+PAIRING_MODE and multi-seed support (below) are UNCHANGED by this revert --
+those are the RQ3 pairing-mode variable and the RQ1/RQ3 3-seed protocol,
+not part of the "optimization pass" that got reverted.
+
+v2 UPDATE (2026 era, post-RQ1 optimization pass, per partner feedback
+"KE HOACH KHAC PHUC VA TOI UU RISKPROP" -- SUPERSEDED by v3 above, kept
+here only for history):
 - LR: 0.01 -> 0.002 (lower LR for a more stable training curve; v1 showed
   a transient gradient-instability spike around epoch 21-22).
 - Added gradient clipping (max norm 1.0) -- v1 had none, likely
@@ -48,15 +68,13 @@ from cell33_riskprop_dataset import RiskPropTrainDataset, RiskPropValDataset
 from cell31_model_riskprop import RiskPropModel
 from cell32_riskprop_loss import riskprop_loss, COLLISION_WEIGHT, NEG_WEIGHT
 
-# ============ CONFIG (v2, post-optimization -- see docstring above) ============
+# ============ CONFIG (v3, matched-budget with TOP/AdaLEA -- see docstring) ======
 EPOCHS        = 50
 BATCH_SIZE    = 2          # videos/batch -> 2*SEQ_LEN=24 clips/forward
 VAL_BATCH     = 8          # single-snippet val loader, same as TOP/AdaLEA
-LR            = 0.002      # was 0.01
+LR            = 0.01       # matched with TOP/AdaLEA (v2 used 0.002 -- reverted)
 MOMENTUM      = 0.9
 WEIGHT_DECAY  = 1e-4
-GRAD_CLIP_NORM = 1.0       # new in v2 -- none in v1
-EARLY_STOP_PATIENCE = 7    # new in v2 -- epochs with no val-mAP improvement
 NUM_WORKERS   = 4
 CACHE_DIR_SEQ = "/workspace/CPV301/data/nexar_cache_riskprop"   # train
 CACHE_DIR_VAL = "/workspace/CPV301/data/nexar_cache_5f"          # val (shared)
@@ -115,8 +133,7 @@ scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
 scaler = GradScaler()
 
 start_epoch = 0
-best_val_map = -1.0
-epochs_no_improve = 0
+best_val_loss = float("inf")
 resume_path = os.path.join(OUTPUT_DIR, f"latest_riskprop{SUFFIX}.pth")
 
 if os.path.exists(resume_path):
@@ -126,21 +143,20 @@ if os.path.exists(resume_path):
     scheduler.load_state_dict(ckpt["scheduler"])
     scaler.load_state_dict(ckpt["scaler"])
     start_epoch = ckpt["epoch"]
-    best_val_map = ckpt.get("best_val_map", -1.0)
-    epochs_no_improve = ckpt.get("epochs_no_improve", 0)
-    print(f"\nResumed from epoch {start_epoch}, best_val_mAP={best_val_map:.4f}")
+    best_val_loss = ckpt.get("best_val_loss", float("inf"))
+    print(f"\nResumed from epoch {start_epoch}, best_val_loss={best_val_loss:.4f}")
 
 log_path = os.path.join(OUTPUT_DIR, f"training_log_riskprop{SUFFIX}.csv")
 if start_epoch == 0:
     with open(log_path, "w", newline="") as f:
         csv.writer(f).writerow(
             ["epoch", "train_loss", "train_bce", "train_reg", "train_mono",
-             "val_loss", "val_mAP", "lr", "time_sec", "best_val_mAP"])
+             "val_loss", "val_mAP", "lr", "time_sec", "best_val_loss"])
 
 _model_label = "FixedLag-RiskProp (RQ3)" if PAIRING_MODE == "fixed" else "RiskProp random-offset (RQ1 anchor)"
 print(f"\n{'='*50}\n[seed={SEED}] Training {_model_label} (cached, FFR={USE_FFR} AMC={USE_AMC} "
-      f"pairing={PAIRING_MODE}, LR={LR}, grad_clip={GRAD_CLIP_NORM}, "
-      f"early_stop_patience={EARLY_STOP_PATIENCE}): epoch {start_epoch} -> {EPOCHS-1}\n{'='*50}\n")
+      f"pairing={PAIRING_MODE}, LR={LR}, matched-budget w/ TOP/AdaLEA): "
+      f"epoch {start_epoch} -> {EPOCHS-1}\n{'='*50}\n")
 
 total_start = time.time()
 
@@ -162,8 +178,6 @@ for epoch in range(start_epoch, EPOCHS):
                 pairing_mode=PAIRING_MODE)
 
         scaler.scale(loss).backward()
-        scaler.unscale_(optimizer)
-        torch.nn.utils.clip_grad_norm_(model.parameters(), GRAD_CLIP_NORM)
         scaler.step(optimizer)
         scaler.update()
         train_loss += loss.item()
@@ -207,36 +221,24 @@ for epoch in range(start_epoch, EPOCHS):
         csv.writer(f).writerow(
             [epoch, f"{avg_train:.6f}", f"{train_bce/n_tb:.6f}", f"{train_reg/n_tb:.6f}",
              f"{train_mono/n_tb:.6f}", f"{avg_val:.6f}", f"{val_map:.6f}", f"{lr_now:.6f}",
-             f"{elapsed:.1f}", f"{best_val_map:.6f}"])
+             f"{elapsed:.1f}", f"{best_val_loss:.6f}"])
 
     ckpt_dict = {
         "epoch": epoch + 1, "model": model.state_dict(),
         "optimizer": optimizer.state_dict(), "scheduler": scheduler.state_dict(),
-        "scaler": scaler.state_dict(), "best_val_map": best_val_map,
-        "epochs_no_improve": epochs_no_improve, "seed": SEED,
+        "scaler": scaler.state_dict(), "best_val_loss": best_val_loss, "seed": SEED,
     }
 
-    if val_map > best_val_map:
-        best_val_map = val_map
-        epochs_no_improve = 0
-        ckpt_dict["best_val_map"] = best_val_map
-        ckpt_dict["epochs_no_improve"] = epochs_no_improve
+    if avg_val < best_val_loss:
+        best_val_loss = avg_val
+        ckpt_dict["best_val_loss"] = best_val_loss
         torch.save(ckpt_dict, os.path.join(OUTPUT_DIR, f"best_riskprop{SUFFIX}.pth"))
-        print(f"  * Saved best_riskprop{SUFFIX}.pth (val_mAP={best_val_map:.4f})")
-    else:
-        epochs_no_improve += 1
-        ckpt_dict["epochs_no_improve"] = epochs_no_improve
+        print(f"  * Saved best_riskprop{SUFFIX}.pth (val_loss={best_val_loss:.4f})")
 
     torch.save(ckpt_dict, os.path.join(OUTPUT_DIR, f"latest_riskprop{SUFFIX}.pth"))
-
-    if epochs_no_improve >= EARLY_STOP_PATIENCE:
-        print(f"\n[seed={SEED}] Early stopping at epoch {epoch}: "
-              f"no val_mAP improvement for {EARLY_STOP_PATIENCE} epochs "
-              f"(best_val_mAP={best_val_map:.4f}).")
-        break
 
 total_time = time.time() - total_start
 print(f"\n{'='*50}")
 print(f"[seed={SEED}] Training complete! Total: {total_time/60:.1f} min ({total_time/3600:.2f}h)")
-print(f"Best val_mAP: {best_val_map:.4f}")
+print(f"Best val_loss: {best_val_loss:.4f}")
 print(f"{'='*50}")
