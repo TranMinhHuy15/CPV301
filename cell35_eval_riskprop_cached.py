@@ -40,8 +40,8 @@ model = RiskPropModel().to(device)
 ckpt = torch.load(CKPT_PATH, map_location=device, weights_only=False)
 model.load_state_dict(ckpt["model"])
 model.eval()
-print(f"  Epoch: {ckpt['epoch']}, Best Val mAP (checkpoint criterion): "
-      f"{ckpt.get('best_val_map', float('nan')):.4f}")
+print(f"  Epoch: {ckpt['epoch']}, Best Val Loss (checkpoint criterion): "
+      f"{ckpt.get('best_val_loss', float('nan')):.4f}")
 
 
 def run_inference(lead_time):
