@@ -35,6 +35,10 @@ from sklearn.model_selection import train_test_split
 DATA_DIR    = "/kaggle/input/competitions/nexar-collision-prediction"
 if not os.path.exists(DATA_DIR):
     DATA_DIR    = "/kaggle/input/nexar-collision-prediction"
+if not os.path.exists(DATA_DIR):
+    # vast.ai fallback -- data prepared from HuggingFace (nexar-ai/nexar_collision_prediction)
+    # into Kaggle-style layout by cell09_prepare_hf_data.py. See chat 2026-09-23.
+    DATA_DIR    = "/workspace/CPV301/data/nexar_kaggle_style"
 CACHE_DIR   = "/kaggle/working/data/nexar_cache_riskprop"
 SEED        = 42
 NUM_FRAMES  = 5          # proposal Muc 5.5: causal 5-frame snippet (RQ1 shared protocol)
