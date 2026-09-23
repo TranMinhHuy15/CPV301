@@ -25,12 +25,20 @@ POS_WEIGHT   = 10.0
 NUM_WORKERS  = 4
 CACHE_DIR    = "/kaggle/working/data/nexar_cache_5f"
 OUTPUT_DIR   = "/kaggle/working/outputs_5f"
-SEED         = 42
+# Multi-seed support: SEED overridable via TOP_SEED env var (falls back to
+# 42), same pattern as cell34_train_riskprop_cached.py's RISKPROP_SEED --
+# so this script can be run 3x (seeds 42/43/44) without edits, each run
+# writing to its own best_cached_seed{N}.pth / log file.
+SEED         = int(os.environ.get("TOP_SEED", "42"))
+SUFFIX       = f"_seed{SEED}"
 # ================================
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 device = torch.device("cuda")
 torch.manual_seed(SEED)
+import numpy as np
+np.random.seed(SEED)
+print(f"[seed={SEED}] Training TOP-5f baseline")
 
 train_ds = CachedTrainDataset(CACHE_DIR)
 val_ds = CachedValDataset(CACHE_DIR, lead_time=1.0)
@@ -64,7 +72,7 @@ scaler = GradScaler()
 
 start_epoch = 0
 best_val_loss = float("inf")
-resume_path = os.path.join(OUTPUT_DIR, "latest_cached.pth")
+resume_path = os.path.join(OUTPUT_DIR, f"latest_cached{SUFFIX}.pth")
 
 if os.path.exists(resume_path):
     ckpt = torch.load(resume_path, map_location=device, weights_only=False)
@@ -74,10 +82,10 @@ if os.path.exists(resume_path):
     scaler.load_state_dict(ckpt["scaler"])
     start_epoch = ckpt["epoch"]
     best_val_loss = ckpt["best_val_loss"]
-    print(f"\n✅ Resumed from epoch {start_epoch}, "
+    print(f"\n✅ [seed={SEED}] Resumed from epoch {start_epoch}, "
           f"best_val_loss={best_val_loss:.4f}")
 
-log_path = os.path.join(OUTPUT_DIR, "training_log_cached.csv")
+log_path = os.path.join(OUTPUT_DIR, f"training_log_top5f{SUFFIX}.csv")
 if start_epoch == 0:
     with open(log_path, "w", newline="") as f:
         csv.writer(f).writerow(
@@ -85,7 +93,7 @@ if start_epoch == 0:
              "time_sec", "best_val_loss"])
 
 print(f"\n{'='*50}")
-print(f"Training (cached): epoch {start_epoch} -> {EPOCHS-1}")
+print(f"[seed={SEED}] Training (cached): epoch {start_epoch} -> {EPOCHS-1}")
 print(f"{'='*50}\n")
 
 total_start = time.time()
@@ -126,7 +134,7 @@ for epoch in range(start_epoch, EPOCHS):
     elapsed = time.time() - t0
     lr_now = optimizer.param_groups[0]["lr"]
 
-    print(f"Epoch {epoch:2d}: train={avg_train:.4f}, val={avg_val:.4f}, "
+    print(f"[seed={SEED}] Epoch {epoch:2d}: train={avg_train:.4f}, val={avg_val:.4f}, "
           f"lr={lr_now:.6f}, time={elapsed:.1f}s")
 
     with open(log_path, "a", newline="") as f:
@@ -141,19 +149,21 @@ for epoch in range(start_epoch, EPOCHS):
             "optimizer": optimizer.state_dict(),
             "scheduler": scheduler.state_dict(),
             "scaler": scaler.state_dict(), "best_val_loss": best_val_loss,
-        }, os.path.join(OUTPUT_DIR, "best_cached.pth"))
-        print(f"  ★ Saved best_cached.pth (val_loss={best_val_loss:.4f})")
+            "seed": SEED,
+        }, os.path.join(OUTPUT_DIR, f"best_cached{SUFFIX}.pth"))
+        print(f"  ★ [seed={SEED}] Saved best_cached{SUFFIX}.pth (val_loss={best_val_loss:.4f})")
 
     torch.save({
         "epoch": epoch + 1, "model": model.state_dict(),
         "optimizer": optimizer.state_dict(),
         "scheduler": scheduler.state_dict(),
         "scaler": scaler.state_dict(), "best_val_loss": best_val_loss,
-    }, os.path.join(OUTPUT_DIR, "latest_cached.pth"))
+        "seed": SEED,
+    }, resume_path)
 
 total_time = time.time() - total_start
 print(f"\n{'='*50}")
-print(f"Training complete! Total: {total_time/60:.1f} min "
+print(f"[seed={SEED}] Training complete! Total: {total_time/60:.1f} min "
       f"({total_time/3600:.2f}h)")
-print(f"Best val_loss: {best_val_loss:.4f}")
+print(f"[seed={SEED}] Best val_loss: {best_val_loss:.4f}")
 print(f"{'='*50}")
