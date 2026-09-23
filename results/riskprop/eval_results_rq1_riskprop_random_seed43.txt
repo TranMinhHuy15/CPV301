@@ -1,0 +1,23 @@
+RiskProp random-offset (RQ1 anchor) (cached, 5-frame, seed=43) - Evaluation Results
+Proposal mAP: 0.7264
+  AP@0.5s: 0.7947
+  AP@1.0s: 0.7175
+  AP@1.5s: 0.6671
+Video AUC: 0.7463
+mTTA@FAR<=0.1: 1.081s (coverage=53.3%)
+Recall@FAR<=0.1@0.5s: 0.4733
+Recall@FAR<=0.1@1.0s: 0.3400
+Recall@FAR<=0.1@1.5s: 0.2467
+ActualFAR@0.5s: 0.0933
+ActualFAR@1.0s: 0.0933
+ActualFAR@1.5s: 0.1000
+Threshold@0.5s: 0.6565
+Threshold@1.0s: 0.6570
+Threshold@1.5s: 0.6560
+mAUC01@0.5s=0.2533
+mAUC01@1.0s=0.1676
+mAUC01@1.5s=0.1204
+mAUC01_mean=0.1804
+mTTA01_all=0.577
+mTTA01_detected=1.081
+coverage=0.533

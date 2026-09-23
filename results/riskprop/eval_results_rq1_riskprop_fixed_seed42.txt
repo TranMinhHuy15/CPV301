@@ -1,0 +1,23 @@
+FixedLag-RiskProp (RQ3, tau=1.0s) (cached, 5-frame, seed=42) - Evaluation Results
+Proposal mAP: 0.6908
+  AP@0.5s: 0.7745
+  AP@1.0s: 0.6753
+  AP@1.5s: 0.6227
+Video AUC: 0.6613
+mTTA@FAR<=0.1: 1.021s (coverage=47.3%)
+Recall@FAR<=0.1@0.5s: 0.4333
+Recall@FAR<=0.1@1.0s: 0.2800
+Recall@FAR<=0.1@1.5s: 0.1867
+ActualFAR@0.5s: 0.1000
+ActualFAR@1.0s: 0.1000
+ActualFAR@1.5s: 0.0933
+Threshold@0.5s: 0.6787
+Threshold@1.0s: 0.6787
+Threshold@1.5s: 0.6925
+mAUC01@0.5s=0.2769
+mAUC01@1.0s=0.1622
+mAUC01@1.5s=0.1138
+mAUC01_mean=0.1843
+mTTA01_all=0.483
+mTTA01_detected=1.021
+coverage=0.473
