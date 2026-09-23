@@ -1,0 +1,23 @@
+TOP Baseline v5-5f (cached, seed=42) - Evaluation Results (RQ1)
+Proposal mAP: 0.6519
+  AP@0.5s: 0.6948
+  AP@1.0s: 0.6508
+  AP@1.5s: 0.6102
+Video AUC: 0.6864
+mTTA@FAR<=0.1: 1.075s (coverage=48.7%)
+Recall@FAR<=0.1@0.5s: 0.3333
+Recall@FAR<=0.1@1.0s: 0.2533
+Recall@FAR<=0.1@1.5s: 0.2533
+ActualFAR@0.5s: 0.1000
+ActualFAR@1.0s: 0.1000
+ActualFAR@1.5s: 0.1000
+Threshold@0.5s: 0.4392
+Threshold@1.0s: 0.9702
+Threshold@1.5s: 0.9919
+mAUC01@0.5s=0.1907
+mAUC01@1.0s=0.1551
+mAUC01@1.5s=0.1413
+mAUC01_mean=0.1624
+mTTA01_all=0.523
+mTTA01_detected=1.075
+coverage=0.487
