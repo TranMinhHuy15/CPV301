@@ -1,0 +1,23 @@
+AdaLEA Baseline (cached, 5-frame, seed=42) - Evaluation Results (RQ1)
+Proposal mAP: 0.7610
+  AP@0.5s: 0.8040
+  AP@1.0s: 0.7570
+  AP@1.5s: 0.7219
+Video AUC: 0.7631
+mTTA@FAR<=0.1: 1.196s (coverage=61.3%)
+Recall@FAR<=0.1@0.5s: 0.5133
+Recall@FAR<=0.1@1.0s: 0.4200
+Recall@FAR<=0.1@1.5s: 0.3867
+ActualFAR@0.5s: 0.1000
+ActualFAR@1.0s: 0.0933
+ActualFAR@1.5s: 0.1000
+Threshold@0.5s: 0.8429
+Threshold@1.0s: 0.8435
+Threshold@1.5s: 0.8424
+mAUC01@0.5s=0.3324
+mAUC01@1.0s=0.2427
+mAUC01@1.5s=0.2213
+mAUC01_mean=0.2655
+mTTA01_all=0.733
+mTTA01_detected=1.196
+coverage=0.613
