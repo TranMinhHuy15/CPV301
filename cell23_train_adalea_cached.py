@@ -29,13 +29,19 @@ WEIGHT_DECAY = 1e-4
 NUM_WORKERS  = 4
 CACHE_DIR    = "/kaggle/working/data/nexar_cache_5f"   # shared w/ TOP-5f
 OUTPUT_DIR   = "/kaggle/working/outputs_adalea"
-SEED         = 42
+# Multi-seed support: SEED overridable via ADALEA_SEED env var (falls back
+# to 42), same pattern as cell34_train_riskprop_cached.py's RISKPROP_SEED.
+SEED         = int(os.environ.get("ADALEA_SEED", "42"))
+SUFFIX       = f"_seed{SEED}"
 LEAD_TIMES   = [0.5, 1.0, 1.5]
 # ==========================================================
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 device = torch.device("cuda")
 torch.manual_seed(SEED)
+import numpy as np
+np.random.seed(SEED)
+print(f"[seed={SEED}] Training AdaLEA-5f baseline")
 
 train_ds = AdaLEATrainDataset(CACHE_DIR)
 val_ds_main = AdaLEAValDataset(CACHE_DIR, lead_time=1.0)  # for val_loss tracking
@@ -73,7 +79,7 @@ scaler = GradScaler()
 start_epoch = 0
 best_val_loss = float("inf")
 phi = PHI_INIT
-resume_path = os.path.join(OUTPUT_DIR, "latest_adalea.pth")
+resume_path = os.path.join(OUTPUT_DIR, f"latest_adalea{SUFFIX}.pth")
 
 if os.path.exists(resume_path):
     ckpt = torch.load(resume_path, map_location=device, weights_only=False)
@@ -84,17 +90,17 @@ if os.path.exists(resume_path):
     start_epoch = ckpt["epoch"]
     best_val_loss = ckpt["best_val_loss"]
     phi = ckpt.get("phi", PHI_INIT)
-    print(f"\nResumed from epoch {start_epoch}, "
+    print(f"\n[seed={SEED}] Resumed from epoch {start_epoch}, "
           f"best_val_loss={best_val_loss:.4f}, phi={phi:.3f}")
 
-log_path = os.path.join(OUTPUT_DIR, "training_log_adalea.csv")
+log_path = os.path.join(OUTPUT_DIR, f"training_log_adalea{SUFFIX}.csv")
 if start_epoch == 0:
     with open(log_path, "w", newline="") as f:
         csv.writer(f).writerow(
             ["epoch", "train_loss", "val_loss", "lr", "phi",
              "n_detected", "time_sec", "best_val_loss"])
 
-print(f"\n{'='*50}\nTraining AdaLEA (cached, 5-frame): epoch {start_epoch} -> {EPOCHS-1}\n{'='*50}\n")
+print(f"\n{'='*50}\n[seed={SEED}] Training AdaLEA (cached, 5-frame): epoch {start_epoch} -> {EPOCHS-1}\n{'='*50}\n")
 
 total_start = time.time()
 
@@ -157,7 +163,7 @@ for epoch in range(start_epoch, EPOCHS):
     lr_now = optimizer.param_groups[0]["lr"]
 
     attc_str = f"{attc_measured:.3f}" if attc_measured is not None else "None"
-    print(f"Epoch {epoch:2d}: train={avg_train:.4f}, val={avg_val:.4f}, "
+    print(f"[seed={SEED}] Epoch {epoch:2d}: train={avg_train:.4f}, val={avg_val:.4f}, "
           f"lr={lr_now:.6f}, phi={phi_for_this_epoch:.3f}s, "
           f"attc={attc_str}s (n_det={n_detected}) -> phi_next={phi:.3f}s, "
           f"time={elapsed:.1f}s")
@@ -171,18 +177,19 @@ for epoch in range(start_epoch, EPOCHS):
         "epoch": epoch + 1, "model": model.state_dict(),
         "optimizer": optimizer.state_dict(), "scheduler": scheduler.state_dict(),
         "scaler": scaler.state_dict(), "best_val_loss": best_val_loss, "phi": phi,
+        "seed": SEED,
     }
 
     if avg_val < best_val_loss:
         best_val_loss = avg_val
         ckpt_dict["best_val_loss"] = best_val_loss
-        torch.save(ckpt_dict, os.path.join(OUTPUT_DIR, "best_adalea.pth"))
-        print(f"  * Saved best_adalea.pth (val_loss={best_val_loss:.4f})")
+        torch.save(ckpt_dict, os.path.join(OUTPUT_DIR, f"best_adalea{SUFFIX}.pth"))
+        print(f"  * [seed={SEED}] Saved best_adalea{SUFFIX}.pth (val_loss={best_val_loss:.4f})")
 
-    torch.save(ckpt_dict, os.path.join(OUTPUT_DIR, "latest_adalea.pth"))
+    torch.save(ckpt_dict, resume_path)
 
 total_time = time.time() - total_start
 print(f"\n{'='*50}")
-print(f"Training complete! Total: {total_time/60:.1f} min ({total_time/3600:.2f}h)")
-print(f"Best val_loss: {best_val_loss:.4f} | Final phi: {phi:.3f}s")
+print(f"[seed={SEED}] Training complete! Total: {total_time/60:.1f} min ({total_time/3600:.2f}h)")
+print(f"[seed={SEED}] Best val_loss: {best_val_loss:.4f} | Final phi: {phi:.3f}s")
 print(f"{'='*50}")
