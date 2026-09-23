@@ -1,7 +1,0 @@
-AUC01@0.5s=0.1871
-AUC01@1.0s=0.1427
-AUC01@1.5s=0.1062
-mAUC01=0.1453
-mTTA01_all=0.490
-mTTA01_detected=1.114
-coverage=0.440
