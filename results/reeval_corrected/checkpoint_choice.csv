@@ -1,0 +1,13 @@
+run,best_mAP,best_epoch,latest_mAP,latest_epoch,chosen
+adalea_seed42,0.761,7,0.6937,50,best
+adalea_seed43,0.6444,2,0.7303,50,latest
+adalea_seed44,0.6493,6,0.7269,50,latest
+riskprop_fixed_seed42,0.6908,1,0.7393,50,latest
+riskprop_fixed_seed43,0.6925,3,0.7408,50,latest
+riskprop_fixed_seed44,0.6382,4,0.748,50,latest
+riskprop_random_seed42,0.5449,1,0.7108,50,latest
+riskprop_random_seed43,0.7264,1,0.7481,50,latest
+riskprop_random_seed44,0.6474,2,0.7769,50,latest
+top_seed42,0.6808,5,0.7626,50,latest
+top_seed43,0.73,11,0.7373,50,latest
+top_seed44,0.6913,3,0.7541,50,latest

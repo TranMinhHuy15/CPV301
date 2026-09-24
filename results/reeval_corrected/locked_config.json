@@ -1,0 +1,72 @@
+{
+  "created": "2026-09-24 09:28:05",
+  "legacy_check_passed": true,
+  "top_head_rule": "head_2.0",
+  "top_head_rule_criterion": "max mean val mAP over 3 seeds x {best, latest}; oracle matched head excluded",
+  "checkpoint_rule": "per_run",
+  "checkpoint_rule_criterion": "val mAP (mean AP over 0.5/1.0/1.5 s), candidates {best-val-loss, last-epoch}, tie -> best",
+  "chosen_checkpoints": {
+    "adalea_seed42": {
+      "kind": "best",
+      "file": "best_adalea_seed42.pth",
+      "epoch": 7
+    },
+    "adalea_seed43": {
+      "kind": "latest",
+      "file": "latest_adalea_seed43.pth",
+      "epoch": 50
+    },
+    "adalea_seed44": {
+      "kind": "latest",
+      "file": "latest_adalea_seed44.pth",
+      "epoch": 50
+    },
+    "riskprop_fixed_seed42": {
+      "kind": "latest",
+      "file": "latest_riskprop_fixed_seed42.pth",
+      "epoch": 50
+    },
+    "riskprop_fixed_seed43": {
+      "kind": "latest",
+      "file": "latest_riskprop_fixed_seed43.pth",
+      "epoch": 50
+    },
+    "riskprop_fixed_seed44": {
+      "kind": "latest",
+      "file": "latest_riskprop_fixed_seed44.pth",
+      "epoch": 50
+    },
+    "riskprop_random_seed42": {
+      "kind": "latest",
+      "file": "latest_riskprop_random_seed42.pth",
+      "epoch": 50
+    },
+    "riskprop_random_seed43": {
+      "kind": "latest",
+      "file": "latest_riskprop_random_seed43.pth",
+      "epoch": 50
+    },
+    "riskprop_random_seed44": {
+      "kind": "latest",
+      "file": "latest_riskprop_random_seed44.pth",
+      "epoch": 50
+    },
+    "top_seed42": {
+      "kind": "latest",
+      "file": "latest_cached_seed42.pth",
+      "epoch": 50
+    },
+    "top_seed43": {
+      "kind": "latest",
+      "file": "latest_cached_seed43.pth",
+      "epoch": 50
+    },
+    "top_seed44": {
+      "kind": "latest",
+      "file": "latest_cached_seed44.pth",
+      "epoch": 50
+    }
+  },
+  "val_predictions_sha256": "fe4d578dcce70f78dc695556cc07e9aff72f5dc3b5ee2e9982d2b9f5ca067488",
+  "note": "Created before opening solution.csv / time_to_accident_test_map.csv. The official test run must use exactly these rules."
+}
