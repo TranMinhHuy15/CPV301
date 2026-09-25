@@ -1,0 +1,110 @@
+{
+  "rule": "val mAP (mean AP over 0.5/1.0/1.5 s), candidates {best-val-loss, last-epoch}, tie -> best",
+  "chosen": {
+    "riskprop_random_seed42_neither": {
+      "condition": "A",
+      "seed": 42,
+      "kind": "best",
+      "val_mAP_best": 0.6615290052396574,
+      "val_mAP_latest": 0.6441087419161269
+    },
+    "riskprop_random_seed43_neither": {
+      "condition": "A",
+      "seed": 43,
+      "kind": "latest",
+      "val_mAP_best": 0.5650046893339723,
+      "val_mAP_latest": 0.6909064183236958
+    },
+    "riskprop_random_seed44_neither": {
+      "condition": "A",
+      "seed": 44,
+      "kind": "latest",
+      "val_mAP_best": 0.5127991415505385,
+      "val_mAP_latest": 0.5695335161147453
+    },
+    "riskprop_random_seed42_ffronly": {
+      "condition": "B",
+      "seed": 42,
+      "kind": "latest",
+      "val_mAP_best": 0.6351090029115656,
+      "val_mAP_latest": 0.724823238812463
+    },
+    "riskprop_random_seed43_ffronly": {
+      "condition": "B",
+      "seed": 43,
+      "kind": "latest",
+      "val_mAP_best": 0.6940980069965693,
+      "val_mAP_latest": 0.7488614812817119
+    },
+    "riskprop_random_seed44_ffronly": {
+      "condition": "B",
+      "seed": 44,
+      "kind": "latest",
+      "val_mAP_best": 0.7053849490781731,
+      "val_mAP_latest": 0.7559013433581271
+    },
+    "riskprop_random_seed42_amconly": {
+      "condition": "C",
+      "seed": 42,
+      "kind": "best",
+      "val_mAP_best": 0.6554734230658782,
+      "val_mAP_latest": 0.6525863202034033
+    },
+    "riskprop_random_seed43_amconly": {
+      "condition": "C",
+      "seed": 43,
+      "kind": "latest",
+      "val_mAP_best": 0.6029317953636154,
+      "val_mAP_latest": 0.6763022833067994
+    },
+    "riskprop_random_seed44_amconly": {
+      "condition": "C",
+      "seed": 44,
+      "kind": "latest",
+      "val_mAP_best": 0.590485434273047,
+      "val_mAP_latest": 0.6296147692918977
+    },
+    "riskprop_random_seed42": {
+      "condition": "D",
+      "seed": 42,
+      "kind": "latest",
+      "val_mAP_best": 0.5449411925236113,
+      "val_mAP_latest": 0.7108366902019805
+    },
+    "riskprop_random_seed43": {
+      "condition": "D",
+      "seed": 43,
+      "kind": "latest",
+      "val_mAP_best": 0.7264355935155234,
+      "val_mAP_latest": 0.7481117096270827
+    },
+    "riskprop_random_seed44": {
+      "condition": "D",
+      "seed": 44,
+      "kind": "latest",
+      "val_mAP_best": 0.6473538503879313,
+      "val_mAP_latest": 0.776890410223671
+    },
+    "riskprop_fixed_seed42": {
+      "condition": "F",
+      "seed": 42,
+      "kind": "latest",
+      "val_mAP_best": 0.6908235835475954,
+      "val_mAP_latest": 0.739338595565555
+    },
+    "riskprop_fixed_seed43": {
+      "condition": "F",
+      "seed": 43,
+      "kind": "latest",
+      "val_mAP_best": 0.6925315324391338,
+      "val_mAP_latest": 0.7408024613181728
+    },
+    "riskprop_fixed_seed44": {
+      "condition": "F",
+      "seed": 44,
+      "kind": "latest",
+      "val_mAP_best": 0.6382280932886404,
+      "val_mAP_latest": 0.7479893143376662
+    }
+  }
+}

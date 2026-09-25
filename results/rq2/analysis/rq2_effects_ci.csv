@@ -1,0 +1,29 @@
+contrast,metric,estimate,ci_low,ci_high,verdict,direction
+"FFR effect, AMC absent (B-A)",mAP,0.1025,0.0621,0.1443,increase (CI > 0),better
+"FFR effect, AMC absent (B-A)",mAUC01,0.0696,0.0076,0.1427,increase (CI > 0),better
+"FFR effect, AMC absent (B-A)",viol_pos,0.0331,0.0098,0.0557,increase (CI > 0),worse
+"FFR effect, AMC absent (B-A)",down_pos,0.0132,0.0093,0.0172,increase (CI > 0),worse
+"FFR effect, AMC absent (B-A)",jitter_pos,0.0459,0.0335,0.0595,increase (CI > 0),worse
+"AMC effect, FFR absent (C-A)",mAP,0.0131,-0.0211,0.0444,inconclusive (CI includes 0),
+"AMC effect, FFR absent (C-A)",mAUC01,0.0142,-0.0248,0.0508,inconclusive (CI includes 0),
+"AMC effect, FFR absent (C-A)",viol_pos,-0.0534,-0.0704,-0.0355,decrease (CI < 0),better
+"AMC effect, FFR absent (C-A)",down_pos,-0.0084,-0.0109,-0.0057,decrease (CI < 0),better
+"AMC effect, FFR absent (C-A)",jitter_pos,-0.0263,-0.0343,-0.0176,decrease (CI < 0),better
+"FFR effect, AMC present (D-C)",mAP,0.0915,0.0544,0.13,increase (CI > 0),better
+"FFR effect, AMC present (D-C)",mAUC01,0.0651,0.0046,0.1345,increase (CI > 0),better
+"FFR effect, AMC present (D-C)",viol_pos,0.07,0.0467,0.0925,increase (CI > 0),worse
+"FFR effect, AMC present (D-C)",down_pos,0.0197,0.016,0.0234,increase (CI > 0),worse
+"FFR effect, AMC present (D-C)",jitter_pos,0.0686,0.0564,0.0808,increase (CI > 0),worse
+"AMC effect, FFR present (D-B)",mAP,0.0021,-0.0256,0.028,inconclusive (CI includes 0),
+"AMC effect, FFR present (D-B)",mAUC01,0.0097,-0.0446,0.0675,inconclusive (CI includes 0),
+"AMC effect, FFR present (D-B)",viol_pos,-0.0165,-0.0305,-0.0027,decrease (CI < 0),better
+"AMC effect, FFR present (D-B)",down_pos,-0.0019,-0.0048,0.001,inconclusive (CI includes 0),
+"AMC effect, FFR present (D-B)",jitter_pos,-0.0035,-0.0128,0.0061,inconclusive (CI includes 0),
+Interaction (D-C)-(B-A),mAP,-0.0111,-0.0501,0.0309,inconclusive (CI includes 0),
+Interaction (D-C)-(B-A),mAUC01,-0.0045,-0.067,0.0591,inconclusive (CI includes 0),
+Interaction (D-C)-(B-A),viol_pos,0.0369,0.0155,0.0585,increase (CI > 0),
+Interaction (D-C)-(B-A),down_pos,0.0064,0.0026,0.0101,increase (CI > 0),
+Interaction (D-C)-(B-A),jitter_pos,0.0227,0.0104,0.0348,increase (CI > 0),
+RQ3 temporal: fixed - random (F-D),viol_pos,-0.0173,-0.0337,-0.0013,decrease (CI < 0),better
+RQ3 temporal: fixed - random (F-D),down_pos,0.0022,-0.0012,0.0053,inconclusive (CI includes 0),
+RQ3 temporal: fixed - random (F-D),jitter_pos,0.0136,0.0021,0.0245,increase (CI > 0),worse
