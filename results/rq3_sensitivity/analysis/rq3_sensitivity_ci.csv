@@ -1,0 +1,26 @@
+contrast,metric,estimate,ci_low,ci_high,verdict,direction
+tau0.5 - tau1.0,mAP,-0.0147,-0.0475,0.0163,inconclusive (CI includes 0),
+tau0.5 - tau1.0,mAUC01,-0.0137,-0.0832,0.0516,inconclusive (CI includes 0),
+tau0.5 - tau1.0,PVR,-0.0083,-0.0237,0.0072,inconclusive (CI includes 0),
+tau0.5 - tau1.0,ADS,-0.0032,-0.0062,-0.0,decrease (CI < 0),better
+tau0.5 - tau1.0,RCJ,-0.0139,-0.0239,-0.0036,decrease (CI < 0),better
+tau1.5 - tau1.0,mAP,0.0076,-0.0207,0.0353,inconclusive (CI includes 0),
+tau1.5 - tau1.0,mAUC01,0.0356,-0.0285,0.0923,inconclusive (CI includes 0),
+tau1.5 - tau1.0,PVR,0.0093,-0.006,0.025,inconclusive (CI includes 0),
+tau1.5 - tau1.0,ADS,-0.0021,-0.0051,0.0011,inconclusive (CI includes 0),
+tau1.5 - tau1.0,RCJ,-0.013,-0.0236,-0.0028,decrease (CI < 0),better
+tau0.5 - random,mAP,-0.0173,-0.0459,0.0114,inconclusive (CI includes 0),
+tau0.5 - random,mAUC01,-0.0189,-0.077,0.0449,inconclusive (CI includes 0),
+tau0.5 - random,PVR,-0.0256,-0.0426,-0.0091,decrease (CI < 0),better
+tau0.5 - random,ADS,-0.001,-0.0042,0.0022,inconclusive (CI includes 0),
+tau0.5 - random,RCJ,-0.0002,-0.0113,0.0105,inconclusive (CI includes 0),
+tau1.0 - random,mAP,-0.0026,-0.0311,0.0249,inconclusive (CI includes 0),
+tau1.0 - random,mAUC01,-0.0052,-0.0643,0.0579,inconclusive (CI includes 0),
+tau1.0 - random,PVR,-0.0173,-0.0337,-0.0013,decrease (CI < 0),better
+tau1.0 - random,ADS,0.0022,-0.0012,0.0053,inconclusive (CI includes 0),
+tau1.0 - random,RCJ,0.0136,0.0021,0.0245,increase (CI > 0),worse
+tau1.5 - random,mAP,0.0051,-0.0205,0.032,inconclusive (CI includes 0),
+tau1.5 - random,mAUC01,0.0304,-0.0211,0.0821,inconclusive (CI includes 0),
+tau1.5 - random,PVR,-0.008,-0.0248,0.0081,inconclusive (CI includes 0),
+tau1.5 - random,ADS,0.0001,-0.003,0.0031,inconclusive (CI includes 0),
+tau1.5 - random,RCJ,0.0007,-0.0098,0.0111,inconclusive (CI includes 0),

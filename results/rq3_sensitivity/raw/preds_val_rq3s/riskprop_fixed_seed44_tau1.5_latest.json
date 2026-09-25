@@ -1,0 +1,7 @@
+{
+  "run": "riskprop_fixed_seed44_tau1.5",
+  "kind": "latest",
+  "ckpt_file": "latest_riskprop_fixed_seed44_tau1.5.pth",
+  "ckpt_sha256_8MB": "c2da7f0e2457048e",
+  "ckpt_epoch": 50
+}

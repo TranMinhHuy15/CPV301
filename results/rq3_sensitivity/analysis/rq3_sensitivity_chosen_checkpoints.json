@@ -1,0 +1,42 @@
+{
+  "new_runs": {
+    "riskprop_fixed_seed42_tau0.5": {
+      "kind": "latest",
+      "val_mAP_best": 0.5601420296559683,
+      "val_mAP_latest": 0.74541179339623
+    },
+    "riskprop_fixed_seed43_tau0.5": {
+      "kind": "latest",
+      "val_mAP_best": 0.5608982429876305,
+      "val_mAP_latest": 0.7165921961632721
+    },
+    "riskprop_fixed_seed44_tau0.5": {
+      "kind": "latest",
+      "val_mAP_best": 0.6647077807658738,
+      "val_mAP_latest": 0.721974613208043
+    },
+    "riskprop_fixed_seed42_tau1.5": {
+      "kind": "latest",
+      "val_mAP_best": 0.6799508039677024,
+      "val_mAP_latest": 0.7838729284861014
+    },
+    "riskprop_fixed_seed43_tau1.5": {
+      "kind": "latest",
+      "val_mAP_best": 0.6956669726146689,
+      "val_mAP_latest": 0.7421334622955865
+    },
+    "riskprop_fixed_seed44_tau1.5": {
+      "kind": "latest",
+      "val_mAP_best": 0.6626598237889993,
+      "val_mAP_latest": 0.7250448279252066
+    }
+  },
+  "reused_locked": {
+    "riskprop_fixed_seed42": "latest",
+    "riskprop_fixed_seed43": "latest",
+    "riskprop_fixed_seed44": "latest",
+    "riskprop_random_seed42": "latest",
+    "riskprop_random_seed43": "latest",
+    "riskprop_random_seed44": "latest"
+  }
+}
