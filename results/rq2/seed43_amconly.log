@@ -1,0 +1,69 @@
+[seed=43] Train: 1200 videos, 600 batches/epoch (2x12=24 clips/batch)
+[seed=43] Val  : 300 videos, 38 batches/epoch (single-snippet)
+Using cache found in /root/.cache/torch/hub/facebookresearch_pytorchvideo_main
+Params: 31,636,545
+
+==================================================
+[seed=43] RQ2 ablation -- condition C: AMC-only (random) (FFR=False AMC=True pairing=random, LR=0.01, matched-budget, identical to cell34 otherwise): epoch 0 -> 49
+==================================================
+
+/workspace/CPV301/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[seed=43] Epoch  0: train=0.6402 (bce=0.6216 reg=0.0000 mono=0.0373), val_loss=3.5733, val_mAP=0.6360, lr=0.010000, time=94.1s
+  * Saved best_riskprop_random_seed43_amconly.pth (val_loss=3.5733)
+[seed=43] Epoch  1: train=0.5571 (bce=0.5390 reg=0.0000 mono=0.0361), val_loss=4.4470, val_mAP=0.7054, lr=0.010000, time=93.1s
+[seed=43] Epoch  2: train=0.4693 (bce=0.4502 reg=0.0000 mono=0.0381), val_loss=4.5412, val_mAP=0.6674, lr=0.010000, time=93.1s
+[seed=43] Epoch  3: train=0.4061 (bce=0.3884 reg=0.0000 mono=0.0353), val_loss=4.7627, val_mAP=0.7079, lr=0.010000, time=92.9s
+[seed=43] Epoch  4: train=0.3449 (bce=0.3279 reg=0.0000 mono=0.0340), val_loss=3.5307, val_mAP=0.5828, lr=0.010000, time=93.0s
+  * Saved best_riskprop_random_seed43_amconly.pth (val_loss=3.5307)
+[seed=43] Epoch  5: train=0.2524 (bce=0.2366 reg=0.0000 mono=0.0316), val_loss=11.7524, val_mAP=0.6661, lr=0.010000, time=92.9s
+[seed=43] Epoch  6: train=0.2210 (bce=0.2090 reg=0.0000 mono=0.0240), val_loss=10.9572, val_mAP=0.6110, lr=0.010000, time=93.0s
+[seed=43] Epoch  7: train=0.1519 (bce=0.1403 reg=0.0000 mono=0.0233), val_loss=11.8476, val_mAP=0.6710, lr=0.010000, time=93.2s
+[seed=43] Epoch  8: train=0.1665 (bce=0.1542 reg=0.0000 mono=0.0247), val_loss=7.9843, val_mAP=0.6820, lr=0.010000, time=93.2s
+[seed=43] Epoch  9: train=0.1282 (bce=0.1187 reg=0.0000 mono=0.0189), val_loss=11.3933, val_mAP=0.6645, lr=0.010000, time=93.0s
+[seed=43] Epoch 10: train=0.0938 (bce=0.0856 reg=0.0000 mono=0.0165), val_loss=17.0197, val_mAP=0.6661, lr=0.010000, time=93.1s
+[seed=43] Epoch 11: train=0.0524 (bce=0.0476 reg=0.0000 mono=0.0095), val_loss=18.0740, val_mAP=0.6034, lr=0.010000, time=93.1s
+[seed=43] Epoch 12: train=0.0724 (bce=0.0652 reg=0.0000 mono=0.0145), val_loss=16.5667, val_mAP=0.7191, lr=0.010000, time=93.0s
+[seed=43] Epoch 13: train=0.0913 (bce=0.0837 reg=0.0000 mono=0.0152), val_loss=17.1474, val_mAP=0.6535, lr=0.010000, time=92.8s
+[seed=43] Epoch 14: train=0.0516 (bce=0.0456 reg=0.0000 mono=0.0120), val_loss=18.9867, val_mAP=0.6632, lr=0.010000, time=93.6s
+[seed=43] Epoch 15: train=0.0388 (bce=0.0344 reg=0.0000 mono=0.0089), val_loss=23.7292, val_mAP=0.6351, lr=0.010000, time=92.2s
+[seed=43] Epoch 16: train=0.0303 (bce=0.0254 reg=0.0000 mono=0.0097), val_loss=22.0113, val_mAP=0.5619, lr=0.010000, time=91.5s
+[seed=43] Epoch 17: train=0.0241 (bce=0.0206 reg=0.0000 mono=0.0069), val_loss=27.6143, val_mAP=0.6321, lr=0.010000, time=91.5s
+[seed=43] Epoch 18: train=0.0858 (bce=0.0783 reg=0.0000 mono=0.0149), val_loss=22.2670, val_mAP=0.5947, lr=0.010000, time=91.5s
+[seed=43] Epoch 19: train=0.1159 (bce=0.1045 reg=0.0000 mono=0.0229), val_loss=17.7644, val_mAP=0.6627, lr=0.001000, time=91.4s
+[seed=43] Epoch 20: train=0.0339 (bce=0.0292 reg=0.0000 mono=0.0095), val_loss=16.9482, val_mAP=0.6798, lr=0.001000, time=91.7s
+[seed=43] Epoch 21: train=0.0156 (bce=0.0128 reg=0.0000 mono=0.0056), val_loss=17.0586, val_mAP=0.6703, lr=0.001000, time=91.5s
+[seed=43] Epoch 22: train=0.0107 (bce=0.0076 reg=0.0000 mono=0.0062), val_loss=19.5181, val_mAP=0.6774, lr=0.001000, time=91.5s
+[seed=43] Epoch 23: train=0.0100 (bce=0.0073 reg=0.0000 mono=0.0054), val_loss=19.4425, val_mAP=0.6714, lr=0.001000, time=91.6s
+[seed=43] Epoch 24: train=0.0085 (bce=0.0059 reg=0.0000 mono=0.0052), val_loss=19.6469, val_mAP=0.6887, lr=0.001000, time=91.5s
+[seed=43] Epoch 25: train=0.0084 (bce=0.0062 reg=0.0000 mono=0.0043), val_loss=22.0339, val_mAP=0.6712, lr=0.001000, time=91.7s
+[seed=43] Epoch 26: train=0.0056 (bce=0.0037 reg=0.0000 mono=0.0039), val_loss=21.2380, val_mAP=0.6694, lr=0.001000, time=91.4s
+[seed=43] Epoch 27: train=0.0048 (bce=0.0027 reg=0.0000 mono=0.0043), val_loss=22.1549, val_mAP=0.6563, lr=0.001000, time=91.6s
+[seed=43] Epoch 28: train=0.0046 (bce=0.0026 reg=0.0000 mono=0.0038), val_loss=20.7332, val_mAP=0.6650, lr=0.001000, time=91.7s
+[seed=43] Epoch 29: train=0.0064 (bce=0.0047 reg=0.0000 mono=0.0034), val_loss=21.2716, val_mAP=0.6704, lr=0.001000, time=92.4s
+[seed=43] Epoch 30: train=0.0051 (bce=0.0031 reg=0.0000 mono=0.0040), val_loss=21.5763, val_mAP=0.6771, lr=0.001000, time=94.1s
+[seed=43] Epoch 31: train=0.0034 (bce=0.0019 reg=0.0000 mono=0.0031), val_loss=21.5245, val_mAP=0.6808, lr=0.001000, time=93.8s
+[seed=43] Epoch 32: train=0.0048 (bce=0.0035 reg=0.0000 mono=0.0026), val_loss=21.2404, val_mAP=0.6757, lr=0.001000, time=93.4s
+[seed=43] Epoch 33: train=0.0038 (bce=0.0020 reg=0.0000 mono=0.0035), val_loss=24.3923, val_mAP=0.6775, lr=0.001000, time=93.6s
+[seed=43] Epoch 34: train=0.0039 (bce=0.0019 reg=0.0000 mono=0.0039), val_loss=20.3794, val_mAP=0.6799, lr=0.001000, time=93.2s
+[seed=43] Epoch 35: train=0.0034 (bce=0.0016 reg=0.0000 mono=0.0036), val_loss=24.0236, val_mAP=0.6752, lr=0.001000, time=92.3s
+[seed=43] Epoch 36: train=0.0031 (bce=0.0015 reg=0.0000 mono=0.0032), val_loss=23.7130, val_mAP=0.6688, lr=0.001000, time=91.4s
+[seed=43] Epoch 37: train=0.0031 (bce=0.0014 reg=0.0000 mono=0.0035), val_loss=22.4659, val_mAP=0.6771, lr=0.001000, time=91.8s
+[seed=43] Epoch 38: train=0.0027 (bce=0.0013 reg=0.0000 mono=0.0029), val_loss=24.1199, val_mAP=0.6714, lr=0.001000, time=91.5s
+[seed=43] Epoch 39: train=0.0027 (bce=0.0012 reg=0.0000 mono=0.0029), val_loss=24.1420, val_mAP=0.6739, lr=0.000100, time=92.0s
+[seed=43] Epoch 40: train=0.0025 (bce=0.0012 reg=0.0000 mono=0.0026), val_loss=22.9617, val_mAP=0.6733, lr=0.000100, time=92.3s
+[seed=43] Epoch 41: train=0.0024 (bce=0.0011 reg=0.0000 mono=0.0027), val_loss=25.3338, val_mAP=0.6816, lr=0.000100, time=91.5s
+[seed=43] Epoch 42: train=0.0027 (bce=0.0012 reg=0.0000 mono=0.0029), val_loss=24.2959, val_mAP=0.6723, lr=0.000100, time=91.5s
+[seed=43] Epoch 43: train=0.0027 (bce=0.0013 reg=0.0000 mono=0.0028), val_loss=25.8231, val_mAP=0.6669, lr=0.000100, time=91.5s
+[seed=43] Epoch 44: train=0.0028 (bce=0.0013 reg=0.0000 mono=0.0031), val_loss=24.5491, val_mAP=0.6730, lr=0.000100, time=91.6s
+[seed=43] Epoch 45: train=0.0026 (bce=0.0011 reg=0.0000 mono=0.0031), val_loss=24.8880, val_mAP=0.6746, lr=0.000100, time=91.8s
+[seed=43] Epoch 46: train=0.0024 (bce=0.0010 reg=0.0000 mono=0.0028), val_loss=24.7354, val_mAP=0.6804, lr=0.000100, time=92.2s
+[seed=43] Epoch 47: train=0.0023 (bce=0.0010 reg=0.0000 mono=0.0026), val_loss=24.7346, val_mAP=0.6668, lr=0.000100, time=92.4s
+[seed=43] Epoch 48: train=0.0028 (bce=0.0015 reg=0.0000 mono=0.0026), val_loss=23.9311, val_mAP=0.6817, lr=0.000100, time=92.5s
+[seed=43] Epoch 49: train=0.0031 (bce=0.0017 reg=0.0000 mono=0.0027), val_loss=24.3045, val_mAP=0.6758, lr=0.000100, time=92.3s
+
+==================================================
+[seed=43] Training complete! Total: 77.2 min (1.29h)
+Best val_loss: 3.5307
+==================================================
