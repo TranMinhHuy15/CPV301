@@ -1,0 +1,9 @@
+{
+  "run": "riskprop_fixed_seed43",
+  "condition": "F",
+  "kind": "best",
+  "ckpt_file": "best_riskprop_fixed_seed43.pth",
+  "ckpt_sha256_8MB": "eb505ae8531f36c7",
+  "ckpt_epoch": 3,
+  "ckpt_best_val_loss": 4.84485376351758
+}

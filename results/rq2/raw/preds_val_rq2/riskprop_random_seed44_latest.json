@@ -1,0 +1,9 @@
+{
+  "run": "riskprop_random_seed44",
+  "condition": "D",
+  "kind": "latest",
+  "ckpt_file": "latest_riskprop_random_seed44.pth",
+  "ckpt_sha256_8MB": "f0d7b4e0c4df04f1",
+  "ckpt_epoch": 50,
+  "ckpt_best_val_loss": 4.199480828485991
+}

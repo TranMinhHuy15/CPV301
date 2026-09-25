@@ -1,0 +1,9 @@
+{
+  "run": "riskprop_random_seed43_ffronly",
+  "condition": "B",
+  "kind": "best",
+  "ckpt_file": "best_riskprop_random_seed43_ffronly.pth",
+  "ckpt_sha256_8MB": "ebf281c96530f58f",
+  "ckpt_epoch": 1,
+  "ckpt_best_val_loss": 3.3733710230965364
+}

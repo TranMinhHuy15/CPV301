@@ -1,0 +1,9 @@
+{
+  "run": "riskprop_random_seed43_amconly",
+  "condition": "C",
+  "kind": "latest",
+  "ckpt_file": "latest_riskprop_random_seed43_amconly.pth",
+  "ckpt_sha256_8MB": "28d1577ff19b19d0",
+  "ckpt_epoch": 50,
+  "ckpt_best_val_loss": 3.5306567141884253
+}
