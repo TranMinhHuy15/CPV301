@@ -116,6 +116,14 @@ for s in [42, 43, 44]:
     RUN_TO_MODEL_KEY[f"riskprop_fixed_seed{s}"] = "riskprop"
 
 
+def model_key_of(run_name):
+    if run_name in RUN_TO_MODEL_KEY:
+        return RUN_TO_MODEL_KEY[run_name]
+    if run_name.startswith("riskprop"):
+        return "riskprop"
+    raise KeyError(run_name)
+
+
 @torch.no_grad()
 def predict(model, xs, device, batch_size=8):
     out = []
@@ -125,12 +133,21 @@ def predict(model, xs, device, batch_size=8):
     return torch.cat(out).numpy()
 
 
-def to_tensor(frames_uint8):
-    # (5, H, W, 3) uint8 -> (3, 5, H, W) float32 in [0,1], matches
-    # cell11b/cell22's _to_tensor convention (C, T, H, W).
-    t = torch.from_numpy(frames_uint8).float() / 255.0
-    t = t.permute(3, 0, 1, 2)
-    return t
+def to_tensor(frames_uint8, repo_dir):
+    """(5, H, W, 3) uint8 -> (3, 5, H, W) float, IDENTICAL to the val/train
+    pipeline: cell22._to_tensor = (x/255 - ImageNet mean) / ImageNet std.
+    FIX (2026-09-25, before the first test run): the previous version only
+    divided by 255 and skipped the ImageNet normalisation, so test inputs
+    would not have matched what every model was trained / validated on."""
+    sys.path.insert(0, repo_dir)
+    from cell22_adalea_dataset import _to_tensor
+    return _to_tensor({"frames": torch.from_numpy(frames_uint8)})
+
+
+def norm_id(x):
+    """'00204' / '204' / 204 -> '204' so ids match file names either way."""
+    x = str(x).strip()
+    return str(int(x)) if x.isdigit() else x
 
 
 def main():
@@ -142,6 +159,11 @@ def main():
     ap.add_argument("--out-dir", default="reeval_out/test_infer")
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--skip-download", action="store_true")
+    ap.add_argument("--with-rq2", action="store_true",
+                    help="also score RQ2 runs A/B/C (exploratory) using the checkpoint "
+                         "choice in rq2_chosen_checkpoints.json")
+    ap.add_argument("--rq2-chosen", default="reeval_out/rq2_chosen_checkpoints.json")
+    ap.add_argument("--rq2-ckpt-dir", default="/workspace/CPV301/outputs_riskprop")
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
@@ -153,6 +175,16 @@ def main():
     chosen = locked["chosen_checkpoints"]
     print(f"Locked TOP head rule: {top_head_rule}")
     print(f"Locked checkpoints: {len(chosen)} runs")
+    run_files = {r: os.path.join(args.ckpt_dir, info["file"]) for r, info in chosen.items()}
+    if args.with_rq2:
+        with open(args.rq2_chosen) as f:
+            rq2 = json.load(f)["chosen"]
+        added = 0
+        for r, info in rq2.items():
+            if info.get("condition") in ("A", "B", "C") and r not in run_files:
+                run_files[r] = os.path.join(args.rq2_ckpt_dir, f"{info['kind']}_{r}.pth")
+                added += 1
+        print(f"--with-rq2: +{added} RQ2 runs (A/B/C), exploratory")
 
     if not args.skip_download:
         download_test_assets(args.hf_local_raw)
@@ -160,8 +192,8 @@ def main():
     sol_path = os.path.join(args.hf_local_raw, "solution.csv")
     horizon_path = os.path.join(args.hf_local_raw, "time_to_accident_test_map.csv")
     sample_sub_path = os.path.join(args.hf_local_raw, "sample_submission.csv")
-    sol = pd.read_csv(sol_path)
-    sample_sub = pd.read_csv(sample_sub_path)
+    sol = pd.read_csv(sol_path, dtype=str)
+    sample_sub = pd.read_csv(sample_sub_path, dtype=str)
     print("solution.csv columns:", list(sol.columns))
     print("solution.csv head:\n", sol.head())
     print("sample_submission.csv columns:", list(sample_sub.columns))
@@ -173,25 +205,25 @@ def main():
     score_col_sub = sample_sub.columns[1]
     submission_ids = sample_sub[id_col_sub].astype(str).tolist()
 
-    video_map = list_test_videos(args.hf_local_raw)
+    video_map = {norm_id(k): v for k, v in list_test_videos(args.hf_local_raw).items()}
     print(f"Found {len(video_map)} test video files on disk.")
-    missing_ids = [i for i in submission_ids if i not in video_map]
+    missing_ids = [i for i in submission_ids if norm_id(i) not in video_map]
     if missing_ids:
         print(f"WARNING: {len(missing_ids)} submission ids have no matching video file "
               f"(first 5: {missing_ids[:5]}). Check id<->filename convention above.")
         input("Nhan Enter de tiep tuc voi nhung video tim thay, hoac Ctrl+C de dung lai.")
 
-    ordered_ids = [i for i in submission_ids if i in video_map]
+    ordered_ids = [i for i in submission_ids if norm_id(i) in video_map]
     print(f"Extracting tail window for {len(ordered_ids)} videos...")
     t0 = time.time()
     frames_by_id = {}
     skipped = []
     for i, vid_id in enumerate(ordered_ids):
-        fr = extract_tail_window(video_map[vid_id])
+        fr = extract_tail_window(video_map[norm_id(vid_id)])
         if fr is None:
             skipped.append(vid_id)
             continue
-        frames_by_id[vid_id] = to_tensor(fr)
+        frames_by_id[vid_id] = to_tensor(fr, args.repo_dir)
         if (i + 1) % 200 == 0:
             print(f"  {i+1}/{len(ordered_ids)} extracted...")
     print(f"Done extracting in {(time.time()-t0)/60:.1f} min, skipped={len(skipped)}")
@@ -202,9 +234,12 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"device={device}")
     models = {}
-    for run_name, info in chosen.items():
-        model_key = RUN_TO_MODEL_KEY[run_name]
-        ckpt_path = os.path.join(args.ckpt_dir, info["file"])
+    n_fill = len(submission_ids) - len(final_ids)
+    if n_fill:
+        print(f"NOTE: {n_fill} submission ids without a usable video get score 0.5")
+    written = 0
+    for run_name, ckpt_path in run_files.items():
+        model_key = model_key_of(run_name)
         if not os.path.exists(ckpt_path):
             print(f"  [MISSING] {ckpt_path} -- skipping {run_name}")
             continue
@@ -223,11 +258,20 @@ def main():
         else:
             scores = raw
         out_csv = os.path.join(args.out_dir, f"submission_{run_name}.csv")
-        pd.DataFrame({id_col_sub: final_ids, score_col_sub: scores}).to_csv(out_csv, index=False)
+        by_id = dict(zip(final_ids, scores.astype(float)))
+        pd.DataFrame({id_col_sub: submission_ids,
+                      score_col_sub: [by_id.get(i, 0.5) for i in submission_ids]}
+                     ).to_csv(out_csv, index=False)
+        written += 1
         print(f"  [OK] {run_name:24s} -> {out_csv} ({time.time()-t0:.0f}s, "
               f"n={len(final_ids)}, score_range=[{scores.min():.3f},{scores.max():.3f}])")
 
-    print(f"\nWrote {len(chosen)} submission CSVs to {args.out_dir}")
+    with open(os.path.join(args.out_dir, "test_infer_meta.json"), "w") as f:
+        json.dump({"n_submission_ids": len(submission_ids), "n_scored": len(final_ids),
+                   "filled_with_0.5": n_fill, "skipped_videos": skipped,
+                   "top_head_rule": top_head_rule, "runs": sorted(run_files),
+                   "normalisation": "cell22._to_tensor (ImageNet)"}, f, indent=2)
+    print(f"\nWrote {written} submission CSVs to {args.out_dir}")
     print("Next: run reeval/re05_eval_test.py to score them with evaluate_submission.py "
           "and aggregate mean +/- SD per method.")
 
