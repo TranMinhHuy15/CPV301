@@ -1,0 +1,4 @@
+mAP (Public): 0.658644
+mAP (Private): 0.715945
+
+--- stderr ---

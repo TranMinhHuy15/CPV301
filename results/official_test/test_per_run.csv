@@ -1,0 +1,22 @@
+method,run,seed,mAP_public_official,mAP_private_official
+TOP,top_seed42,42,0.787356,0.838517
+TOP,top_seed43,43,0.761928,0.78401
+TOP,top_seed44,44,0.756804,0.810891
+AdaLEA,adalea_seed42,42,0.686992,0.795103
+AdaLEA,adalea_seed43,43,0.705782,0.81389
+AdaLEA,adalea_seed44,44,0.707981,0.776273
+RiskProp random,riskprop_random_seed42,42,0.749059,0.813162
+RiskProp random,riskprop_random_seed43,43,0.782099,0.814558
+RiskProp random,riskprop_random_seed44,44,0.737778,0.806757
+RiskProp fixed,riskprop_fixed_seed42,42,0.7522,0.822142
+RiskProp fixed,riskprop_fixed_seed43,43,0.758553,0.796362
+RiskProp fixed,riskprop_fixed_seed44,44,0.724209,0.795765
+RQ2 A neither,riskprop_random_seed42_neither,42,0.673924,0.755909
+RQ2 A neither,riskprop_random_seed43_neither,43,0.666938,0.707045
+RQ2 A neither,riskprop_random_seed44_neither,44,0.620044,0.596676
+RQ2 B FFR-only,riskprop_random_seed42_ffronly,42,0.78843,0.84808
+RQ2 B FFR-only,riskprop_random_seed43_ffronly,43,0.756252,0.795132
+RQ2 B FFR-only,riskprop_random_seed44_ffronly,44,0.742748,0.82828
+RQ2 C AMC-only,riskprop_random_seed42_amconly,42,0.660628,0.72996
+RQ2 C AMC-only,riskprop_random_seed43_amconly,43,0.658644,0.715945
+RQ2 C AMC-only,riskprop_random_seed44_amconly,44,0.645332,0.683645

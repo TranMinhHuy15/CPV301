@@ -1,0 +1,31 @@
+{
+  "n_submission_ids": 1344,
+  "n_scored": 1344,
+  "filled_with_0.5": 0,
+  "skipped_videos": [],
+  "top_head_rule": "head_2.0",
+  "runs": [
+    "adalea_seed42",
+    "adalea_seed43",
+    "adalea_seed44",
+    "riskprop_fixed_seed42",
+    "riskprop_fixed_seed43",
+    "riskprop_fixed_seed44",
+    "riskprop_random_seed42",
+    "riskprop_random_seed42_amconly",
+    "riskprop_random_seed42_ffronly",
+    "riskprop_random_seed42_neither",
+    "riskprop_random_seed43",
+    "riskprop_random_seed43_amconly",
+    "riskprop_random_seed43_ffronly",
+    "riskprop_random_seed43_neither",
+    "riskprop_random_seed44",
+    "riskprop_random_seed44_amconly",
+    "riskprop_random_seed44_ffronly",
+    "riskprop_random_seed44_neither",
+    "top_seed42",
+    "top_seed43",
+    "top_seed44"
+  ],
+  "normalisation": "cell22._to_tensor (ImageNet)"
+}
