@@ -7,11 +7,14 @@ from the HF dataset repo), run exactly as its README says:
 -> mAP for the public and the private subset. Raw stdout of every call is
 saved (eval_stdout/) and parsed case-insensitively.
 
-SECONDARY (our re-implementation, same definitions as re03 / the paper):
-per horizon tau in {0.5, 1.0, 1.5} s: positives whose time_to_accident == tau
-plus all negatives -> AP_tau and partial AUC at FPR <= 0.1 (mAUC^0.1);
-mAP = mean_tau AP_tau. Our mAP is checked against the official one (they
-should agree); mAUC^0.1 is only available from this re-implementation.
+SECONDARY (our re-implementation of the OFFICIAL definition, read from
+evaluate_submission.py): within each Usage subset, AP is computed separately
+inside every solution.csv "group" and averaged over groups (fillna(0) for
+missing ids). We reproduce exactly that (checked against the official
+numbers) and add, on the same groups, the partial AUC at FPR <= 0.1
+(mAUC^0.1, mean over groups). Each group is labelled with the horizon of its
+positives via time_to_accident_test_map.csv (wide format: columns 0.5/1.0/1.5,
+each row = one event clipped at the three horizons).
 Paired, label-stratified bootstrap 95% CIs (B=2000, seed 12345, same resampled
 test videos for every run; method value = mean over its 3 seeds):
     RQ1: TOP-AdaLEA, TOP-RiskProp random, AdaLEA-RiskProp random
@@ -94,22 +97,22 @@ def low_far_auc(y, s):
     return auc(fpr_low, tpr_low) / TARGET_FAR
 
 
-def own_metrics(scores, y, tta, idx=None):
-    """scores/y/tta aligned arrays; idx = subset (with repeats) or None."""
+def grouped_metrics(scores, y, groups, idx=None):
+    """Official definition: AP inside each group, mean over groups; plus
+    partial AUC (FPR<=0.1) on the same groups. idx = resample (with repeats)."""
     if idx is not None:
-        scores, y, tta = scores[idx], y[idx], tta[idx]
-    neg = y == 0
+        scores, y, groups = scores[idx], y[idx], groups[idx]
     aps, maucs = {}, {}
-    for h in HORIZONS:
-        m = neg | ((y == 1) & np.isclose(tta, h))
-        if (y[m] == 1).sum() == 0 or neg.sum() == 0:
-            aps[h] = maucs[h] = np.nan
+    for g in np.unique(groups):
+        m = groups == g
+        yy, ss = y[m], scores[m]
+        if yy.sum() == 0 or yy.sum() == len(yy):
             continue
-        aps[h] = average_precision_score(y[m], scores[m])
-        maucs[h] = low_far_auc(y[m], scores[m])
-    return {"mAP": float(np.nanmean(list(aps.values()))),
-            **{f"AP@{h}s": float(aps[h]) for h in HORIZONS},
-            "mAUC01": float(np.nanmean(list(maucs.values())))}
+        aps[g] = average_precision_score(yy, ss)
+        maucs[g] = low_far_auc(yy, ss)
+    return {"mAP": float(np.mean(list(aps.values()))),
+            "mAUC01": float(np.mean(list(maucs.values()))),
+            **{f"AP_g{g}": float(v) for g, v in aps.items()}}
 
 
 def fmt(v):
@@ -170,40 +173,46 @@ def main():
 
     # ---- 2. secondary: own metrics ----
     sec_ok = False
+    group_label = {}
     try:
         sol = pd.read_csv(os.path.join(raw, "solution.csv"), dtype=str)
         tmap = pd.read_csv(os.path.join(raw, "time_to_accident_test_map.csv"), dtype=str)
         print("\n[2] solution.csv columns:", list(sol.columns),
               "| time_to_accident map columns:", list(tmap.columns))
-        sid = sol.columns[0]
-        tcol = pick([c for c in sol.columns if c != sid], "target", "label")
-        ucol = pick(sol.columns, "usage", "split", "subset")
-        mid = tmap.columns[0]
-        hcol = pick([c for c in tmap.columns if c != mid], "time_to_accident", "time", "tta")
-        print(f"    using id={sid!r} target={tcol!r} usage={ucol!r} | map id={mid!r} horizon={hcol!r}")
-        if tcol is None or hcol is None:
-            raise ValueError("could not detect target / horizon column")
-        sol["_id"] = sol[sid].map(norm_id)
-        tmap["_id"] = tmap[mid].map(norm_id)
-        base = sol.merge(tmap[["_id", hcol]], on="_id", how="left")
-        y = base[tcol].astype(float).astype(int).values
-        tta = pd.to_numeric(base[hcol], errors="coerce").values
-        usage = base[ucol].str.lower().values if ucol else np.array(["all"] * len(base))
-        print(f"    {len(base)} test videos | positives={int(y.sum())} | positives per horizon: "
-              + ", ".join(f"{h}s={int(((y == 1) & np.isclose(tta, h)).sum())}" for h in HORIZONS))
+        for c in ("id", "target", "Usage", "group"):
+            if c not in sol.columns:
+                raise ValueError(f"solution.csv has no {c!r} column")
+        # wide map: column = horizon, cell = id of the clip cut at that horizon
+        tta_of = {}
+        for c in tmap.columns:
+            try:
+                h = float(c)
+            except ValueError:
+                continue
+            for v in tmap[c].dropna():
+                tta_of[norm_id(v)] = h
+        sol["_id"] = sol["id"].map(norm_id)
+        y = sol["target"].astype(float).astype(int).values
+        groups = sol["group"].astype(str).values
+        usage = sol["Usage"].str.lower().values
+        tta = np.array([tta_of.get(i, np.nan) for i in sol["_id"]])
+        for g in np.unique(groups):
+            hs = pd.Series(tta[(groups == g) & (y == 1)]).dropna()
+            group_label[g] = (f"{hs.mode().iloc[0]}s" if len(hs) else "?")
+        print(f"    {len(sol)} test videos | positives={int(y.sum())} | groups: "
+              + ", ".join(f"g{g}->{group_label[g]} (pos={int(((groups == g) & (y == 1)).sum())}, "
+                          f"neg={int(((groups == g) & (y == 0)).sum())})" for g in np.unique(groups)))
         scores = {}
         for name, (label, s, p) in runs.items():
             sub = pd.read_csv(p, dtype=str)
             m = dict(zip(sub.iloc[:, 0].map(norm_id), sub.iloc[:, 1].astype(float)))
-            scores[name] = np.array([m.get(i, np.nan) for i in base["_id"]])
-            if np.isnan(scores[name]).any():
-                raise ValueError(f"{name}: {int(np.isnan(scores[name]).sum())} ids not in submission")
+            scores[name] = np.array([m.get(i, 0.0) for i in sol["_id"]])   # fillna(0) as official
         own_rows = []
         for name, (label, s, p) in runs.items():
             r = {"run": name}
-            for part in ["all"] + sorted(set(usage) - {"all"}):
+            for part in ("all", "public", "private"):
                 sel = np.arange(len(y)) if part == "all" else np.where(usage == part)[0]
-                mm = own_metrics(scores[name], y, tta, sel)
+                mm = grouped_metrics(scores[name], y, groups, sel)
                 r.update({f"{k}_{part}": v for k, v in mm.items()})
             own_rows.append(r)
         per_run = per_run.merge(pd.DataFrame(own_rows), on="run", how="left")
@@ -229,34 +238,45 @@ def main():
     rep += [md_table(pd.DataFrame(t1)), ""]
 
     if sec_ok:
-        cols = ["mAP_all", "AP@0.5s_all", "AP@1.0s_all", "AP@1.5s_all", "mAUC01_all"]
+        gcols = sorted(c for c in per_run.columns if c.startswith("AP_g") and c.endswith("_all"))
+        cols = ["mAP_all"] + gcols + ["mAUC01_all"]
         t2 = []
         for label in METHODS:
             sub = per_run[per_run.method == label]
             if sub.empty:
                 continue
-            t2.append({"Method": label, **{c.replace("_all", ""): fmt(sub[c].tolist()) for c in cols}})
-        rep += ["## 2. Re-implemented metrics on the whole test set (public + private)\n",
-                "Same definitions as the validation analysis and the paper (AP / partial AUC at "
-                "FPR<=0.1 per horizon, averaged over 0.5/1.0/1.5 s).\n",
+            row = {"Method": label}
+            for c in cols:
+                key = c[:-4]
+                if key.startswith("AP_g"):
+                    key = f"AP {key[3:]} ({group_label.get(key[4:], '?')})"
+                row[key] = fmt(sub[c].tolist())
+            t2.append(row)
+        rep += ["## 2. Re-implemented official metric on the whole test set (public + private)\n",
+                "AP inside each solution.csv group, averaged over groups (official definition); "
+                "mAUC0.1 = partial AUC at FPR<=0.1 on the same groups. Group labels = horizon of "
+                "their positives.\n",
                 md_table(pd.DataFrame(t2)), ""]
-        chk = per_run.dropna(subset=["mAP_public_official"])
+        chk = per_run.dropna(subset=["mAP_public_official", "mAP_private_official"])
         if "mAP_public" in chk.columns and len(chk):
-            d = (chk["mAP_public"] - chk["mAP_public_official"]).abs().max()
-            rep.append(f"Check: max |our public mAP - official public mAP| over runs = {d:.4f} "
-                       f"({'consistent' if d < 0.005 else 'DIFFERS -- trust the official column'}).\n")
+            d = max((chk["mAP_public"] - chk["mAP_public_official"]).abs().max(),
+                    (chk["mAP_private"] - chk["mAP_private_official"]).abs().max())
+            rep.append(f"Check: max |our mAP - official mAP| over runs and both subsets = {d:.6f} "
+                       f"({'identical to the official scorer' if d < 1e-4 else 'DIFFERS -- trust the official column'}).\n")
 
         # ---- 4. bootstrap ----
         print(f"\n[3] Paired stratified bootstrap on the test set, B={args.n_boot}")
         rng = np.random.default_rng(args.boot_seed)
-        pos_idx, neg_idx = np.where(y == 1)[0], np.where(y == 0)[0]
+        cells = [np.where((groups == g) & (y == t))[0]
+                 for g in np.unique(groups) for t in (0, 1)]
+        cells = [c for c in cells if len(c)]
         members = {lab: [n for n, (l, s, p) in runs.items() if l == lab] for lab in METHODS}
         members = {k: v for k, v in members.items() if v}
 
         def mvals(idx):
             out = {}
             for lab, names in members.items():
-                ms = [own_metrics(scores[n], y, tta, idx) for n in names]
+                ms = [grouped_metrics(scores[n], y, groups, idx) for n in names]
                 out[lab] = {k: float(np.mean([m[k] for m in ms])) for k in ("mAP", "mAUC01")}
             return out
 
@@ -266,8 +286,7 @@ def main():
         boot = {n: {"mAP": [], "mAUC01": []} for n, _ in comps}
         t0 = time.time()
         for b in range(args.n_boot):
-            idx = np.concatenate([rng.choice(pos_idx, len(pos_idx), replace=True),
-                                  rng.choice(neg_idx, len(neg_idx), replace=True)])
+            idx = np.concatenate([rng.choice(c, len(c), replace=True) for c in cells])
             mv = mvals(idx)
             for n, c in comps:
                 for k in ("mAP", "mAUC01"):
@@ -285,7 +304,8 @@ def main():
                            "ci_low": round(lo, 4), "ci_high": round(hi, 4), "verdict": verdict})
         ci_df = pd.DataFrame(ci)
         ci_df.to_csv(os.path.join(args.out_dir, "test_bootstrap_ci.csv"), index=False)
-        rep += [f"## 3. Paired stratified bootstrap 95% CI on the test set (B={args.n_boot})\n",
+        rep += [f"## 3. Paired bootstrap 95% CI on the whole test set (B={args.n_boot}, "
+                "resampling within every group x label cell)\n",
                 "Estimate = first minus second; value per method = mean over its 3 seeds. "
                 "RQ2 rows exploratory.\n", md_table(ci_df), ""]
 
