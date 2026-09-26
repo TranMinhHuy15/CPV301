@@ -1,0 +1,23 @@
+--- a/taa/models.py
++++ b/taa/models.py
+@@ -299,7 +299,7 @@
+             loss_ffr_weight= 1.5
+             loss_mono_weight= 1.1
+             return dict(
+-                loss_cls=loss_cls * loss_cls_weight
++                loss_cls=loss_cls * loss_cls_weight,
+                 loss_ffr=loss_ffr * loss_ffr_weight,
+                 loss_mono=loss_adaptive * loss_mono_weight
+             )
+--- a/taa/__init__.py
++++ b/taa/__init__.py
+@@ -1,7 +1,7 @@
+ from .datasets import *
+ from .transforms import *
+-# from .models import *
++from .models import *  # RQ1b fix 2: was commented out
+ from .metrics import *
+ from .hooks import *
+-from .model_AdaLEA import *
++# from .model_AdaLEA import *  # RQ1b fix 3: module not in repo
+ #from .abl_models import *
