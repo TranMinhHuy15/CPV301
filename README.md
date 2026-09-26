@@ -50,6 +50,8 @@ reeval/                          corrected evaluation, official test, RQ2 and RQ
   re09_train_rq3_sensitivity.py  copy of cell34 with a configurable fixed lag τ (RQ3 sensitivity)
   run_rq3_sens.sh                runs the 6 sensitivity trainings (τ 0.5/1.5 × 3 seeds)
   re10_rq3_sensitivity_eval.py   RQ3 sensitivity predictions, dense curves and analysis
+riskprop_full/                   RQ1b (in progress): the authors' own RiskProp code trained on Nexar and
+                                 evaluated with the RQ1 protocol -- see riskprop_full/README_RQ1B.md
 results/
   RESULTS.md, RESULTS_RQ1/2/3.md final write-up
   reeval_corrected/              locked configuration, per-run validation metrics, bootstrap CIs (RQ1/RQ3)
