@@ -43,7 +43,7 @@ Mỗi bước có phần kiểm tra. Bước nào kiểm tra không đạt thì 
 cd /workspace && git clone https://github.com/TranMinhHuy15/CPV301.git && cd CPV301
 source /venv/main/bin/activate            # nếu image có venv này
 export HF_TOKEN=<token Hugging Face>      # gõ trực tiếp trong terminal
-python cell09_prepare_hf_data.py          # tạo data/nexar_kaggle_style/
+python pipeline/cell09_prepare_hf_data.py # tạo data/nexar_kaggle_style/
 
 # 3.2 Môi trường riêng cho code tác giả (khoảng 10-15 phút)
 bash riskprop_full/setup_env.sh

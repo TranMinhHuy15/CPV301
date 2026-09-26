@@ -74,6 +74,7 @@ def md_table(df):
 def gpu_steps(args, new_runs):
     import torch
     sys.path.insert(0, args.repo_dir)
+    sys.path.insert(0, os.path.join(args.repo_dir, "pipeline"))  # cell*.py live in pipeline/
     sys.path.insert(0, os.path.join(args.repo_dir, "reeval"))
     import re02_infer_val as r2
     from cell31_model_riskprop import RiskPropModel

@@ -111,6 +111,7 @@ def author_best(work_dir):
 
 def stage_val(args, device):
     sys.path.insert(0, args.repo_dir)
+    sys.path.insert(0, os.path.join(args.repo_dir, "pipeline"))  # cell*.py live in pipeline/
     sys.path.insert(0, os.path.join(args.repo_dir, "reeval"))
     import re02_infer_val as r2
     import re03_analyze_rq as r3
@@ -186,6 +187,7 @@ def stage_val(args, device):
 
 def stage_test(args, device):
     sys.path.insert(0, args.repo_dir)
+    sys.path.insert(0, os.path.join(args.repo_dir, "pipeline"))  # cell*.py live in pipeline/
     sys.path.insert(0, os.path.join(args.repo_dir, "reeval"))
     import re04_infer_test as r4
 

@@ -29,6 +29,7 @@ from sklearn.metrics import average_precision_score
 import torch.nn.functional as F
 
 sys.path.insert(0, "/workspace/CPV301")
+sys.path.insert(0, "/workspace/CPV301/pipeline")  # cell*.py live in pipeline/
 from cell33_riskprop_dataset import RiskPropTrainDataset, RiskPropValDataset
 from cell31_model_riskprop import RiskPropModel
 from cell32_riskprop_loss import riskprop_loss, COLLISION_WEIGHT, NEG_WEIGHT

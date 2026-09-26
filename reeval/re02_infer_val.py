@@ -123,6 +123,7 @@ def main():
     args = ap.parse_args()
 
     sys.path.insert(0, args.repo_dir)
+    sys.path.insert(0, os.path.join(args.repo_dir, "pipeline"))  # cell*.py live in pipeline/
     os.makedirs(args.out_dir, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     torch.backends.cudnn.benchmark = False

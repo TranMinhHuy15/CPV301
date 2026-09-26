@@ -96,6 +96,7 @@ def extract_tail_window(vid_path, size=SIZE):
 
 def build_model(model_key, repo_dir):
     sys.path.insert(0, repo_dir)
+    sys.path.insert(0, os.path.join(repo_dir, "pipeline"))  # cell*.py live in pipeline/
     if model_key == "top":
         from cell13_model import TOPModel
         return TOPModel()
@@ -140,6 +141,7 @@ def to_tensor(frames_uint8, repo_dir):
     divided by 255 and skipped the ImageNet normalisation, so test inputs
     would not have matched what every model was trained / validated on."""
     sys.path.insert(0, repo_dir)
+    sys.path.insert(0, os.path.join(repo_dir, "pipeline"))  # cell*.py live in pipeline/
     from cell22_adalea_dataset import _to_tensor
     return _to_tensor({"frames": torch.from_numpy(frames_uint8)})
 

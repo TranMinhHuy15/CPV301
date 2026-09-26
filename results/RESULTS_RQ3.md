@@ -30,7 +30,7 @@ The proposal states that "secondary sensitivity runs use τ = 0.5 and 1.5 second
 - SGD, LR 0.01 with the same step schedule, 50 epochs, batch 2 videos
 - λ1 = λ2 = 0.5, W_coll = 8.0, M = 8 AMC pairs per positive video, margin δ = 0.01 · Δt · c̄ (so the required rise grows with the lag)
 
-The random-offset and τ = 1.0 s runs come from `cell34_train_riskprop_cached.py`, with `RISKPROP_PAIRING=random` and `fixed` respectively. The τ = 0.5 / 1.5 s runs come from `reeval/re09_train_rq3_sensitivity.py`. That script is a copy of `cell34` that only passes `fixed_gap = round(τ / dt)` to `cell32.riskprop_loss`; `cell32` and `cell34` are unchanged.
+The random-offset and τ = 1.0 s runs come from `pipeline/cell34_train_riskprop_cached.py`, with `RISKPROP_PAIRING=random` and `fixed` respectively. The τ = 0.5 / 1.5 s runs come from `reeval/re09_train_rq3_sensitivity.py`. That script is a copy of `cell34` that only passes `fixed_gap = round(τ / dt)` to `cell32.riskprop_loss`; `cell32` and `cell34` are unchanged.
 
 **Training sanity checks.**
 
