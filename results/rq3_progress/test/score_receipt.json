@@ -1,0 +1,9 @@
+{
+  "infer_receipt_sha256": "cd7ede9bfec2fc4903423461bea97e1ab688c698cc84239a68d2341d1340826d",
+  "counts": {
+    "public": 667,
+    "private": 677
+  },
+  "created": "2026-10-05 23:22:34",
+  "per_run_sha256": "55cca288d2bb1ad42efe76dd151b407e532ea5996b6833a547bb486139c57067"
+}

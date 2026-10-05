@@ -1,0 +1,20 @@
+{
+  "stage": "G1 metadata",
+  "revision": "7535d0656dac31d7da2846913bb69c6331d2a70a",
+  "hf_repo": "nexar-ai/nexar_collision_prediction",
+  "id_map": "/workspace/CPV301/results/repro/id_to_hf_source.csv",
+  "id_map_sha256": "39084d5cecb99473e71a8c0575a2f53b4cb6db4fe94609e0e6ef7e76d4e82ed3",
+  "split_manifest_sha256": "61b9e983c58722eb7b100f7d969ef55df32acc0c016aefcfed0be37ef36cdda2",
+  "fatal": [],
+  "downloaded": true,
+  "n_mp4_in_raw": 1500,
+  "metadata_csvs": [
+    "train/negative/metadata.csv",
+    "train/positive/metadata.csv"
+  ],
+  "train_csv_sha256_rebuilt": "86cf32b23ad359b92b02f7779f786f37a8917d119d6b67010c753d6fa8bd146d",
+  "symlinks_created": 1500,
+  "pass": true,
+  "train_csv_sha256": "86cf32b23ad359b92b02f7779f786f37a8917d119d6b67010c753d6fa8bd146d",
+  "seconds": 381.1
+}

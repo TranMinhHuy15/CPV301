@@ -326,8 +326,8 @@ class TestTrainerIntegration(unittest.TestCase):
     def test_cuda_resume(self):
         with tempfile.TemporaryDirectory() as d:
             fx = make_fixture(d)
-            argv = [a for a in train_argv(fx, os.path.join(d, "o"), extra=["--max-epochs", "2"]) if a != "cpu"]
-            argv[argv.index("--device") + 1] = "cuda"
+            argv = train_argv(fx, os.path.join(d, "o"), extra=["--max-epochs", "2"])
+            argv[argv.index("--device") + 1] = "cuda"          # replace the value, keep every other flag
             tr.main(argv + ["--stop-after-epochs", "1"])
             ck = torch.load(os.path.join(d, "o", "dev", "P_fixed_H2_a3_lam1_seed42", "latest.pth"),
                             map_location="cuda", weights_only=False)
@@ -393,6 +393,26 @@ class TestEvaluation(unittest.TestCase):
             self.assertTrue(any("initial weights" in i for i in ev.research_gate(runs, rc, lockp, [], [])))
             open(os.path.join(runs["B42"], "best.pth"), "wb").write(b"changed")
             self.assertTrue(any("changed after COMPLETE" in i for i in ev.research_gate(runs, rc, lockp, [], [])))
+
+
+class TestDenseTolerance(unittest.TestCase):
+    def test_exactly_one_frame_plus_rounding_passes_but_two_ms_more_fails(self):
+        D = [round(3.0 - 0.1 * k, 1) for k in range(30)]
+        meta = {"vid_ids": ["00001", "00002"], "targets": [1, 0], "failed": [], "dense_d": D,
+                "t_obs": [[10.0 - x for x in D], [5.0] * 30]}
+        with tempfile.TemporaryDirectory() as d:
+            def vt(dev_s):
+                rows = [{"vid": "00001", "target": 1, "kind": "dense", "k": k, "requested_end_s": 10.0 - x,
+                         "end_frame": int((10.0 - x) * 30), "actual_end_s": 10.0 - x - dev_s, "time_of_event": 10.0,
+                         "future_frame": False, "dev_s": -dev_s, "dev_frames": -dev_s * 30,
+                         "frame_period_s": 1 / 30, "vfr_suspect": False} for k, x in enumerate(D)]
+                p = os.path.join(d, "vt.csv")
+                pd.DataFrame(rows).to_csv(p, index=False)
+                return p
+            ok = ev.dense_gate(meta, ["00001", "00002"], {"00001": 10.0}, vt(1 / 30 + 1e-9), expected=(2, 1))
+            self.assertTrue(ok["pass"], ok["issues"])                   # observed on real data: +0.00003 frame
+            bad = ev.dense_gate(meta, ["00001", "00002"], {"00001": 10.0}, vt(1 / 30 + 0.002), expected=(2, 1))
+            self.assertEqual(bad["counts"]["dev_gt_1_frame"], 1)
 
 
 class TestOfficialTest(unittest.TestCase):

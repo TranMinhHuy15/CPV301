@@ -1,0 +1,79 @@
+{
+  "chosen": {
+    "B_fixed_seed42": {
+      "kind": "latest",
+      "val_mAP_best": 0.6622169201867476,
+      "val_mAP_latest": 0.7503979891029694,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/B_fixed_seed42/latest.pth",
+      "ckpt_sha256": "ef64eee5d0768310d0207cbea4d66c375264dc1cdbd6c809e00226550c32c1db",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    },
+    "B_fixed_seed43": {
+      "kind": "best",
+      "val_mAP_best": 0.7426889901716619,
+      "val_mAP_latest": 0.7272495376963396,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/B_fixed_seed43/best.pth",
+      "ckpt_sha256": "647fdfae237003629e5f5993246459414561fdabce3c229b8df8e7fef111de97",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    },
+    "B_fixed_seed44": {
+      "kind": "latest",
+      "val_mAP_best": 0.6259190736656364,
+      "val_mAP_latest": 0.7263044089531455,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/B_fixed_seed44/latest.pth",
+      "ckpt_sha256": "8778dcb14e94b172c6accce83d342f1f76a33bda97f0399a624259fd7ac16ea6",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    },
+    "P_fixed_H2_a3_lam1_seed42": {
+      "kind": "latest",
+      "val_mAP_best": 0.6577827094625053,
+      "val_mAP_latest": 0.7374594007513027,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/P_fixed_H2_a3_lam1_seed42/latest.pth",
+      "ckpt_sha256": "108d3f581fd41dd2a023d693950ad81aad574c37d2debba9705dec896c0c0b98",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    },
+    "P_fixed_H2_a3_lam1_seed43": {
+      "kind": "latest",
+      "val_mAP_best": 0.6085376407845433,
+      "val_mAP_latest": 0.7122290222267563,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/P_fixed_H2_a3_lam1_seed43/latest.pth",
+      "ckpt_sha256": "4291c50197f5ecc7eb678dba826aa638edcf9544773a1c96e0c2277e07caf1fa",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    },
+    "P_fixed_H2_a3_lam1_seed44": {
+      "kind": "latest",
+      "val_mAP_best": 0.670424986035025,
+      "val_mAP_latest": 0.7454667225522309,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/P_fixed_H2_a3_lam1_seed44/latest.pth",
+      "ckpt_sha256": "15ebad1b708ea62dd01a3c8441659e59dc1eefa27329312d1687c92ebfbbb2a2",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    },
+    "S_fixed_H2_a3_lam1_seed42": {
+      "kind": "latest",
+      "val_mAP_best": 0.667661721491713,
+      "val_mAP_latest": 0.7010339763850165,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/S_fixed_H2_a3_lam1_seed42/latest.pth",
+      "ckpt_sha256": "e268ac1a08ebd967a19cb5b16cc1e7352666661e679ce6f135c1bf4f53cab999",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    },
+    "S_fixed_H2_a3_lam1_seed43": {
+      "kind": "latest",
+      "val_mAP_best": 0.6585895984054823,
+      "val_mAP_latest": 0.7526358092757525,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/S_fixed_H2_a3_lam1_seed43/latest.pth",
+      "ckpt_sha256": "6d7608b370cce900d1ab26b0d6b4f3be9e4af595dad306834cbab80b24db916e",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    },
+    "S_fixed_H2_a3_lam1_seed44": {
+      "kind": "latest",
+      "val_mAP_best": 0.5759526577299156,
+      "val_mAP_latest": 0.7346485387444847,
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/S_fixed_H2_a3_lam1_seed44/latest.pth",
+      "ckpt_sha256": "56e9c4f6ec4befa307c75e6743ea54e1821d51274e8f00a35c1f38ea531855d9",
+      "rule": "higher mean val AP over 0.5/1.0/1.5 s among best/latest; tie -> best"
+    }
+  },
+  "val_cache_digest": "67491cd00112b143b99ffb72ae3e0d12d9c783ca14e06f3ace266f73ab1127c4",
+  "dense_cache_digest": "133358350633d6c3c61c0920507c5cc0254d423cc35947660bf9511005a864d4",
+  "created": "2026-10-05 23:01:25"
+}

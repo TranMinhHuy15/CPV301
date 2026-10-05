@@ -1,0 +1,16 @@
+{
+  "pass": true,
+  "issues": [],
+  "counts": {
+    "videos": 300,
+    "positives_checked": 150,
+    "duplicate": 0,
+    "clamped": 0,
+    "post_event": 0,
+    "nonfinite": 0,
+    "dev_gt_1_frame": 0,
+    "vfr": 0,
+    "audit_mismatch": 0,
+    "audit_missing": 0
+  }
+}

@@ -1,0 +1,19 @@
+contrast,metric,role,cohort,estimate,ci_low,ci_high,verdict,direction,non_inferiority
+P - B,mAP,accuracy,accuracy n=300 videos,-0.008078747566,-0.03656822216,0.02066750847,inconclusive (CI includes 0),,non-inferiority NOT shown (margin 0.02)
+P - B,AP@1.5s,primary,accuracy n=300 videos,-0.02852449352,-0.06139610042,0.008396038563,inconclusive (CI includes 0),,
+P - B,mAUC01,accuracy,accuracy n=300 videos,0.01091358025,-0.0421345679,0.0582154321,inconclusive (CI includes 0),,
+P - B,PVR,supporting,temporal n=150 positives,-0.002217113665,-0.02360217114,0.0192045977,inconclusive (CI includes 0),,
+P - B,ADS,supporting,temporal n=150 positives,-0.002054014286,-0.005158670353,0.0009484216094,inconclusive (CI includes 0),,
+P - B,RCJ,supporting,temporal n=150 positives,-0.004129398189,-0.01416176597,0.005698131408,inconclusive (CI includes 0),,
+S - B,mAP,accuracy,accuracy n=300 videos,-0.01035768794,-0.04223763404,0.02097734834,inconclusive (CI includes 0),,non-inferiority NOT shown (margin 0.02)
+S - B,AP@1.5s,accuracy,accuracy n=300 videos,-0.02240498235,-0.05736153208,0.01727489281,inconclusive (CI includes 0),,
+S - B,mAUC01,accuracy,accuracy n=300 videos,-0.01111111111,-0.07519197531,0.05516111111,inconclusive (CI includes 0),,
+S - B,PVR,supporting,temporal n=150 positives,0.005583652618,-0.01346641124,0.02329667944,inconclusive (CI includes 0),,
+S - B,ADS,supporting,temporal n=150 positives,0.0007457266976,-0.002377763278,0.003842656785,inconclusive (CI includes 0),,
+S - B,RCJ,supporting,temporal n=150 positives,0.002500290615,-0.007004360986,0.01204446397,inconclusive (CI includes 0),,
+P - S,mAP,accuracy,accuracy n=300 videos,0.002278940375,-0.02593907639,0.02769387355,inconclusive (CI includes 0),,
+P - S,AP@1.5s,pre-specified,accuracy n=300 videos,-0.006119511164,-0.03993720332,0.02517994706,inconclusive (CI includes 0),,
+P - S,mAUC01,accuracy,accuracy n=300 videos,0.02202469136,-0.03980617284,0.07336049383,inconclusive (CI includes 0),,
+P - S,PVR,supporting,temporal n=150 positives,-0.007800766284,-0.02238569604,0.006728097063,inconclusive (CI includes 0),,
+P - S,ADS,supporting,temporal n=150 positives,-0.002799740984,-0.005065323741,-0.00067133395,decrease (CI < 0),better,
+P - S,RCJ,supporting,temporal n=150 positives,-0.006629688804,-0.01357071913,0.0001844190313,inconclusive (CI includes 0),,

@@ -1,0 +1,49 @@
+{
+  "available": true,
+  "primary_contrast": "P - B",
+  "primary_metric": "AP@1.5s",
+  "ni_metric": "mAP",
+  "ni_margin": 0.02,
+  "ps_metric": "AP@1.5s",
+  "p_minus_s": {
+    "contrast": "P - S",
+    "metric": "AP@1.5s",
+    "role": "pre-specified",
+    "cohort": "accuracy n=300 videos",
+    "estimate": -0.006119511163788394,
+    "ci_low": -0.039937203317583755,
+    "ci_high": 0.025179947059162124,
+    "verdict": "inconclusive (CI includes 0)",
+    "direction": "",
+    "non_inferiority": ""
+  },
+  "research_issues": [],
+  "primary": {
+    "contrast": "P - B",
+    "metric": "AP@1.5s",
+    "role": "primary",
+    "cohort": "accuracy n=300 videos",
+    "estimate": -0.0285244935181036,
+    "ci_low": -0.061396100421481165,
+    "ci_high": 0.008396038563080572,
+    "verdict": "inconclusive (CI includes 0)",
+    "direction": "",
+    "non_inferiority": ""
+  },
+  "primary_met": false,
+  "non_inferiority": {
+    "contrast": "P - B",
+    "metric": "mAP",
+    "role": "accuracy",
+    "cohort": "accuracy n=300 videos",
+    "estimate": -0.008078747565829048,
+    "ci_low": -0.03656822215586194,
+    "ci_high": 0.020667508474993664,
+    "verdict": "inconclusive (CI includes 0)",
+    "direction": "",
+    "non_inferiority": "non-inferiority NOT shown (margin 0.02)"
+  },
+  "non_inferiority_met": false,
+  "research_gate_passed": true,
+  "rq3_supported": false
+}

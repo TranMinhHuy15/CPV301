@@ -1,0 +1,25 @@
++ python reeval/re11_audit_progress_data.py --data-dir /workspace/CPV301/data/nexar_kaggle_style --split-manifest /workspace/CPV301/results/repro/split_manifest_seed42.json --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --id-map /workspace/CPV301/results/repro/id_to_hf_source.csv --prepare-report /workspace/CPV301/outputs_progress/prepare/prepare_report.json --output-dir /workspace/CPV301/outputs_progress/audit
+  [audit] 100/1500 videos (6s)
+  [audit] 200/1500 videos (9s)
+  [audit] 300/1500 videos (12s)
+  [audit] 400/1500 videos (16s)
+  [audit] 500/1500 videos (19s)
+  [audit] 600/1500 videos (22s)
+  [audit] 700/1500 videos (25s)
+  [audit] 800/1500 videos (28s)
+  [audit] 900/1500 videos (31s)
+  [audit] 1000/1500 videos (34s)
+  [audit] 1100/1500 videos (38s)
+  [audit] 1200/1500 videos (41s)
+  [audit] 1300/1500 videos (44s)
+  [audit] 1400/1500 videos (46s)
+  [audit] 1500/1500 videos (49s)
+AUDIT PASS complete=True (49s)
+counts: {'csv_rows': 1500, 'csv_pos': 750, 'train': 1200, 'val': 300, 'probed': 1500, 'train_scanned': 1200, 'val_scanned': 300}
+val timing: {'val_videos': 300, 'val_positives': 150, 'lead_future_frames': 0, 'dense_future_frames': 0, 'dense_max_abs_dev_frames': 1.0000305175779545, 'dense_windows_dev_gt_1_frame': 34}
+
+FATAL:
+
+WARNINGS:
+  - 3 positives with time_of_event < 6.0 s -> nominal clamp at 0.4 s (duplicate endpoints are masked by re12): ['00796', '01400', '01451']
+  - Episode-level leakage NOT verifiable: Nexar metadata has no episode/source-drive key.

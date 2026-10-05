@@ -25,7 +25,7 @@ v4 changes
   * DENSE TIMING GATE uses re11's val_timing.csv (actual PTS of every dense
     endpoint): 300 videos / 150 positives, requested endpoints == this dense
     cache's meta, no endpoint at/after the event, no duplicate end frames, no
-    clamping, |actual - requested| <= 1 frame of THAT video's fps, no VFR
+    clamping, |actual - requested| <= 1 frame of THAT video's fps + 1 ms, no VFR
     suspect. Fail -> temporal metrics are diagnostic only (--strict-dense stops).
   * DECISION from LOCK.json on RAW floats (rounding only in printed tables),
     finite CIs required, and only when the RESEARCH GATE passes: B/P/S x 3 seeds
@@ -67,6 +67,7 @@ ALL_CONTRASTS = [("P - B", {"P": 1, "B": -1}), ("S - B", {"S": 1, "B": -1}),
                  ("P - S", {"P": 1, "S": -1}), ("FP - F", {"FP": 1, "F": -1}),
                  ("(P-B) - (FP-F)", {"P": 1, "B": -1, "FP": -1, "F": 1})]
 MAIN_CONDITIONS, MAIN_SEEDS = ("B", "P", "S"), (42, 43, 44)
+DENSE_TOL_S = 1e-3          # dense timing gate: |actual - requested| <= 1 frame + 1 ms
 
 
 def lead_maps(targets, lead_scores):
@@ -261,13 +262,15 @@ def dense_gate(meta, val_ids, toe, val_timing="", expected=(pc.N_VAL, pc.N_VAL_P
             c["post_event"] += 1
         if rows["end_frame"].duplicated().any():
             c["duplicate"] += 1
-        if (rows["dev_frames"].abs() > 1.0 + 1e-6).any():
+        # tolerance: one frame of THAT video + 1 ms for timestamp / float rounding
+        # (int(t*fps) can land exactly one frame early; observed excess <= 0.001 ms)
+        if (rows["dev_s"].abs() > rows["frame_period_s"] + DENSE_TOL_S).any():
             c["dev_gt_1_frame"] += 1
         if rows.get("vfr_suspect") is not None and rows["vfr_suspect"].fillna(False).astype(bool).any():
             c["vfr"] += 1
     for k, msg in (("audit_missing", "positives without 30 audited dense endpoints"),
                    ("audit_mismatch", "positives whose audited requested endpoints != this dense cache"),
-                   ("dev_gt_1_frame", "positives with |actual - requested| endpoint > 1 frame"),
+                   ("dev_gt_1_frame", "positives with |actual - requested| endpoint > 1 frame + 1 ms"),
                    ("vfr", "positives from VFR-suspect videos")):
         if c[k]:
             issues.append(f"{c[k]} {msg}")

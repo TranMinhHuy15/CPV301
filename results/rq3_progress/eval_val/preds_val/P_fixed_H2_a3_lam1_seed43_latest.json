@@ -1,0 +1,41 @@
+{
+  "run": "P_fixed_H2_a3_lam1_seed43",
+  "kind": "latest",
+  "ckpt": "/workspace/CPV301/outputs_progress/runs/P_fixed_H2_a3_lam1_seed43/latest.pth",
+  "ckpt_sha256": "4291c50197f5ecc7eb678dba826aa638edcf9544773a1c96e0c2277e07caf1fa",
+  "val_cache_digest": "67491cd00112b143b99ffb72ae3e0d12d9c783ca14e06f3ace266f73ab1127c4",
+  "ckpt_epoch": 50,
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 43,
+    "epochs": 50,
+    "max_steps": 0,
+    "epochs_budget": 50,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": true,
+    "research_result": true,
+    "synthetic": false,
+    "model": "riskprop",
+    "limit_videos": 0,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed43",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  }
+}

@@ -13,14 +13,14 @@
     "reeval/re12_build_progress_sidecar.py": "44d117461f9b3925e9d78f12689241698a34352312600e6f18475fc06403303f",
     "reeval/re13_progress_supervision.py": "f89a663fe37f38229b34d29dc11374e1a6b35bf4f7b7e59b36fdda41cc3494fb",
     "reeval/re14_train_progress_riskprop.py": "cb512829dfb985ce4d25b98c23af019c46b367b3a061e8fd7dd4fbf74edaa0c2",
-    "reeval/re15_eval_progress_riskprop.py": "1b265e0d2480d33a9f9d6d6de9a0657eba7548f07ed25a6bc7198b992c090023",
+    "reeval/re15_eval_progress_riskprop.py": "baa17d07e62ecc4191d19c6edd96f89b1fb90383d41fe62348e4d74096f776aa",
     "reeval/re16_test_progress_protocol.py": "07a85d2e05a9188af75fa07699cca50a93d2f192ac9cd46e02bd95e7e6c73097",
     "reeval/re17_prepare_data_pinned.py": "4fbbe9e84aaf76d1f9a6a9c210e8bd9e3e5b15dbeeff346c5029030a78edc3ab",
     "reeval/re18_preflight.py": "1d730cc8d5c54ef5a9e3d637a21cd37aced0207825eb83aa1daf50f85d7f1306",
     "reeval/re19_test_progress.py": "000af3b3367deabccaa3f92803831ab5d5e9354483dc92ba644a53097266bb43",
     "reeval/re20_lock_progress.py": "daa2ada5b895a12316c7adf13e1eaf5b6b44ccb5e1eeea86ad987b2115ffac17",
-    "reeval/re21_test_v4_regression.py": "793fe156daba9cfbb80e25f335d58d9b220956d692374eba6705b69ab2765117",
-    "reeval/release_v4/CHANGELOG_V4.md": "92960a59a19c233ad817a757306a909a21399686ac1652139294ac2890d1da18",
+    "reeval/re21_test_v4_regression.py": "097850988260c43f3f9ab7e0410569b2a748db68331c16f58e98c856af7790de",
+    "reeval/release_v4/CHANGELOG_V4.md": "50828aa290ead33fb48a5e0f8cfd43fe661e88389420120dee44c6ff7ff11f88",
     "reeval/release_v4/V4_ACCEPTANCE_REPORT.md": "714865399223f2061889cbee2879508ed931be7192f919e411ea3d982a4c7e85",
     "reeval/release_v4/logs/cpu_re16_tests.txt": "450630f9add43113ac20b03970fc5c1a609fc7d62eb74f3b46c205a04aa6e3f8",
     "reeval/release_v4/logs/cpu_re21_tests.txt": "fce8b674354209a464fc05aa7cac87f80fa31e776ecaddce8b27821216c1efc2",
@@ -97,5 +97,7 @@
     "torchvision": "0.26.0+cu128",
     "gpu": "RTX 4080 16 GB (recorded)"
   },
-  "excluded": "datasets, caches, checkpoints, tokens, logs with credentials"
+  "excluded": "datasets, caches, checkpoints, tokens, logs with credentials",
+  "patch": "v4.0.2: re15 dense gate tolerance 1 frame + 1 ms (float rounding); v4.0.1: re21 test_cuda_resume fix",
+  "updated": "2026-10-05 16:39:49"
 }

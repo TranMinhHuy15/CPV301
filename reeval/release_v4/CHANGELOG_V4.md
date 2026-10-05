@@ -53,3 +53,15 @@
 - **Validation BCE for `best.pth`:** computed in fp32 from autocast logits. cell34 computed it in fp16. The same code is used for B, P and S.
 - **DataLoader shuffle:** uses a dedicated generator seeded with the run seed, which can be saved for resume. The batch order therefore differs from v3 runs, but is identical across B/P/S for a seed.
 - **Budget:** v3 quoted "12–16 GPU-h" without measuring it; v4 makes no fixed claim. `train_log.csv` records time per epoch and peak memory, so the real throughput comes from `mini` and the first `full` epoch.
+
+## v4.0.1 patch (2026-10-05, found by the first real GPU run of `check`)
+
+- **`re21_test_v4_regression.py::test_cuda_resume` (test-only bug).** The test removed the value `cpu` from the argument list and then overwrote the element after `--device`, which was `--lambda-prog`. As a result argparse exited with code 2. Fix: replace the value of `--device` in place.
+- **Impact.** No training, evaluation or data code changed, and the code fingerprint is unaffected (re21 is not in `SOURCE_FILES`). The test was reported **NOT RUN** on CPU and is now exercised on the GPU by the `check` stage.
+
+## v4.0.2 patch (2026-10-05, from the real G2 audit, before any training result)
+
+- **Real data.** The audit of the 300 validation videos found that 34 of 4,500 dense positive windows (in 5 videos) had |actual − requested| endpoint = 1.000002–1.000031 frames, i.e. one frame plus at most 0.001 ms. No video was VFR-suspect, the maximum PTS deviation from index/avg_fps was 6e-5 frames, and no endpoint fell at or after the event.
+- **Cause.** `int(t·fps)` (re07/cell10 rule) can land exactly one frame early when t·fps falls on a frame boundary; the excess is float rounding.
+- **Change.** The `re15.dense_gate` tolerance is now |dev_s| ≤ frame_period of that video + 1 ms (`DENSE_TOL_S`); it was ≤ 1.0 frame + 1e-6.
+- **Status of the change.** Fixed before LOCK and before any validation result, so this is a numeric-precision correction of the gate, not a tuning step. Test: `TestDenseTolerance`. re15 is not in `SOURCE_FILES`, so the code fingerprint of training runs is unaffected.

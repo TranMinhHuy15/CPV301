@@ -1,0 +1,63 @@
+{
+  "freeze_sha256": "476e6b349bdff958e95b073b39d320fce48e393bb3af953b369dcb2972f6b017",
+  "hf_revision": "7535d0656dac31d7da2846913bb69c6331d2a70a",
+  "n_ids": 1344,
+  "submissions": {
+    "B_fixed_seed42": {
+      "file": "submission_B_fixed_seed42.csv",
+      "sha256": "521eaf956453d4e18017ed377545927fed66b582dd868200f6b2fbc5c05c7d0f",
+      "condition": "B",
+      "seed": 42
+    },
+    "B_fixed_seed43": {
+      "file": "submission_B_fixed_seed43.csv",
+      "sha256": "d5f7dd1035786a28dc8969c0b3d9cab6e7840e838cc0985ecc11158ab407bd2a",
+      "condition": "B",
+      "seed": 43
+    },
+    "B_fixed_seed44": {
+      "file": "submission_B_fixed_seed44.csv",
+      "sha256": "6270edfeacfef81c04d0a8513691e711cedf23bc0533060fcd1558497317bf2d",
+      "condition": "B",
+      "seed": 44
+    },
+    "P_fixed_H2_a3_lam1_seed42": {
+      "file": "submission_P_fixed_H2_a3_lam1_seed42.csv",
+      "sha256": "f6185f39dc09c6ec17828e633649c3c03de44ac53b0e528913cd3b981672dd34",
+      "condition": "P",
+      "seed": 42
+    },
+    "P_fixed_H2_a3_lam1_seed43": {
+      "file": "submission_P_fixed_H2_a3_lam1_seed43.csv",
+      "sha256": "2d584d18a1d68884957b2244d76d5dd76ac86af8c3fe4c1c27f05890c44b89ab",
+      "condition": "P",
+      "seed": 43
+    },
+    "P_fixed_H2_a3_lam1_seed44": {
+      "file": "submission_P_fixed_H2_a3_lam1_seed44.csv",
+      "sha256": "fb9d2730036b76aef5ea8469183ade31d08e74bcedf09f829658ebe3fd793087",
+      "condition": "P",
+      "seed": 44
+    },
+    "S_fixed_H2_a3_lam1_seed42": {
+      "file": "submission_S_fixed_H2_a3_lam1_seed42.csv",
+      "sha256": "77b5b15caf092d7acc1faeace0cb40817155a5f7ad116ebff1d6511e25c5d0db",
+      "condition": "S",
+      "seed": 42
+    },
+    "S_fixed_H2_a3_lam1_seed43": {
+      "file": "submission_S_fixed_H2_a3_lam1_seed43.csv",
+      "sha256": "bfa9405da8bd797ca1459168d269c8c54d05fbf1815300cf6ad21d4e0e8efffe",
+      "condition": "S",
+      "seed": 43
+    },
+    "S_fixed_H2_a3_lam1_seed44": {
+      "file": "submission_S_fixed_H2_a3_lam1_seed44.csv",
+      "sha256": "ac89bb0361f6b0324819af2ff89f6bc813e5566e670282bee5cf583a9050ed95",
+      "condition": "S",
+      "seed": 44
+    }
+  },
+  "created": "2026-10-05 23:17:25",
+  "window": "causal 5-frame tail window (re04.extract_tail_window), cell22._to_tensor"
+}

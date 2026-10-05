@@ -1,0 +1,19 @@
++ python reeval/re20_lock_progress.py --out /workspace/CPV301/outputs_progress/LOCK.json --prepare /workspace/CPV301/outputs_progress/prepare/prepare_report.json --audit /workspace/CPV301/outputs_progress/audit/audit_summary.json --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --preflight /workspace/CPV301/outputs_progress/preflight/preflight.json --mini-root /workspace/CPV301/outputs_progress/dev --cache-5f /workspace/CPV301/data/nexar_cache_5f --pairing fixed --horizon 2.0 --alpha 3.0 --lam 1.0 --seeds 42,43,44 --conditions B,P,S
+{
+  "pairing_mode": "fixed",
+  "horizon_sec": 2.0,
+  "alpha": 3.0,
+  "lambda_prog": 1.0,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "conditions": [
+    "B",
+    "P",
+    "S"
+  ],
+  "epochs": 50
+}
+LOCK written: /workspace/CPV301/outputs_progress/LOCK.json (sha256 in /workspace/CPV301/outputs_progress/LOCK.json.sha256)

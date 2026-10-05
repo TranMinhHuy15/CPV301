@@ -1,0 +1,73 @@
+{
+  "version": "v4.0.0",
+  "runs": {
+    "B_fixed_seed42": {
+      "condition": "B",
+      "seed": 42,
+      "kind": "latest",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/B_fixed_seed42/latest.pth",
+      "ckpt_sha256": "ef64eee5d0768310d0207cbea4d66c375264dc1cdbd6c809e00226550c32c1db"
+    },
+    "B_fixed_seed43": {
+      "condition": "B",
+      "seed": 43,
+      "kind": "best",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/B_fixed_seed43/best.pth",
+      "ckpt_sha256": "647fdfae237003629e5f5993246459414561fdabce3c229b8df8e7fef111de97"
+    },
+    "B_fixed_seed44": {
+      "condition": "B",
+      "seed": 44,
+      "kind": "latest",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/B_fixed_seed44/latest.pth",
+      "ckpt_sha256": "8778dcb14e94b172c6accce83d342f1f76a33bda97f0399a624259fd7ac16ea6"
+    },
+    "P_fixed_H2_a3_lam1_seed42": {
+      "condition": "P",
+      "seed": 42,
+      "kind": "latest",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/P_fixed_H2_a3_lam1_seed42/latest.pth",
+      "ckpt_sha256": "108d3f581fd41dd2a023d693950ad81aad574c37d2debba9705dec896c0c0b98"
+    },
+    "P_fixed_H2_a3_lam1_seed43": {
+      "condition": "P",
+      "seed": 43,
+      "kind": "latest",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/P_fixed_H2_a3_lam1_seed43/latest.pth",
+      "ckpt_sha256": "4291c50197f5ecc7eb678dba826aa638edcf9544773a1c96e0c2277e07caf1fa"
+    },
+    "P_fixed_H2_a3_lam1_seed44": {
+      "condition": "P",
+      "seed": 44,
+      "kind": "latest",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/P_fixed_H2_a3_lam1_seed44/latest.pth",
+      "ckpt_sha256": "15ebad1b708ea62dd01a3c8441659e59dc1eefa27329312d1687c92ebfbbb2a2"
+    },
+    "S_fixed_H2_a3_lam1_seed42": {
+      "condition": "S",
+      "seed": 42,
+      "kind": "latest",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/S_fixed_H2_a3_lam1_seed42/latest.pth",
+      "ckpt_sha256": "e268ac1a08ebd967a19cb5b16cc1e7352666661e679ce6f135c1bf4f53cab999"
+    },
+    "S_fixed_H2_a3_lam1_seed43": {
+      "condition": "S",
+      "seed": 43,
+      "kind": "latest",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/S_fixed_H2_a3_lam1_seed43/latest.pth",
+      "ckpt_sha256": "6d7608b370cce900d1ab26b0d6b4f3be9e4af595dad306834cbab80b24db916e"
+    },
+    "S_fixed_H2_a3_lam1_seed44": {
+      "condition": "S",
+      "seed": 44,
+      "kind": "latest",
+      "ckpt": "/workspace/CPV301/outputs_progress/runs/S_fixed_H2_a3_lam1_seed44/latest.pth",
+      "ckpt_sha256": "56e9c4f6ec4befa307c75e6743ea54e1821d51274e8f00a35c1f38ea531855d9"
+    }
+  },
+  "lock_sha256": "347623b1638bd1b5914a156e94e73465828ecd8d139f4cc30023be6907d960c7",
+  "decision_sha256": "ad414ec16db4ed6cb075fbc5f1ec0afdfc810507a955a86dcd6028ead48b41bb",
+  "chosen_sha256": "dd310e3976948ecc4ed1c5cbd5fdd3634da3ff99e412f76324705bca47ab068f",
+  "hf_revision": "7535d0656dac31d7da2846913bb69c6331d2a70a",
+  "created": "2026-10-05 23:11:22"
+}

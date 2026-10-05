@@ -1,0 +1,66 @@
+{
+  "version": "v4.0.0",
+  "pass": true,
+  "complete": true,
+  "limited": false,
+  "synthetic": false,
+  "fatal": [],
+  "warnings": [
+    "3 positives with time_of_event < 6.0 s -> nominal clamp at 0.4 s (duplicate endpoints are masked by re12): ['00796', '01400', '01451']",
+    "Episode-level leakage NOT verifiable: Nexar metadata has no episode/source-drive key."
+  ],
+  "created": "2026-10-05 09:36:21",
+  "inputs": {
+    "train_csv": "/workspace/CPV301/data/nexar_kaggle_style/train.csv",
+    "train_csv_sha256": "86cf32b23ad359b92b02f7779f786f37a8917d119d6b67010c753d6fa8bd146d",
+    "split_manifest_sha256": "61b9e983c58722eb7b100f7d969ef55df32acc0c016aefcfed0be37ef36cdda2",
+    "id_map_sha256": "39084d5cecb99473e71a8c0575a2f53b4cb6db4fe94609e0e6ef7e76d4e82ed3",
+    "train_index_sha256": "2f2cb85117f2ed3fe8e2e0bbe1c7f802c2490208919dfea9a765778a41a9d3a0",
+    "val_index_sha256": "ba898811bb7d126cea8babb16545c2e8a8528c58f9216b620ab8280b1e71cb8b",
+    "prepare_report_sha256": "097acad936dad889bb745f2fb4a0701bcda30576a4b42124cfed8741dd8026db",
+    "hf_revision": "7535d0656dac31d7da2846913bb69c6331d2a70a"
+  },
+  "counts": {
+    "csv_rows": 1500,
+    "csv_pos": 750,
+    "train": 1200,
+    "val": 300,
+    "probed": 1500,
+    "train_scanned": 1200,
+    "val_scanned": 300
+  },
+  "alert_event_gap": {
+    "train": {
+      "<=0.5": 40,
+      "0.5-1.0": 115,
+      "1.0-1.5": 167,
+      "1.5-2.0": 118,
+      ">2.0": 160,
+      "n_pos": 600,
+      "gap_gt_1_5": 278,
+      "gap_gt_2_0": 160,
+      "gap_median": 1.4329999999999998
+    },
+    "val": {
+      "<=0.5": 10,
+      "0.5-1.0": 29,
+      "1.0-1.5": 42,
+      "1.5-2.0": 29,
+      ">2.0": 40,
+      "n_pos": 150,
+      "gap_gt_1_5": 69,
+      "gap_gt_2_0": 40,
+      "gap_median": 1.4275000000000002
+    }
+  },
+  "val_timing": {
+    "val_videos": 300,
+    "val_positives": 150,
+    "lead_future_frames": 0,
+    "dense_future_frames": 0,
+    "dense_max_abs_dev_frames": 1.0000305175779545,
+    "dense_windows_dev_gt_1_frame": 34
+  },
+  "probed_videos": 1500,
+  "scanned_cache": 1200
+}

@@ -1,0 +1,250 @@
+{
+  "pass": true,
+  "complete": true,
+  "usable_for_full_run": true,
+  "not_usable_because": [],
+  "fatal": [],
+  "warnings": [],
+  "created": "2026-10-05 09:37:52",
+  "audit": "/workspace/CPV301/outputs_progress/audit/audit_summary.json",
+  "audit_pass": true,
+  "audit_sha256": "cc5452b575ce905ca9e3277b0f7f7b0274017d86606a1d7e98b293ec20baecc0",
+  "version": "v4.0.0",
+  "synthetic": false,
+  "cps_coverage_note": "positives with 0 CPS-valid snippets are still trained with BCE/FFR/AMC",
+  "nominal_clamped_snippets_positive": 7,
+  "abnormal_videos_pixel_checked": [
+    "01400",
+    "01451"
+  ],
+  "n_videos": 1200,
+  "n_pos": 600,
+  "reason_counts_positive": {
+    "ok": 5995,
+    "negative": 0,
+    "anchor_first": 600,
+    "anchor_last": 600,
+    "decode_fail": 0,
+    "zero_decode_fail": 0,
+    "zero_black": 0,
+    "zero_cache_only": 0,
+    "zero_unchecked": 0,
+    "nonfinite_time": 0,
+    "post_event": 0,
+    "duplicate_endpoint": 5,
+    "nonmonotonic_time": 0
+  },
+  "zero_snippets_all_videos": {
+    "decode_fail": 0,
+    "black": 0,
+    "cache_only": 0
+  },
+  "videos_with_pts_offset": 0,
+  "valid_snippets_per_positive": {
+    "5": 1,
+    "10": 599
+  },
+  "positives_without_valid_snippet": 0,
+  "valid_tau_coverage": {
+    "tau<1.5": 1200,
+    "1.5<=tau<2.0": 600,
+    "tau>=2.0": 4195
+  },
+  "tau_actual_minus_cache_s": {
+    "mean": 0.017620375378396815,
+    "max_abs": 0.03739409255981485
+  },
+  "timing_sources": {
+    "pts": 1200
+  },
+  "pixel_verification": {
+    "n_verified": 26,
+    "n_identical": 26,
+    "required_for_full_run": 24,
+    "videos": [
+      {
+        "vid": "00005",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00765",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00753",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00751",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00763",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00011",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "01451",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00015",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00761",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00008",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00006",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00010",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00000",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00755",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00003",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00009",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00762",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00758",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00757",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "01400",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00764",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00007",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00002",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00012",
+        "target": 0,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00754",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      },
+      {
+        "vid": "00759",
+        "target": 1,
+        "pixel_match_all": true,
+        "n_mismatch": 0,
+        "max_mean_abs_diff": 0.0
+      }
+    ]
+  },
+  "sidecar_sha256": "e94392bda9163149ba2b5e1e189bc010c4a268560b2a16aed379eecd4d6e05cf"
+}

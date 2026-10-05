@@ -1,0 +1,135 @@
+{
+  "confirmed": true,
+  "version": "v4.0.0",
+  "research_question": "Can event-distance-aware progress supervision improve RiskProp's early collision anticipation and temporal risk progression while maintaining predictive accuracy under the temporal-pairing configuration selected in RQ2?",
+  "pairing_mode": "fixed",
+  "horizon_sec": 2.0,
+  "alpha": 3.0,
+  "lambda_prog": 1.0,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "conditions": [
+    "B",
+    "P",
+    "S"
+  ],
+  "epochs": 50,
+  "batch_size": 2,
+  "lr": 0.01,
+  "momentum": 0.9,
+  "weight_decay": 0.0001,
+  "lr_decay_epochs": [
+    20,
+    40
+  ],
+  "sensitivity_horizons": [
+    1.5
+  ],
+  "sensitivity_conditions": [
+    "P"
+  ],
+  "sensitivity_seeds": [
+    42
+  ],
+  "primary_contrast": "P - B",
+  "primary_metric": "AP@1.5s",
+  "ni_metric": "mAP",
+  "ni_margin": 0.02,
+  "ps_metric": "AP@1.5s",
+  "success_rule": "RQ3 supported iff P - B on AP@1.5s has 95% CI lower bound > 0 AND P - B on mAP has CI lower bound > -0.02 (raw floats, 3 seeds x B/P/S complete, research gate passed). P - S on AP@1.5s reported regardless of CI.",
+  "supporting_evidence": [
+    "PVR",
+    "ADS",
+    "RCJ",
+    "rise_pos",
+    "score_neg_mean",
+    "seed_stability",
+    "mAUC01",
+    "Coverage"
+  ],
+  "checkpoint_rule": "trainer keeps best (lowest val BCE @1.0 s) and latest (epoch 50); evaluator picks per run the one with higher mean val AP over 0.5/1.0/1.5 s; tie (equal float) -> best",
+  "ci": "paired label-stratified video bootstrap, B=2000, seed 12345, accuracy on all 300 val videos, temporal on all 150 val positives (only if the dense timing gate passes)",
+  "test_policy": "official test (1344 clips) scored once by re19 after freezing chosen checkpoints",
+  "pairing_rationale": "fixed lag 1.0 s = RiskProp v2 default; RQ2 found no accuracy difference fixed vs random (mAP -0.0026 [-0.031, 0.025])",
+  "lambda_rationale": "SmoothL1(beta=1) on probabilities = 0.5*(a-r)^2, same algebraic scale as FFR (0.5*MSE); fixed before training, not tuned on mini; not PRE-ACT's 10. Gradient norms of both terms are logged as a diagnostic only.",
+  "adaptation": "PRE-ACT-inspired loss-level adaptation on RiskProp (one sigmoid head, positive-only CPS, BCE anchors excluded, tau<=0 excluded); not a reproduction of PRE-ACT",
+  "fingerprints": {
+    "code": {
+      "digest": "e0bd28d8c193faa16001fcfaa27a73dffa89dc86461a07cd95e96b50e301c453",
+      "files": {
+        "pipeline/cell22_adalea_dataset.py": "63e697b90c58e8c2656ec3662b083147a008a69df11a159ddfdad7e5529feb3f",
+        "pipeline/cell31_model_riskprop.py": "e6099971eaf9ead8eedb1d67dcd12ae8ad53997bf7917dddc153022c24559777",
+        "pipeline/cell32_riskprop_loss.py": "cba14691983a74c6158bf0c4d6e3c0d950b76f701bcf388e61e1e5eb2fc8cb7c",
+        "pipeline/cell33_riskprop_dataset.py": "08599896e10100d491e215c6beda4bcac6977351262af2d2e046766bb8698275",
+        "reeval/progress_common.py": "68ac84a95efe17e0385475fb583cc44b231117b9e2b09bbd25414f98948cf15c",
+        "reeval/re12_build_progress_sidecar.py": "44d117461f9b3925e9d78f12689241698a34352312600e6f18475fc06403303f",
+        "reeval/re13_progress_supervision.py": "f89a663fe37f38229b34d29dc11374e1a6b35bf4f7b7e59b36fdda41cc3494fb",
+        "reeval/re14_train_progress_riskprop.py": "cb512829dfb985ce4d25b98c23af019c46b367b3a061e8fd7dd4fbf74edaa0c2"
+      }
+    },
+    "hf_revision": "7535d0656dac31d7da2846913bb69c6331d2a70a",
+    "train_csv_sha256": "86cf32b23ad359b92b02f7779f786f37a8917d119d6b67010c753d6fa8bd146d",
+    "id_map_sha256": "39084d5cecb99473e71a8c0575a2f53b4cb6db4fe94609e0e6ef7e76d4e82ed3",
+    "split_manifest_sha256": "61b9e983c58722eb7b100f7d969ef55df32acc0c016aefcfed0be37ef36cdda2",
+    "train_index_sha256": "2f2cb85117f2ed3fe8e2e0bbe1c7f802c2490208919dfea9a765778a41a9d3a0",
+    "train_cache_digest": "315b0d92699ce2bae760bece5355b2babeead9bc4f8f895700930df5e9da2a6b",
+    "sidecar_sha256": "e94392bda9163149ba2b5e1e189bc010c4a268560b2a16aed379eecd4d6e05cf",
+    "audit_sha256": "cc5452b575ce905ca9e3277b0f7f7b0274017d86606a1d7e98b293ec20baecc0",
+    "val_cache_digest": "67491cd00112b143b99ffb72ae3e0d12d9c783ca14e06f3ace266f73ab1127c4",
+    "env": {
+      "python": "3.12.14",
+      "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
+      "torch": "2.11.0+cu128",
+      "cuda_build": "12.8",
+      "cudnn": 91900,
+      "cuda_available": true,
+      "gpu": "NVIDIA GeForce RTX 4080",
+      "gpu_mem_gb": 15.6,
+      "gpu_count": 1,
+      "torchvision": "0.26.0+cu128"
+    },
+    "init_state_sha256_seed0": "15ed31e0ee876f058a792e2edf632485e93277aa6cbb837e9e5f323e8081d816",
+    "hub_weight_files": {
+      "SLOW_8x8_R50.pyth": "5271a92af34d4195484eb04bb0804ea630dcbb4ae2de578ee99693831e7301e9"
+    }
+  },
+  "evidence": {
+    "G1 prepare": {
+      "path": "/workspace/CPV301/outputs_progress/prepare/prepare_report.json",
+      "sha256": "097acad936dad889bb745f2fb4a0701bcda30576a4b42124cfed8741dd8026db"
+    },
+    "G2 audit": {
+      "path": "/workspace/CPV301/outputs_progress/audit/audit_summary.json",
+      "sha256": "cc5452b575ce905ca9e3277b0f7f7b0274017d86606a1d7e98b293ec20baecc0"
+    },
+    "G2 sidecar": {
+      "path": "/workspace/CPV301/outputs_progress/sidecar/sidecar_summary.json",
+      "sha256": "378fdc630133a0efda584f1587049c620920376ef5f03536e22d2bb11b0ee498"
+    },
+    "G3 preflight": {
+      "path": "/workspace/CPV301/outputs_progress/preflight/preflight.json",
+      "sha256": "004d93ecff03d7d490adefd8b70eb03ba8c3e3b559c7ea4df2f5f9a983556e7e"
+    }
+  },
+  "git": {
+    "sha": "2dd0e0114198f40811e0d5feb42077755b48019f",
+    "branch": "main",
+    "uncommitted_files": [
+      "eeval/re15_eval_progress_riskprop.py",
+      "reeval/re21_test_v4_regression.py",
+      "reeval/release_v4/CHANGELOG_V4.md",
+      "reeval/release_v4/RELEASE_MANIFEST_V4.json",
+      "CPV301_v4.0.2_patch.zip",
+      "data/",
+      "mini_summary.txt",
+      "outputs_progress/",
+      "pipeline/__pycache__/",
+      "reeval/__pycache__/"
+    ]
+  },
+  "content_sha256": "b41b178faab8702123e2cf6a2304bda1375d5ce0db0eafb3b549908e4e0b2d19",
+  "created": "2026-10-05 10:01:58"
+}

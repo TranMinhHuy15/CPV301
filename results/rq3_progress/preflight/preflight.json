@@ -1,0 +1,75 @@
+{
+  "version": "v4.0.0",
+  "created": "2026-10-05 09:44:30",
+  "require_cuda": true,
+  "pass": true,
+  "checks": [
+    {
+      "check": "imports+versions",
+      "status": "PASS",
+      "detail": "matches recorded env",
+      "sec": 1.2
+    },
+    {
+      "check": "cuda",
+      "status": "PASS",
+      "detail": "NVIDIA GeForce RTX 4080, 15.6 GB, matmul ok (4363.8)",
+      "sec": 0.4
+    },
+    {
+      "check": "disk",
+      "status": "PASS",
+      "detail": "119.5 GB free under /workspace/CPV301/outputs_progress/preflight (need >= 60.0)",
+      "sec": 0.0
+    },
+    {
+      "check": "hf_token",
+      "status": "PASS",
+      "detail": "HF token set (not printed)",
+      "sec": 0.0
+    },
+    {
+      "check": "backbone",
+      "status": "PASS",
+      "detail": "slow_r50 pretrained loaded, fwd+bwd (2x12 snippets) peak 5.21 GB",
+      "sec": 2.0
+    }
+  ],
+  "env": {
+    "python": "3.12.14",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu128",
+    "cuda_build": "12.8",
+    "cudnn": 91900,
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4080",
+    "gpu_mem_gb": 15.6,
+    "gpu_count": 1,
+    "torchvision": "0.26.0+cu128"
+  },
+  "recorded_env": {
+    "python": "3.12",
+    "torch": "2.11.0+cu128",
+    "torchvision": "0.26.0+cu128",
+    "decord": "0.6.0",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.1"
+  },
+  "versions": {
+    "torch": "2.11.0+cu128",
+    "torchvision": "0.26.0+cu128",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "sklearn": "1.9.1",
+    "decord": "0.6.0",
+    "PIL": "12.3.0",
+    "huggingface_hub": "1.30.0"
+  },
+  "disk_free_gb": 119.5,
+  "init_state_sha256_seed0": "15ed31e0ee876f058a792e2edf632485e93277aa6cbb837e9e5f323e8081d816",
+  "hub_weight_files": {
+    "SLOW_8x8_R50.pyth": "5271a92af34d4195484eb04bb0804ea630dcbb4ae2de578ee99693831e7301e9"
+  },
+  "peak_mem_gb_fwd_bwd_batch2": 5.21
+}

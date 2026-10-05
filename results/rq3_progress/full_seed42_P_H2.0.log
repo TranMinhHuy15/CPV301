@@ -1,0 +1,111 @@
+Using cache found in /root/.cache/torch/hub/facebookresearch_pytorchvideo_main
+[check-complete] P_fixed_H2_a3_lam1_seed42: NOT complete (no COMPLETE.json)
++ python -u reeval/re14_train_progress_riskprop.py --condition P --seed 42 --horizon-sec 2.0 --lambda-prog 1.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/results/repro/split_manifest_seed42.json --output-root /workspace/CPV301/outputs_progress --num-workers 4 --audit /workspace/CPV301/outputs_progress/audit/audit_summary.json --lock-file /workspace/CPV301/outputs_progress/LOCK.json --full-run
+Using cache found in /root/.cache/torch/hub/facebookresearch_pytorchvideo_main
+verifying train cache content digest (hashing every cached .pt) ...
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 50,
+    "max_steps": 0,
+    "epochs_budget": 50,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": true,
+    "research_result": true,
+    "synthetic": false,
+    "model": "riskprop",
+    "limit_videos": 0,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "4e6b4b4d2e3dd6073928316d815fb4da3c5088013b91f299f197b64b7b4d7cd8",
+  "inputs": {
+    "split_manifest_sha256": "61b9e983c58722eb7b100f7d969ef55df32acc0c016aefcfed0be37ef36cdda2",
+    "train_index_sha256": "2f2cb85117f2ed3fe8e2e0bbe1c7f802c2490208919dfea9a765778a41a9d3a0",
+    "val_index_sha256": "ba898811bb7d126cea8babb16545c2e8a8528c58f9216b620ab8280b1e71cb8b",
+    "sidecar_sha256": "e94392bda9163149ba2b5e1e189bc010c4a268560b2a16aed379eecd4d6e05cf",
+    "audit_sha256": "cc5452b575ce905ca9e3277b0f7f7b0274017d86606a1d7e98b293ec20baecc0",
+    "lock_sha256": "347623b1638bd1b5914a156e94e73465828ecd8d139f4cc30023be6907d960c7",
+    "audit": "/workspace/CPV301/outputs_progress/audit/audit_summary.json",
+    "lock_file": "/workspace/CPV301/outputs_progress/LOCK.json",
+    "val_cache_digest": "67491cd00112b143b99ffb72ae3e0d12d9c783ca14e06f3ace266f73ab1127c4",
+    "train_cache_digest": "315b0d92699ce2bae760bece5355b2babeead9bc4f8f895700930df5e9da2a6b"
+  }
+}
+/workspace/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=600 total=0.6731 base=0.6192 (bce=0.6001 reg=0.0121 mono=0.0263) cps=0.0539 amp_skipped=1 g_base=5.55 g_cps=0.779 val_loss=3.5003 val_AP@1.0=0.6505 lr=0.01000 (99s)
+  * best.pth (val_loss=3.5003)
+[P_fixed_H2_a3_lam1_seed42] epoch  1 steps=1200 total=0.5074 base=0.4631 (bce=0.4328 reg=0.0255 mono=0.0352) cps=0.0443 amp_skipped=0 g_base=0.414 g_cps=0.0579 val_loss=4.0694 val_AP@1.0=0.6443 lr=0.01000 (95s)
+[P_fixed_H2_a3_lam1_seed42] epoch  2 steps=1800 total=0.3993 base=0.3580 (bce=0.3266 reg=0.0331 mono=0.0298) cps=0.0413 amp_skipped=0 g_base=0.667 g_cps=0.0696 val_loss=7.9050 val_AP@1.0=0.6275 lr=0.01000 (97s)
+[P_fixed_H2_a3_lam1_seed42] epoch  3 steps=2400 total=0.3183 base=0.2766 (bce=0.2405 reg=0.0425 mono=0.0297) cps=0.0417 amp_skipped=0 g_base=0.302 g_cps=0 val_loss=9.4992 val_AP@1.0=0.6318 lr=0.01000 (97s)
+[P_fixed_H2_a3_lam1_seed42] epoch  4 steps=3000 total=0.2685 base=0.2299 (bce=0.1954 reg=0.0442 mono=0.0249) cps=0.0386 amp_skipped=0 g_base=0.157 g_cps=0.0339 val_loss=5.6198 val_AP@1.0=0.7068 lr=0.01000 (98s)
+[P_fixed_H2_a3_lam1_seed42] epoch  5 steps=3600 total=0.2376 base=0.1998 (bce=0.1655 reg=0.0462 mono=0.0226) cps=0.0378 amp_skipped=0 g_base=0.876 g_cps=0.0207 val_loss=9.7225 val_AP@1.0=0.6668 lr=0.01000 (95s)
+[P_fixed_H2_a3_lam1_seed42] epoch  6 steps=4200 total=0.1754 base=0.1358 (bce=0.0999 reg=0.0531 mono=0.0186) cps=0.0396 amp_skipped=1 g_base=0.0661 g_cps=0.016 val_loss=13.7851 val_AP@1.0=0.6548 lr=0.01000 (97s)
+[P_fixed_H2_a3_lam1_seed42] epoch  7 steps=4800 total=0.1614 base=0.1242 (bce=0.0891 reg=0.0506 mono=0.0196) cps=0.0372 amp_skipped=0 g_base=0.348 g_cps=0 val_loss=12.1356 val_AP@1.0=0.6759 lr=0.01000 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch  8 steps=5400 total=0.1091 base=0.0747 (bce=0.0428 reg=0.0522 mono=0.0117) cps=0.0344 amp_skipped=1 g_base=0.22 g_cps=0.0335 val_loss=13.9276 val_AP@1.0=0.6878 lr=0.01000 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch  9 steps=6000 total=0.0715 base=0.0444 (bce=0.0159 reg=0.0500 mono=0.0071) cps=0.0271 amp_skipped=0 g_base=0.443 g_cps=0 val_loss=19.4640 val_AP@1.0=0.6717 lr=0.01000 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 10 steps=6600 total=0.0604 base=0.0373 (bce=0.0091 reg=0.0513 mono=0.0051) cps=0.0231 amp_skipped=0 g_base=0.171 g_cps=0 val_loss=12.7662 val_AP@1.0=0.7186 lr=0.01000 (97s)
+[P_fixed_H2_a3_lam1_seed42] epoch 11 steps=7200 total=0.0568 base=0.0359 (bce=0.0072 reg=0.0511 mono=0.0063) cps=0.0209 amp_skipped=0 g_base=0.0455 g_cps=0.0131 val_loss=13.2154 val_AP@1.0=0.7067 lr=0.01000 (98s)
+[P_fixed_H2_a3_lam1_seed42] epoch 12 steps=7800 total=0.0494 base=0.0317 (bce=0.0045 reg=0.0493 mono=0.0049) cps=0.0177 amp_skipped=0 g_base=0.0277 g_cps=0.0125 val_loss=16.9082 val_AP@1.0=0.7207 lr=0.01000 (93s)
+[P_fixed_H2_a3_lam1_seed42] epoch 13 steps=8400 total=0.0470 base=0.0306 (bce=0.0036 reg=0.0503 mono=0.0039) cps=0.0163 amp_skipped=0 g_base=0.0244 g_cps=0.00562 val_loss=13.4279 val_AP@1.0=0.7287 lr=0.01000 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch 14 steps=9000 total=0.0464 base=0.0300 (bce=0.0026 reg=0.0504 mono=0.0044) cps=0.0164 amp_skipped=0 g_base=0.00162 g_cps=0.00132 val_loss=15.5774 val_AP@1.0=0.7160 lr=0.01000 (93s)
+[P_fixed_H2_a3_lam1_seed42] epoch 15 steps=9600 total=0.0444 base=0.0294 (bce=0.0029 reg=0.0492 mono=0.0040) cps=0.0150 amp_skipped=0 g_base=0.0122 g_cps=0.00595 val_loss=12.4247 val_AP@1.0=0.7326 lr=0.01000 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch 16 steps=10200 total=0.0434 base=0.0290 (bce=0.0026 reg=0.0488 mono=0.0040) cps=0.0145 amp_skipped=0 g_base=0.0421 g_cps=0.0724 val_loss=16.6969 val_AP@1.0=0.7327 lr=0.01000 (93s)
+[P_fixed_H2_a3_lam1_seed42] epoch 17 steps=10800 total=0.0393 base=0.0262 (bce=0.0021 reg=0.0447 mono=0.0035) cps=0.0131 amp_skipped=0 g_base=0.0332 g_cps=0.00881 val_loss=13.3104 val_AP@1.0=0.7417 lr=0.01000 (97s)
+[P_fixed_H2_a3_lam1_seed42] epoch 18 steps=11400 total=0.0366 base=0.0241 (bce=0.0018 reg=0.0412 mono=0.0033) cps=0.0126 amp_skipped=1 g_base=0.000612 g_cps=0 val_loss=13.1394 val_AP@1.0=0.7372 lr=0.01000 (95s)
+[P_fixed_H2_a3_lam1_seed42] epoch 19 steps=12000 total=0.0325 base=0.0215 (bce=0.0014 reg=0.0372 mono=0.0029) cps=0.0110 amp_skipped=0 g_base=0.00222 g_cps=0 val_loss=11.9175 val_AP@1.0=0.7403 lr=0.00100 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch 20 steps=12600 total=0.0306 base=0.0200 (bce=0.0013 reg=0.0349 mono=0.0027) cps=0.0106 amp_skipped=0 g_base=0.00496 g_cps=0 val_loss=12.9553 val_AP@1.0=0.7304 lr=0.00100 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch 21 steps=13200 total=0.0301 base=0.0198 (bce=0.0011 reg=0.0346 mono=0.0028) cps=0.0103 amp_skipped=1 g_base=0.0331 g_cps=0.0338 val_loss=11.9823 val_AP@1.0=0.7342 lr=0.00100 (96s)
+[P_fixed_H2_a3_lam1_seed42] epoch 22 steps=13800 total=0.0312 base=0.0202 (bce=0.0012 reg=0.0351 mono=0.0028) cps=0.0110 amp_skipped=0 g_base=0.0376 g_cps=0.0417 val_loss=13.0458 val_AP@1.0=0.7344 lr=0.00100 (97s)
+[P_fixed_H2_a3_lam1_seed42] epoch 23 steps=14400 total=0.0290 base=0.0190 (bce=0.0010 reg=0.0333 mono=0.0025) cps=0.0100 amp_skipped=0 g_base=0.0333 g_cps=0.0509 val_loss=11.3289 val_AP@1.0=0.7365 lr=0.00100 (96s)
+[P_fixed_H2_a3_lam1_seed42] epoch 24 steps=15000 total=0.0288 base=0.0189 (bce=0.0011 reg=0.0329 mono=0.0028) cps=0.0099 amp_skipped=0 g_base=0.00131 g_cps=0 val_loss=11.0481 val_AP@1.0=0.7352 lr=0.00100 (98s)
+[P_fixed_H2_a3_lam1_seed42] epoch 25 steps=15600 total=0.0287 base=0.0186 (bce=0.0010 reg=0.0325 mono=0.0028) cps=0.0101 amp_skipped=1 g_base=0.0102 g_cps=0 val_loss=10.3934 val_AP@1.0=0.7337 lr=0.00100 (100s)
+[P_fixed_H2_a3_lam1_seed42] epoch 26 steps=16200 total=0.0289 base=0.0189 (bce=0.0011 reg=0.0327 mono=0.0029) cps=0.0100 amp_skipped=0 g_base=0.0313 g_cps=0.0319 val_loss=12.5408 val_AP@1.0=0.7348 lr=0.00100 (98s)
+[P_fixed_H2_a3_lam1_seed42] epoch 27 steps=16800 total=0.0274 base=0.0178 (bce=0.0010 reg=0.0312 mono=0.0024) cps=0.0096 amp_skipped=0 g_base=0.0333 g_cps=0.0374 val_loss=12.3653 val_AP@1.0=0.7345 lr=0.00100 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch 28 steps=17400 total=0.0275 base=0.0178 (bce=0.0010 reg=0.0313 mono=0.0024) cps=0.0097 amp_skipped=1 g_base=0.0336 g_cps=0.0303 val_loss=11.4305 val_AP@1.0=0.7279 lr=0.00100 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 29 steps=18000 total=0.0276 base=0.0181 (bce=0.0011 reg=0.0315 mono=0.0025) cps=0.0095 amp_skipped=0 g_base=0.0187 g_cps=0.00723 val_loss=13.0600 val_AP@1.0=0.7276 lr=0.00100 (96s)
+[P_fixed_H2_a3_lam1_seed42] epoch 30 steps=18600 total=0.0272 base=0.0177 (bce=0.0010 reg=0.0308 mono=0.0025) cps=0.0096 amp_skipped=0 g_base=0.000509 g_cps=0 val_loss=12.9094 val_AP@1.0=0.7246 lr=0.00100 (97s)
+[P_fixed_H2_a3_lam1_seed42] epoch 31 steps=19200 total=0.0263 base=0.0170 (bce=0.0009 reg=0.0297 mono=0.0025) cps=0.0093 amp_skipped=0 g_base=0.0284 g_cps=0.0202 val_loss=11.1619 val_AP@1.0=0.7230 lr=0.00100 (100s)
+[P_fixed_H2_a3_lam1_seed42] epoch 32 steps=19800 total=0.0264 base=0.0172 (bce=0.0011 reg=0.0298 mono=0.0024) cps=0.0092 amp_skipped=1 g_base=0.00526 g_cps=0.00171 val_loss=13.3774 val_AP@1.0=0.7280 lr=0.00100 (98s)
+[P_fixed_H2_a3_lam1_seed42] epoch 33 steps=20400 total=0.0261 base=0.0170 (bce=0.0009 reg=0.0297 mono=0.0025) cps=0.0091 amp_skipped=0 g_base=0.0368 g_cps=0.0308 val_loss=12.8174 val_AP@1.0=0.7291 lr=0.00100 (93s)
+[P_fixed_H2_a3_lam1_seed42] epoch 34 steps=21000 total=0.0252 base=0.0164 (bce=0.0009 reg=0.0287 mono=0.0023) cps=0.0088 amp_skipped=0 g_base=0.0131 g_cps=0.0329 val_loss=11.8679 val_AP@1.0=0.7280 lr=0.00100 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch 35 steps=21600 total=0.0252 base=0.0165 (bce=0.0009 reg=0.0288 mono=0.0023) cps=0.0087 amp_skipped=1 g_base=0.0345 g_cps=0.0323 val_loss=12.4063 val_AP@1.0=0.7235 lr=0.00100 (95s)
+[P_fixed_H2_a3_lam1_seed42] epoch 36 steps=22200 total=0.0264 base=0.0170 (bce=0.0009 reg=0.0297 mono=0.0024) cps=0.0094 amp_skipped=0 g_base=0.0118 g_cps=0.0153 val_loss=12.9299 val_AP@1.0=0.7281 lr=0.00100 (94s)
+[P_fixed_H2_a3_lam1_seed42] epoch 37 steps=22800 total=0.0249 base=0.0162 (bce=0.0008 reg=0.0286 mono=0.0022) cps=0.0086 amp_skipped=0 g_base=0.0208 g_cps=0.045 val_loss=13.5352 val_AP@1.0=0.7282 lr=0.00100 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 38 steps=23400 total=0.0250 base=0.0161 (bce=0.0009 reg=0.0282 mono=0.0022) cps=0.0089 amp_skipped=1 g_base=0.000738 g_cps=0 val_loss=12.3633 val_AP@1.0=0.7246 lr=0.00100 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 39 steps=24000 total=0.0245 base=0.0158 (bce=0.0008 reg=0.0278 mono=0.0023) cps=0.0087 amp_skipped=0 g_base=0.026 g_cps=0.0385 val_loss=12.6650 val_AP@1.0=0.7192 lr=0.00010 (100s)
+[P_fixed_H2_a3_lam1_seed42] epoch 40 steps=24600 total=0.0245 base=0.0159 (bce=0.0009 reg=0.0275 mono=0.0024) cps=0.0086 amp_skipped=0 g_base=0.000938 g_cps=0 val_loss=13.4060 val_AP@1.0=0.7248 lr=0.00010 (98s)
+[P_fixed_H2_a3_lam1_seed42] epoch 41 steps=25200 total=0.0242 base=0.0155 (bce=0.0008 reg=0.0270 mono=0.0023) cps=0.0087 amp_skipped=0 g_base=0.00571 g_cps=0.00163 val_loss=12.4978 val_AP@1.0=0.7242 lr=0.00010 (93s)
+[P_fixed_H2_a3_lam1_seed42] epoch 42 steps=25800 total=0.0247 base=0.0159 (bce=0.0008 reg=0.0280 mono=0.0023) cps=0.0087 amp_skipped=1 g_base=0.000251 g_cps=0 val_loss=14.0037 val_AP@1.0=0.7246 lr=0.00010 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 43 steps=26400 total=0.0246 base=0.0157 (bce=0.0007 reg=0.0278 mono=0.0022) cps=0.0089 amp_skipped=0 g_base=0.00144 g_cps=0 val_loss=12.2284 val_AP@1.0=0.7184 lr=0.00010 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 44 steps=27000 total=0.0245 base=0.0159 (bce=0.0009 reg=0.0277 mono=0.0022) cps=0.0086 amp_skipped=0 g_base=0.0358 g_cps=0.0462 val_loss=11.4600 val_AP@1.0=0.7198 lr=0.00010 (100s)
+[P_fixed_H2_a3_lam1_seed42] epoch 45 steps=27600 total=0.0243 base=0.0157 (bce=0.0008 reg=0.0275 mono=0.0023) cps=0.0086 amp_skipped=1 g_base=0.0426 g_cps=0.0208 val_loss=11.8713 val_AP@1.0=0.7266 lr=0.00010 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 46 steps=28200 total=0.0232 base=0.0151 (bce=0.0008 reg=0.0266 mono=0.0021) cps=0.0080 amp_skipped=0 g_base=0.0241 g_cps=0.0644 val_loss=11.4043 val_AP@1.0=0.7284 lr=0.00010 (98s)
+[P_fixed_H2_a3_lam1_seed42] epoch 47 steps=28800 total=0.0242 base=0.0157 (bce=0.0008 reg=0.0276 mono=0.0022) cps=0.0084 amp_skipped=0 g_base=0.0214 g_cps=0.0546 val_loss=11.7719 val_AP@1.0=0.7298 lr=0.00010 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 48 steps=29400 total=0.0246 base=0.0160 (bce=0.0008 reg=0.0281 mono=0.0022) cps=0.0086 amp_skipped=0 g_base=0.0413 g_cps=0.0961 val_loss=11.3883 val_AP@1.0=0.7265 lr=0.00010 (99s)
+[P_fixed_H2_a3_lam1_seed42] epoch 49 steps=30000 total=0.0248 base=0.0159 (bce=0.0007 reg=0.0282 mono=0.0022) cps=0.0089 amp_skipped=1 g_base=0.000549 g_cps=0 val_loss=13.0081 val_AP@1.0=0.7245 lr=0.00010 (99s)
+[P_fixed_H2_a3_lam1_seed42] COMPLETE -> /workspace/CPV301/outputs_progress/runs/P_fixed_H2_a3_lam1_seed42
+Using cache found in /root/.cache/torch/hub/facebookresearch_pytorchvideo_main
+[check-complete] P_fixed_H2_a3_lam1_seed42: COMPLETE (complete)

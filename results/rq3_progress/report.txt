@@ -1,0 +1,40 @@
+============================================================================================
+ CPV301 - RQ3 Progressive RiskProp (PRE-ACT-inspired CPS)  |  bao cao luc 06/10 06:23 (gio VN)
+============================================================================================
+
+[1] MOI TRUONG
+  GPU NVIDIA GeForce RTX 4080 (15.6 GB) | python 3.12.14 | torch 2.11.0+cu128 | torchvision 0.26.0+cu128 | CUDA 12.8
+  backbone SlowOnly-R50 fwd+bwd peak 5.21 GB
+
+[2] THIET KE DA KHOA (LOCK.json)
+  dieu kien ['B', 'P', 'S'] x seed [42, 43, 44] x 50 epoch | pairing fixed | H=2.0 s, alpha=3.0, lambda=1.0
+  B = BCE + 0.5 FFR + 0.5 AMC (RiskProp) | P = B + lambda*CPS lien tuc | S = B + lambda*CPS nhi phan
+  chi tieu chinh: P - B tren AP@1.5s (CI duoi > 0) VA khong kem hon tren mAP (CI duoi > -0.02)
+  LOCK sha256 347623b1638bd1b5...
+
+[3] CONG KIEM TRA (gates)
+  G1 du lieu (HF pinned, train.csv sha)    : PASS  rev 7535d0656dac, sha 86cf32b23ad3
+  G2 audit du lieu                         : PASS  1500 video (750 duong), train 1200 / val 300, probe 1500
+  G2 sidecar CPS                           : PASS
+  G3 preflight GPU                         : PASS
+  G4 mini (B/P/S + resume)                 : PASS  3 run COMPLETE
+  G5 LOCK                                  : PASS
+
+[4] TRAIN FULL (G6)
+  run                            trang thai  epoch  s/ep best_vloss  valAP@1s  maxAP@1s mem GB
+  B_fixed_seed42                 XONG        50/50    95      2.849    0.7458    0.7542   5.34
+  P_fixed_H2_a3_lam1_seed42      XONG        50/50    97      3.500    0.7245    0.7417   5.34
+  S_fixed_H2_a3_lam1_seed42      XONG        50/50    99      4.411    0.6933    0.7197   5.34
+  B_fixed_seed43                 XONG        50/50    97      3.596    0.7217    0.7399   5.34
+  P_fixed_H2_a3_lam1_seed43      XONG        50/50    96      3.622    0.6952    0.7060   5.34
+  S_fixed_H2_a3_lam1_seed43      XONG        50/50    99      3.333    0.7438    0.7478   5.34
+  B_fixed_seed44                 XONG        50/50    98      3.188    0.7229    0.7335   5.34
+  P_fixed_H2_a3_lam1_seed44      XONG        50/50    99      4.101    0.7375    0.7529   5.34
+  S_fixed_H2_a3_lam1_seed44      XONG        50/50   100      3.799    0.7450    0.7485   5.34
+
+  Tien do: 9/9 run xong | 450/450 epoch (100%) | TB 98 s/epoch | con ~0.0 h | du kien xong ~06/10 06:23 (gio VN)
+  (valAP@1s = AP tren 300 video val o lead 1.0 s, chi de theo doi train; KET QUA CHINH THUC la buoc eval)
+
+[5] KHAC
+  dia trong 100 GB | log day du: outputs_progress/logs/full_master.log
+============================================================================================

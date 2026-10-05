@@ -1,0 +1,36 @@
+########## 1. TRAIN (mini, 40 video x 2 epoch) ##########
+== B_fixed_seed42_mini | COMPLETE
+ epoch  time_sec  peak_mem_gb  amp_skipped_steps  train_total  train_bce  train_cps  cps_videos  gradnorm_base_head  gradnorm_cps_head  val_loss  val_AP_1.0s
+     0      12.0         5.32                  1       1.1283     1.1202        0.0         0.0              3.4175                  0    1.7395       0.5367
+     1       5.6         5.34                  0       0.8385     0.8199        0.0         0.0              1.5242                  0    2.2031       0.6666
+== P_fixed_H2_a3_lam1_seed42_mini | COMPLETE
+ epoch  time_sec  peak_mem_gb  amp_skipped_steps  train_total  train_bce  train_cps  cps_videos  gradnorm_base_head  gradnorm_cps_head  val_loss  val_AP_1.0s
+     0       8.1         5.32                  1       1.1344     1.0572     0.0680         1.0              3.4175             0.8070    1.7600       0.4917
+     1       5.8         5.34                  0       0.8757     0.7792     0.0795         1.0              1.8117             0.4866    7.1401       0.6116
+== P_fixed_H2_a3_lam1_seed42_mini_resume | COMPLETE
+ epoch  time_sec  peak_mem_gb  amp_skipped_steps  train_total  train_bce  train_cps  cps_videos  gradnorm_base_head  gradnorm_cps_head  val_loss  val_AP_1.0s
+     0       7.9         5.32                  1       1.1334     1.0563     0.0678         1.0              3.4175             0.8070    1.7697       0.4842
+     1       7.7         5.32                  0       0.8252     0.7288     0.0793         1.0              1.8801             0.4942    3.2004       0.6839
+== S_fixed_H2_a3_lam1_seed42_mini | COMPLETE
+ epoch  time_sec  peak_mem_gb  amp_skipped_steps  train_total  train_bce  train_cps  cps_videos  gradnorm_base_head  gradnorm_cps_head  val_loss  val_AP_1.0s
+     0       8.0         5.32                  1       1.1744     1.0647     0.1004         1.0              3.4175             0.6519    1.7468       0.4889
+     1       5.6         5.34                  0       0.8854     0.7591     0.1094         1.0              1.8215             0.4818    7.5970       0.6564
+
+########## 2. COMPLETE markers ##########
+4 (can 4)
+   B_fixed_seed42_mini
+   P_fixed_H2_a3_lam1_seed42_mini
+   P_fixed_H2_a3_lam1_seed42_mini_resume
+   S_fixed_H2_a3_lam1_seed42_mini
+
+########## 3. EVAL mini (dev, KHONG phai ket qua) ##########
+dense_gate pass: True | issues: []
+condition checkpoint    mAP  AP@0.5s  AP@1.0s  AP@1.5s  mAUC01    PVR    ADS    RCJ  rise_pos  score_neg_mean  fit_MAE_continuous  fit_MAE_binary
+        B     latest 0.6634   0.7151   0.6667   0.6083  0.1366 0.2073 0.0096 0.0313    0.0758          0.7613              0.4758          0.3718
+        P     latest 0.6110   0.6482   0.6115   0.5734  0.0914 0.1572 0.0086 0.0290    0.0495          0.8598              0.4903          0.3728
+        S     latest 0.6506   0.6841   0.6564   0.6115  0.0992 0.1007 0.0057 0.0192    0.0428          0.8152              0.5107          0.3644
+########## 4. RESUME ##########
+Resumed P_fixed_H2_a3_lam1_seed42_mini_resume at epoch 1 (best_val_loss=1.7697)
+########## 5. LOI / NAN / REFUSE ##########
+  dense cache done: 300 videos x 30 windows (failed=0) in 2.6 min
+(trong = khong co loi)

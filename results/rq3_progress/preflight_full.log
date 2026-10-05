@@ -1,0 +1,8 @@
++ python reeval/re18_preflight.py --out-dir /workspace/CPV301/outputs_progress/preflight_full --require-cuda
+[PASS   ] imports+versions: matches recorded env
+[PASS   ] cuda: NVIDIA GeForce RTX 4080, 15.6 GB, matmul ok (7622.4)
+[PASS   ] disk: 109.9 GB free under /workspace/CPV301/outputs_progress/preflight_full (need >= 60.0)
+[PASS   ] hf_token: HF token set (not printed)
+Using cache found in /root/.cache/torch/hub/facebookresearch_pytorchvideo_main
+[PASS   ] backbone: slow_r50 pretrained loaded, fwd+bwd (2x12 snippets) peak 5.21 GB
+PREFLIGHT PASS -> /workspace/CPV301/outputs_progress/preflight_full/preflight.json
