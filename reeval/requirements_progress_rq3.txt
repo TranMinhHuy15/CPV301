@@ -1,0 +1,16 @@
+# Progressive RiskProp (RQ3) v4 -- pinned to the environment the RQ1-RQ3 results were produced on
+# (results/repro/environment_vast_rtx4080.txt: Python 3.12.14, RTX 4080, driver 595.71.05).
+# torch / torchvision are NOT installed by the run script: use the vast.ai image that already has
+#   torch==2.11.0+cu128  torchvision==0.26.0+cu128
+# re18_preflight.py reports any difference as WARN; nothing is upgraded automatically.
+decord==0.6.0
+numpy==2.5.3
+pandas==3.0.6
+scikit-learn==1.9.1
+scipy==1.18.1
+pillow==12.3.0
+huggingface_hub==1.30.0
+datasets==5.0.1
+fvcore==0.1.5.post20221221
+iopath==0.1.10
+pyflakes

@@ -52,6 +52,7 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from re11_audit_progress_data import nominal_t_obs, sha256_file, vid_str  # noqa: E402
+import progress_common as pc  # noqa: E402
 from re13_progress_supervision import REASONS, snippet_records  # noqa: E402
 
 NUM_FRAMES, SAMPLE_FPS, SIZE, SEQ_LEN = 5, 10, 224, 12   # = cell30
@@ -85,21 +86,12 @@ def choose_subset(train_ids, targets, n):
 
 
 def check_pts(all_ts, end_frames, fps):
-    """PTS of all frames -> (end_times relative to first frame, info dict, error or None)."""
-    all_ts = np.asarray(all_ts, dtype=np.float64)
-    info = {"pts_first_s": float(all_ts[0]),
-            "pts_nonincreasing": int((np.diff(all_ts) <= 0).sum()),
-            "pts_offset_s": 0.0}
-    if not np.all(np.isfinite(all_ts)):
-        return None, info, "non-finite PTS"
-    if info["pts_nonincreasing"]:
-        return None, info, f"PTS not strictly increasing ({info['pts_nonincreasing']} steps)"
-    if all_ts[0] < -PTS_OFFSET_TOL:
-        return None, info, f"negative first PTS {all_ts[0]:.4f}"
-    if abs(all_ts[0]) > PTS_OFFSET_TOL:
-        info["pts_offset_s"] = float(all_ts[0])
-    rel = all_ts - info["pts_offset_s"]
-    info["pts_max_dev_from_index_s"] = float(np.max(np.abs(rel - np.arange(len(rel)) / fps)))
+    """PTS of all frames -> (end times relative to the first frame, info, error or None).
+    Same policy as re11.pts_policy (single source of truth)."""
+    from re11_audit_progress_data import pts_policy
+    rel, info, err = pts_policy(all_ts, fps)
+    if err:
+        return None, info, err
     return rel[np.asarray(end_frames)], info, None
 
 
@@ -143,17 +135,18 @@ def main():
     ap.add_argument("--pixel-tolerance", type=float, default=0.0,
                     help="max mean |decoded - cached| (uint8 units) per snippet; 0 = bit-identical")
     ap.add_argument("--allow-index-timing", action="store_true",
-                    help="accept videos without PTS (endpoint = frame / avg fps) for a full run")
+                    help="DEV ONLY: continue when a video has no PTS (endpoint = frame / avg fps); "
+                         "such a sidecar is never usable for a full run")
     ap.add_argument("--accept-cache-zeros", action="store_true",
-                    help="explicitly accept cached zero snippets whose video decodes fine (cache_only); "
-                         "otherwise the sidecar is not usable for a full run -> rebuild cell30 cache")
+                    help="DEV ONLY: continue despite cache_only zero snippets; the sidecar stays "
+                         "NOT usable for a full run (rebuild the cell30 cache instead)")
     ap.add_argument("--allow-failed-audit", action="store_true")
     args = ap.parse_args()
     t0 = time.time()
 
     with open(args.audit) as f:
         audit = json.load(f)
-    audit_ok = bool(audit.get("pass")) and not audit.get("limited", False)
+    audit_ok = bool(audit.get("pass")) and bool(audit.get("complete")) and not audit.get("limited", False)
     if not audit_ok and not args.allow_failed_audit:
         sys.exit(f"[REFUSE] audit {args.audit} did not pass (or was limited). Fix the data first; "
                  f"--allow-failed-audit only for debugging.")
@@ -171,6 +164,7 @@ def main():
     ids = man["train_ids"] if not args.limit_videos else choose_subset(
         man["train_ids"], targets, args.limit_videos)
     verify_set = set(choose_subset(ids, targets, args.verify_pixels)) if args.verify_pixels else set()
+    abnormal = set()     # added to the pixel check below: zero snippets, clamps, PTS offsets
     os.makedirs(args.output_dir, exist_ok=True)
 
     print("hashing cached .pt files ...")
@@ -209,11 +203,14 @@ def main():
             fatal.append(f"{vid}: cache has {fr.shape[0]} snippets, expected {SEQ_LEN}")
         zero = fr.reshape(fr.shape[0], -1).max(axis=1) == 0
         zero_kind = [None] * SEQ_LEN
+        nominal_clamped = [abs(t - 0.4) < 1e-9 for t in t_nom] if is_pos else [False] * SEQ_LEN
+        if zero.any() or any(nominal_clamped) or pts_info.get("pts_offset_s"):
+            abnormal.add(vid)
         for k in np.where(zero)[0]:
             zero_kind[k] = classify_zero(vr, idx[k])
             zero_counts[zero_kind[k]] += 1
         decode_ok = np.array([zk != "decode_fail" for zk in zero_kind])
-        if vid in verify_set:
+        if vid in verify_set or (args.verify_pixels and vid in abnormal):
             match, mad = [], []
             for k in range(SEQ_LEN):
                 if zero_kind[k] is not None:
@@ -245,14 +242,15 @@ def main():
             "tau_cache": tau_cache,
             "tau_actual": [float(x) if np.isfinite(x) else None for x in rec["tau_actual"]],
             "cps_mask": [bool(x) for x in rec["cps_mask"]], "reason": rec["reason"],
-            "zero_kind": zero_kind, "pixel_verified": vid in verify_set,
+            "zero_kind": zero_kind, "nominal_clamped": nominal_clamped,
+            "pixel_verified": vid in verify_set or (bool(args.verify_pixels) and vid in abnormal),
         }
         for k in range(SEQ_LEN):
             flat.append({"vid": vid, "k": k, "target": int(is_pos), "t_obs_nominal": t_nom[k],
                          "end_frame": int(end_frames[k]), "end_time": float(ts[k]),
                          "tau_cache": tau_cache[k], "tau_actual": rec["tau_actual"][k],
                          "cps_mask": bool(rec["cps_mask"][k]), "reason": rec["reason"][k],
-                         "zero_kind": zero_kind[k] or ""})
+                         "zero_kind": zero_kind[k] or "", "nominal_clamped": bool(nominal_clamped[k])})
         if (i + 1) % 100 == 0:
             print(f"  [sidecar] {i+1}/{len(ids)} videos ({time.time()-t0:.0f}s)")
 
@@ -275,23 +273,29 @@ def main():
     diff = (pos["tau_actual"] - pos["tau_cache"]).astype(float)
     diff = diff[np.isfinite(diff) & (pos["tau_cache"] > 0)]
     n_ok_pix = sum(p["pixel_match_all"] for p in pix)
-    pixel_ok = len(pix) >= MIN_PIXEL_VERIFY and n_ok_pix == len(pix)
-    timing_ok = n_index_timing == 0 or args.allow_index_timing
-    zeros_ok = zero_counts["cache_only"] == 0 or args.accept_cache_zeros
+    pix_pos = sum(p["target"] == 1 for p in pix)
+    pixel_ok = (len(pix) >= MIN_PIXEL_VERIFY and n_ok_pix == len(pix) and pix_pos > 0 and pix_pos < len(pix))
+    timing_ok = n_index_timing == 0            # --allow-index-timing never makes a sidecar usable
+    zeros_ok = zero_counts["cache_only"] == 0  # --accept-cache-zeros never makes a sidecar usable
     usable = len(fatal) == 0 and not args.limit_videos and audit_ok and pixel_ok and timing_ok and zeros_ok
     why_not = [m for c, m in [(len(fatal) == 0, "fatal issues"), (not args.limit_videos, "limited"),
                               (audit_ok, "audit not passed"),
-                              (pixel_ok, f"pixel check {n_ok_pix}/{len(pix)} (need >= {MIN_PIXEL_VERIFY}, all identical)"),
+                              (pixel_ok, f"pixel check {n_ok_pix}/{len(pix)} (need >= {MIN_PIXEL_VERIFY}, "
+                                         f"all identical, both labels)"),
                               (timing_ok, "videos without PTS"),
                               (zeros_ok, f"{zero_counts['cache_only']} cache-only zero snippets "
-                                         f"(rebuild cell30 cache or pass --accept-cache-zeros)")] if not c]
+                                         f"(rebuild the cell30 cache)")] if not c]
     summary = {
         "pass": len(fatal) == 0,
         "complete": not args.limit_videos,
         "usable_for_full_run": usable, "not_usable_because": why_not,
         "fatal": fatal, "warnings": warn,
         "created": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "audit": args.audit, "audit_pass": audit_ok,
+        "audit": args.audit, "audit_pass": audit_ok, "audit_sha256": sha256_file(args.audit),
+        "version": pc.V4_VERSION, "synthetic": pc.SYNTHETIC,
+        "cps_coverage_note": "positives with 0 CPS-valid snippets are still trained with BCE/FFR/AMC",
+        "nominal_clamped_snippets_positive": int(pos["nominal_clamped"].sum()),
+        "abnormal_videos_pixel_checked": sorted(v for v in abnormal if v in {p["vid"] for p in pix}),
         "n_videos": len(ids), "n_pos": int((fl.groupby("vid").target.first() == 1).sum()),
         "reason_counts_positive": {r: int((pos.reason == r).sum()) for r in REASONS},
         "zero_snippets_all_videos": zero_counts,
@@ -314,6 +318,9 @@ def main():
                     "train_index_sha256": sha256_file(os.path.join(args.cache_root, "train_index.json")),
                     "cache_digest": digest, "cache_digest_ids": len(ids),
                     "pixel_verified": len(pix), "pixel_identical": int(n_ok_pix),
+                    "pixel_positive": int(pix_pos), "audit_sha256": sha256_file(args.audit),
+                    "synthetic": pc.SYNTHETIC,
+                    "version": pc.V4_VERSION,
                     "zero_snippets": zero_counts, "accepted_cache_zeros": bool(args.accept_cache_zeros),
                     "rules": "re13.snippet_records v2: anchors k=0,k=11 excluded; decode / suspect-zero "
                              "(re-decoded); PTS relative to first frame, strictly increasing; tau<=0; "

@@ -14,6 +14,7 @@ import numpy as np
 import torch
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+os.environ.pop("PROGRESS_SYNTHETIC_COUNTS", None)   # tests always use the real expected counts
 REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(REPO, "pipeline"))
@@ -248,7 +249,7 @@ class TestEvalProvenance(unittest.TestCase):
             open(ck, "wb").write(b"weights-v1")
             out = os.path.join(d, "run_best.npz")
             np.savez(out, scores=np.zeros(3))
-            json.dump({"ckpt_sha256": ev.file_sha(ck), "val_index_sha256": "v"}, open(out.replace(".npz", ".json"), "w"))
+            json.dump({"ckpt_sha256": ev.file_sha(ck), "val_cache_digest": "v"}, open(out.replace(".npz", ".json"), "w"))
             self.assertTrue(ev.preds_fresh(out, ck, "v"))
             self.assertFalse(ev.preds_fresh(out, ck, "other-val-cache"))
             ck2 = os.path.join(d, "best2.pth")
@@ -256,11 +257,83 @@ class TestEvalProvenance(unittest.TestCase):
             self.assertFalse(ev.preds_fresh(out, ck2, "v"))
             dense = os.path.join(d, "run.npz")
             np.savez(dense, scores=np.zeros((2, 3)), ckpt_sha256=np.array(ev.file_sha(ck)),
-                     dense_meta_sha256=np.array("m"))
+                     dense_cache_digest=np.array("m"))
             self.assertTrue(ev.dense_fresh(dense, ck, "m"))
             self.assertFalse(ev.dense_fresh(dense, ck2, "m"))
             np.savez(dense, scores=np.zeros((2, 3)))       # old file without provenance
             self.assertFalse(ev.dense_fresh(dense, ck, "m"))
+
+
+class TestDenseGateAndDecision(unittest.TestCase):
+    D = [round(3.0 - 0.1 * k, 1) for k in range(30)]
+
+    def _meta(self, toe=10.0):
+        return {"vid_ids": ["00001", "00002"], "targets": [1, 0], "failed": [], "dense_d": self.D,
+                "t_obs": [[toe - d for d in self.D], [5.0] * 30]}
+
+    def _vt(self, d, toe=10.0, dev=0.01, future=False, vfr=False, req=None):
+        """re11-style val_timing.csv for the positive 00001 (30 dense rows)."""
+        import pandas as pd
+        req = req if req is not None else [toe - x for x in self.D]
+        rows = [{"vid": "00001", "target": 1, "kind": "dense", "k": k, "requested_end_s": r,
+                 "end_frame": int(r * 30), "actual_end_s": r + dev, "time_of_event": toe,
+                 "future_frame": future and k == 29, "dev_s": dev, "dev_frames": dev * 30,
+                 "frame_period_s": 1 / 30, "vfr_suspect": vfr} for k, r in enumerate(req)]
+        p = os.path.join(d, "val_timing.csv")
+        pd.DataFrame(rows).to_csv(p, index=False)
+        return p
+
+    def gate(self, m, ids, toe, vt):
+        return ev.dense_gate(m, ids, toe, vt, expected=(2, 1))
+
+    def test_clean_grid_passes(self):
+        with tempfile.TemporaryDirectory() as d:
+            g = self.gate(self._meta(), ["00001", "00002"], {"00001": 10.0}, self._vt(d))
+            self.assertTrue(g["pass"], g["issues"])
+
+    def test_clamped_duplicate_post_event_and_pts(self):
+        m = self._meta(toe=2.0)                    # 2.0 - 3.0 < 0.4 -> clamped + duplicates in practice
+        m["t_obs"][0] = [max(0.4, 2.0 - d) for d in self.D]
+        with tempfile.TemporaryDirectory() as d:
+            g = self.gate(m, ["00001", "00002"], {"00001": 2.0}, self._vt(d, toe=2.0, req=m["t_obs"][0]))
+            self.assertFalse(g["pass"])
+            self.assertGreater(g["counts"]["clamped"], 0)
+            self.assertGreater(g["counts"]["duplicate"], 0)
+            m2 = self._meta()
+            m2["t_obs"][0][-1] = 10.0                  # requested endpoint at the event
+            self.assertGreater(self.gate(m2, ["00001", "00002"], {"00001": 10.0},
+                                         self._vt(d))["counts"]["post_event"], 0)
+            # actual endpoint more than one frame away from the requested one
+            g3 = self.gate(self._meta(), ["00001", "00002"], {"00001": 10.0}, self._vt(d, dev=0.05))
+            self.assertEqual(g3["counts"]["dev_gt_1_frame"], 1)
+            # actual endpoint at/after the event, VFR video, audit made for another dense cache
+            self.assertFalse(self.gate(self._meta(), ["00001", "00002"], {"00001": 10.0}, self._vt(d, future=True))["pass"])
+            self.assertEqual(self.gate(self._meta(), ["00001", "00002"], {"00001": 10.0},
+                                       self._vt(d, vfr=True))["counts"]["vfr"], 1)
+            self.assertEqual(self.gate(self._meta(), ["00001", "00002"], {"00001": 10.0},
+                                       self._vt(d, req=[9.0 - x for x in self.D]))["counts"]["audit_mismatch"], 1)
+            # coverage must be exactly the expected 300 / 150 by default
+            self.assertFalse(ev.dense_gate(self._meta(), ["00001", "00002"], {"00001": 10.0}, self._vt(d))["pass"])
+        self.assertFalse(self.gate(self._meta(), ["00001", "00002"], {"00001": 10.0}, "")["pass"])
+        self.assertFalse(self.gate(self._meta(), ["00002", "00001"], {"00001": 10.0}, "")["pass"])
+
+    def test_decision_rule(self):
+        import pandas as pd
+        lock = {"primary_contrast": "P - B", "primary_metric": "AP@1.5s", "ni_metric": "mAP",
+                "ni_margin": 0.02, "ps_metric": "AP@1.5s"}
+
+        def ci(p_lo, ni_lo):
+            return pd.DataFrame([
+                dict(contrast="P - B", metric="AP@1.5s", estimate=0.03, ci_low=p_lo, ci_high=0.06, verdict=""),
+                dict(contrast="P - B", metric="mAP", estimate=0.0, ci_low=ni_lo, ci_high=0.02, verdict=""),
+                dict(contrast="P - S", metric="AP@1.5s", estimate=0.01, ci_low=-0.01, ci_high=0.03,
+                     verdict="inconclusive (CI includes 0)")])
+        d = ev.decision(ci(0.005, -0.015), lock)
+        self.assertTrue(d["primary_met"] and d["non_inferiority_met"] and d["rq3_supported"])
+        self.assertIsNotNone(d["p_minus_s"])                     # reported even though CI includes 0
+        self.assertFalse(ev.decision(ci(-0.001, -0.015), lock)["rq3_supported"])   # primary CI includes 0
+        self.assertFalse(ev.decision(ci(0.005, -0.025), lock)["rq3_supported"])    # NI fails
+        self.assertFalse(ev.decision(ci(0.005, -0.015), {})["available"])
 
 
 class RecordingModel(torch.nn.Module):
@@ -360,31 +433,56 @@ class TestDataAndGates(unittest.TestCase):
 
     def test_full_run_refused_with_limits_or_wrong_lambda(self):
         lock = os.path.join(self.tmp.name, "LOCK.json")
-        json.dump({"confirmed": True, "pairing_mode": "fixed", "conditions": ["B", "P", "S"],
-                   "seeds": [42, 43, 44], "horizon_sec": 2.0, "alpha": 3.0, "lambda_prog": 0.5}, open(lock, "w"))
+        lk = {"confirmed": True, "pairing_mode": "fixed", "conditions": ["B", "P", "S"],
+              "seeds": [42, 43, 44], "horizon_sec": 2.0, "alpha": 3.0, "lambda_prog": 0.5,
+              "primary_contrast": "P - B", "primary_metric": "AP@1.5s", "ni_metric": "mAP",
+              "ni_margin": 0.02, "ps_metric": "AP@1.5s", "success_rule": "primary CI>0 and NI"}
+        json.dump(lk, open(lock, "w"))
         audit = os.path.join(self.tmp.name, "audit.json")
-        json.dump({"pass": True, "limited": False, "probed_videos": 4, "scanned_cache": 4}, open(audit, "w"))
+        json.dump({"pass": True, "limited": False, "complete": True, "probed_videos": 4, "scanned_cache": 4},
+                  open(audit, "w"))
+        good0 = self._good_meta()
+        current = {"code_digest": "code1", "sidecar_sha256": "side1", "audit_sha256": tr.sha256_file(audit),
+                   "val_cache_digest": "val1", "split_manifest_sha256": good0["split_manifest_sha256"],
+                   "train_index_sha256": good0["train_index_sha256"], "train_cache_digest": good0["cache_digest"]}
+        lk["fingerprints"] = {"code": {"digest": "code1"}, "sidecar_sha256": "side1",
+                              "audit_sha256": current["audit_sha256"], "val_cache_digest": "val1",
+                              "split_manifest_sha256": current["split_manifest_sha256"],
+                              "train_index_sha256": current["train_index_sha256"],
+                              "train_cache_digest": current["train_cache_digest"]}
+        json.dump(lk, open(lock, "w"))
         why = tr.full_run_gate(self._args(["--full-run", "--lock-file", lock, "--audit", audit,
                                            "--max-steps", "1"]), {"usable_for_full_run": True})
         self.assertTrue(any("limits" in w for w in why))
         self.assertTrue(any("lambda" in w for w in why))
         a = self._args(["--full-run", "--lock-file", lock, "--audit", audit, "--lambda-prog", "0.5"])
         good = self._good_meta()
-        self.assertEqual(tr.full_run_gate(a, good), [])
-        self.assertTrue(tr.full_run_gate(a, dict(good, usable_for_full_run=False)))
+        self.assertEqual(tr.full_run_gate(a, good, current), [])
+        lk2 = dict(lk); lk2.pop("ps_metric")                       # decision fields are mandatory
+        json.dump(lk2, open(lock, "w"))
+        self.assertTrue(any("decision fields" in w for w in tr.full_run_gate(a, good, current)))
+        json.dump(lk, open(lock, "w"))
+        self.assertTrue(tr.full_run_gate(a, dict(good, usable_for_full_run=False), current))
         # too few / non-identical pixel checks
-        self.assertTrue(any("pixel" in w for w in tr.full_run_gate(a, dict(good, pixel_verified=8, pixel_identical=8))))
-        self.assertTrue(any("pixel" in w for w in tr.full_run_gate(a, dict(good, pixel_identical=23))))
+        self.assertTrue(any("pixel" in w for w in tr.full_run_gate(a, dict(good, pixel_verified=8, pixel_identical=8), current)))
+        self.assertTrue(any("pixel" in w for w in tr.full_run_gate(a, dict(good, pixel_identical=23), current)))
         # sidecar built for another split / index / cache content
         self.assertTrue(any("split manifest" in w for w in
-                            tr.full_run_gate(a, dict(good, split_manifest_sha256="x"))))
+                            tr.full_run_gate(a, dict(good, split_manifest_sha256="x"), current)))
         self.assertTrue(any("train_index" in w for w in
-                            tr.full_run_gate(a, dict(good, train_index_sha256="x"))))
+                            tr.full_run_gate(a, dict(good, train_index_sha256="x"), current)))
+        # V4-09: code / sidecar / val cache changed after LOCK
+        for key, label in (("code_digest", "code"), ("sidecar_sha256", "sidecar"), ("val_cache_digest", "val cache")):
+            why = tr.full_run_gate(a, good, dict(current, **{key: "changed"}))
+            self.assertTrue(any(w.startswith(label) for w in why), (key, why))
+        # V4-05: an audit that is not complete is refused
+        json.dump({"pass": True, "limited": False, "complete": False}, open(audit, "w"))
+        self.assertTrue(any("complete" in w for w in tr.full_run_gate(a, good, current)))
         pt = os.path.join(self.cache, "train", "00003.pt")
         d = torch.load(pt, weights_only=False)
         d["frames"][0] = 0
         torch.save(d, pt)                                  # cache changed after the sidecar
-        self.assertTrue(any("cache_digest" in w for w in tr.full_run_gate(a, good)))
+        self.assertTrue(any("cache_digest" in w for w in tr.full_run_gate(a, good, current)))
 
     def _good_meta(self):
         tr_index = json.load(open(os.path.join(self.cache, "train_index.json")))
