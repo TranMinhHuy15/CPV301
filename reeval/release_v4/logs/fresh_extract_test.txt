@@ -1,0 +1,48 @@
+# fresh extract test 2026-10-05T15:16:09+07:00
+# zip sha256 (candidate built just before this log was added): 4a8f147111f85253e0276e950495095a1eaaa68e013930e85b59bba82d7f2243
+base: cf7de85 Add Progressive RiskProp RQ3 pipeline
+unzipped    492846                     22 files
+release v4.0.0 on base cf7de850ae11: 21 files, 15 baseline prerequisites
+PASS: all files match the manifest; baseline files unchanged
+bash -n: OK
+--help OK reeval/re11_audit_progress_data.py
+--help OK reeval/re12_build_progress_sidecar.py
+--help OK reeval/re13_progress_supervision.py
+--help OK reeval/re14_train_progress_riskprop.py
+--help OK reeval/re15_eval_progress_riskprop.py
+--help OK reeval/re16_test_progress_protocol.py
+--help OK reeval/re17_prepare_data_pinned.py
+--help OK reeval/re18_preflight.py
+--help OK reeval/re19_test_progress.py
+--help OK reeval/re20_lock_progress.py
+Ran 33 tests in 0.137s
+
+OK
+test_cuda_resume (__main__.TestTrainerIntegration.test_cuda_resume) ... skipped 'CUDA not available -> NOT RUN'
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=4 total=0.7516 base=0.6835 (bce=0.6829 reg=0.0000 mono=0.0013) cps=0.0680 amp_skipped=0 g_base=0.525 g_cps=0.0747 val_loss=3.4214 val_AP@1.0=0.5000 lr=0.01000 (0s)
+[P_fixed_H2_a3_lam1_seed42] epoch  1 steps=8 total=0.7520 base=0.6851 (bce=0.6842 reg=0.0000 mono=0.0017) cps=0.0669 amp_skipped=0 g_base=0.104 g_cps=0.0761 val_loss=3.5303 val_AP@1.0=0.4167 lr=0.01000 (0s)
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=4 total=0.7516 base=0.6835 (bce=0.6829 reg=0.0000 mono=0.0013) cps=0.0680 amp_skipped=0 g_base=0.525 g_cps=0.0747 val_loss=3.4214 val_AP@1.0=0.5000 lr=0.01000 (0s)
+[P_fixed_H2_a3_lam1_seed42] epoch  1 steps=8 total=0.7520 base=0.6851 (bce=0.6842 reg=0.0000 mono=0.0017) cps=0.0669 amp_skipped=0 g_base=0.104 g_cps=0.0761 val_loss=3.5303 val_AP@1.0=0.4167 lr=0.01000 (0s)
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=4 total=0.7516 base=0.6835 (bce=0.6829 reg=0.0000 mono=0.0013) cps=0.0680 amp_skipped=0 g_base=0.525 g_cps=0.0747 val_loss=3.4214 val_AP@1.0=0.5000 lr=0.01000 (0s)
+[B_fixed_seed42] epoch  0 steps=1 total=0.7576 base=0.7576 (bce=0.7556 reg=0.0001 mono=0.0039) cps=0.0000 amp_skipped=0 g_base=0.525 g_cps=0 val_loss=3.4162 val_AP@1.0=0.5000 lr=0.01000 (0s)
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=1 total=0.8479 base=0.7576 (bce=0.7556 reg=0.0001 mono=0.0039) cps=0.0903 amp_skipped=0 g_base=0.525 g_cps=0.0747 val_loss=3.4183 val_AP@1.0=0.5000 lr=0.01000 (0s)
+[S_fixed_H2_a3_lam1_seed42] epoch  0 steps=1 total=0.8757 base=0.7576 (bce=0.7556 reg=0.0001 mono=0.0039) cps=0.1182 amp_skipped=0 g_base=0.525 g_cps=0.0492 val_loss=3.4176 val_AP@1.0=0.5000 lr=0.01000 (0s)
+Ran 25 tests in 9.133s
+OK (skipped=1)
+ M reeval/README_PROGRESS_RQ3.md
+ M reeval/re11_audit_progress_data.py
+ M reeval/re12_build_progress_sidecar.py
+ M reeval/re14_train_progress_riskprop.py
+ M reeval/re15_eval_progress_riskprop.py
+ M reeval/re16_test_progress_protocol.py
+ M reeval/run_progress_rq3.sh
+?? pipeline/__pycache__/
+?? reeval/__pycache__/
+?? reeval/progress_common.py
+?? reeval/re17_prepare_data_pinned.py
+?? reeval/re18_preflight.py
+?? reeval/re19_test_progress.py
+?? reeval/re20_lock_progress.py
+?? reeval/re21_test_v4_regression.py
+?? reeval/release_v4/
+?? reeval/requirements_progress_rq3.txt

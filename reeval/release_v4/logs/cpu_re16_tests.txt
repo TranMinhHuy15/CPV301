@@ -1,0 +1,247 @@
+# CPU unit tests re16 (2026-10-05T15:14:08+07:00), python Python 3.11.15, torch 2.14.0+cu130 cuda False
+test_dataset_items (__main__.TestDataAndGates.test_dataset_items) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpnx9r5jve/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpnx9r5jve/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpnx9r5jve/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_dev_run_refuses_mismatched_sidecar (__main__.TestDataAndGates.test_dev_run_refuses_mismatched_sidecar) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp1nrrdlux/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp1nrrdlux/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp1nrrdlux/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:488: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp1nrrdlux/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr_index = json.load(open(os.path.join(self.cache, "train_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_full_run_refused_with_limits_or_wrong_lambda (__main__.TestDataAndGates.test_full_run_refused_with_limits_or_wrong_lambda) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:440: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump(lk, open(lock, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:442: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/audit.json' mode='w' encoding='utf-8'>
+  json.dump({"pass": True, "limited": False, "complete": True, "probed_videos": 4, "scanned_cache": 4},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:488: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr_index = json.load(open(os.path.join(self.cache, "train_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:453: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump(lk, open(lock, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:220: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/audit.json' mode='r' encoding='utf-8'>
+  au = json.load(open(a.audit))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:138: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/man.json' mode='r' encoding='utf-8'>
+  man = json.load(open(a.split_manifest))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:139: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr = json.load(open(tr_path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:239: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/LOCK.json' mode='r' encoding='utf-8'>
+  why += lock_errors(a, json.load(open(a.lock_file)), current or {})
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:240: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/man.json' mode='r' encoding='utf-8'>
+  man = json.load(open(a.split_manifest))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:241: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr = json.load(open(os.path.join(a.cache_root, "train_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:242: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/c5/val_index.json' mode='r' encoding='utf-8'>
+  va = json.load(open(os.path.join(a.cache_5f, "val_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:462: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump(lk2, open(lock, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:464: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump(lk, open(lock, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:479: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpixt25w07/audit.json' mode='w' encoding='utf-8'>
+  json.dump({"pass": True, "limited": False, "complete": False}, open(audit, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+ok
+test_full_run_refused_without_lock_and_audit (__main__.TestDataAndGates.test_full_run_refused_without_lock_and_audit) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpanh_rkjt/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpanh_rkjt/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpanh_rkjt/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:138: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpanh_rkjt/man.json' mode='r' encoding='utf-8'>
+  man = json.load(open(a.split_manifest))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:139: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpanh_rkjt/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr = json.load(open(tr_path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:240: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpanh_rkjt/man.json' mode='r' encoding='utf-8'>
+  man = json.load(open(a.split_manifest))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:241: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpanh_rkjt/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr = json.load(open(os.path.join(a.cache_root, "train_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re14_train_progress_riskprop.py:242: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpanh_rkjt/c5/val_index.json' mode='r' encoding='utf-8'>
+  va = json.load(open(os.path.join(a.cache_5f, "val_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_lambda_rules (__main__.TestDataAndGates.test_lambda_rules) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpb9s_f4t1/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpb9s_f4t1/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpb9s_f4t1/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+usage: re16_test_progress_protocol.py [-h] --condition {B,P,S,F,FP} --seed
+                                      SEED --pairing-mode {fixed,random}
+                                      [--horizon-sec HORIZON_SEC]
+                                      [--alpha ALPHA]
+                                      [--lambda-prog LAMBDA_PROG]
+                                      [--repo-dir REPO_DIR] --cache-root
+                                      CACHE_ROOT --cache-5f CACHE_5F
+                                      [--sidecar SIDECAR] --split-manifest
+                                      SPLIT_MANIFEST [--audit AUDIT]
+                                      [--lock-file LOCK_FILE] --output-root
+                                      OUTPUT_ROOT [--tag TAG]
+                                      [--max-epochs MAX_EPOCHS]
+                                      [--max-steps MAX_STEPS]
+                                      [--limit-videos LIMIT_VIDEOS]
+                                      [--limit-val LIMIT_VAL]
+                                      [--num-workers NUM_WORKERS]
+                                      [--model {riskprop,dummy}]
+                                      [--device DEVICE] [--full-run]
+                                      [--stop-after-epochs STOP_AFTER_EPOCHS]
+                                      [--check-complete]
+re16_test_progress_protocol.py: error: condition P needs an explicit --lambda-prog > 0 (no default; PRE-ACT's 10 is not transferable)
+usage: re16_test_progress_protocol.py [-h] --condition {B,P,S,F,FP} --seed
+                                      SEED --pairing-mode {fixed,random}
+                                      [--horizon-sec HORIZON_SEC]
+                                      [--alpha ALPHA]
+                                      [--lambda-prog LAMBDA_PROG]
+                                      [--repo-dir REPO_DIR] --cache-root
+                                      CACHE_ROOT --cache-5f CACHE_5F
+                                      [--sidecar SIDECAR] --split-manifest
+                                      SPLIT_MANIFEST [--audit AUDIT]
+                                      [--lock-file LOCK_FILE] --output-root
+                                      OUTPUT_ROOT [--tag TAG]
+                                      [--max-epochs MAX_EPOCHS]
+                                      [--max-steps MAX_STEPS]
+                                      [--limit-videos LIMIT_VIDEOS]
+                                      [--limit-val LIMIT_VAL]
+                                      [--num-workers NUM_WORKERS]
+                                      [--model {riskprop,dummy}]
+                                      [--device DEVICE] [--full-run]
+                                      [--stop-after-epochs STOP_AFTER_EPOCHS]
+                                      [--check-complete]
+re16_test_progress_protocol.py: error: condition B has no CPS term; do not pass --lambda-prog
+ok
+test_limit_videos_balanced (__main__.TestDataAndGates.test_limit_videos_balanced) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpuwhydx5u/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpuwhydx5u/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpuwhydx5u/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_resume_fingerprint (__main__.TestDataAndGates.test_resume_fingerprint) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpaxnf7_ri/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpaxnf7_ri/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpaxnf7_ri/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_sidecar_target_mismatch_raises (__main__.TestDataAndGates.test_sidecar_target_mismatch_raises) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp0aq3nzy0/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp0aq3nzy0/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp0aq3nzy0/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_clamped_duplicate_post_event_and_pts (__main__.TestDenseGateAndDecision.test_clamped_duplicate_post_event_and_pts) ... ok
+test_clean_grid_passes (__main__.TestDenseGateAndDecision.test_clean_grid_passes) ... ok
+test_decision_rule (__main__.TestDenseGateAndDecision.test_decision_rule) ... ok
+test_stale_predictions_detected (__main__.TestEvalProvenance.test_stale_predictions_detected) ... /home/claude/CPV301/reeval/re16_test_progress_protocol.py:249: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpzgdtn49d/best.pth'>
+  open(ck, "wb").write(b"weights-v1")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:252: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpzgdtn49d/run_best.json' mode='w' encoding='utf-8'>
+  json.dump({"ckpt_sha256": ev.file_sha(ck), "val_cache_digest": "v"}, open(out.replace(".npz", ".json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/claude/CPV301/reeval/re15_eval_progress_riskprop.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpzgdtn49d/run_best.json' mode='r' encoding='utf-8'>
+  m = json.load(open(js))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+  [STALE] run_best.npz does not match the current checkpoint/val cache -> recompute
+/home/claude/CPV301/reeval/re16_test_progress_protocol.py:256: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpzgdtn49d/best2.pth'>
+  open(ck2, "wb").write(b"weights-v2 (retrained)")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+  [STALE] run_best.npz does not match the current checkpoint/val cache -> recompute
+  [STALE] run.npz -> recompute
+  [STALE] run.npz -> recompute
+ok
+test_empty_mask_zero_and_finite (__main__.TestLoss.test_empty_mask_zero_and_finite) ... ok
+test_gradient_only_on_valid (__main__.TestLoss.test_gradient_only_on_valid) ... ok
+test_parity_with_cell32 (__main__.TestLoss.test_parity_with_cell32)
+B total == cell32.riskprop_loss; P total - lambda*cps == same base (same RNG). ... /home/claude/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+ok
+test_per_video_then_mean_reduction (__main__.TestLoss.test_per_video_then_mean_reduction) ... ok
+test_decode_zero_post_event_negative (__main__.TestMasks.test_decode_zero_post_event_negative) ... ok
+test_early_event_duplicates (__main__.TestMasks.test_early_event_duplicates) ... ok
+test_nonmonotonic (__main__.TestMasks.test_nonmonotonic) ... ok
+test_normal_positive (__main__.TestMasks.test_normal_positive) ... ok
+test_p_and_s_same_mask (__main__.TestMasks.test_p_and_s_same_mask) ... ok
+test_dummy_model_shapes (__main__.TestModelContract.test_dummy_model_shapes) ... ok
+test_model_sees_only_video (__main__.TestModelContract.test_model_sees_only_video) ... ok
+test_nonfinite_time_never_supervised (__main__.TestPtsAndZero.test_nonfinite_time_never_supervised) ... ok
+test_pts_nonincreasing_or_negative_rejected (__main__.TestPtsAndZero.test_pts_nonincreasing_or_negative_rejected) ... ok
+test_pts_offset_subtracted (__main__.TestPtsAndZero.test_pts_offset_subtracted) ... ok
+test_pts_zero_start_no_offset (__main__.TestPtsAndZero.test_pts_zero_start_no_offset) ... ok
+test_zero_kinds (__main__.TestPtsAndZero.test_zero_kinds) ... ok
+test_binary_and_h15_boundaries (__main__.TestTargets.test_binary_and_h15_boundaries) ... ok
+test_continuous_values (__main__.TestTargets.test_continuous_values) ... ok
+test_grid_values (__main__.TestTargets.test_grid_values) ... ok
+test_monotone_and_bounded (__main__.TestTargets.test_monotone_and_bounded) ... ok
+test_scalar_matches_tensor_and_preact_formula (__main__.TestTargets.test_scalar_matches_tensor_and_preact_formula) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.121s
+
+OK

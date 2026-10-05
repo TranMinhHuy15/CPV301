@@ -1,0 +1,1855 @@
+=================== stage prepare ===================
++ python reeval/re17_prepare_data_pinned.py --raw-dir /workspace/CPV301/data/nexar_hf_raw --out-dir /workspace/CPV301/data/nexar_kaggle_style --report-dir /workspace/CPV301/outputs_progress/prepare --id-map /workspace/CPV301/synth/id_to_hf_source.csv --split-manifest /workspace/CPV301/synth/split_manifest.json --skip-download
+{
+  "stage": "G1 metadata",
+  "revision": "7535d0656dac31d7da2846913bb69c6331d2a70a",
+  "hf_repo": "nexar-ai/nexar_collision_prediction",
+  "id_map": "/workspace/CPV301/synth/id_to_hf_source.csv",
+  "id_map_sha256": "dbd71bdc18a95f53fb018e7f90afd904f88528b2f720d3b9d5bf64976d955ed4",
+  "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+  "fatal": [],
+  "n_mp4_in_raw": 30,
+  "metadata_csvs": [
+    "train/negative/metadata.csv",
+    "train/positive/metadata.csv"
+  ],
+  "train_csv_sha256_rebuilt": "a490cf923be8e13a1b4f2dbc47ed71883c336588e52738927abcff91ff799809",
+  "symlinks_created": 30,
+  "pass": true,
+  "train_csv_sha256": "a490cf923be8e13a1b4f2dbc47ed71883c336588e52738927abcff91ff799809",
+  "seconds": 0.8
+}
+=================== stage cache ===================
++ python pipeline/cell30_precache_riskprop.py
+RiskProp sequence precache -- Train: 24 videos (val untouched, reuses nexar_cache_5f/val)
+
+RiskProp train cache done: 24 videos x 12 snippets (stride 0.5s), skipped=0
+Total precache time: 0.0 min
+207M	/kaggle/working/data/nexar_cache_riskprop
+
+(Val untouched -- RiskProp eval reuses /kaggle/working/data/nexar_cache_5f/val)
++ python reeval/re01_precache_val.py --data-dir /workspace/CPV301/data/nexar_kaggle_style --cache-dir /workspace/CPV301/data/nexar_cache_5f
+Train: 24 videos | Val: 6 videos
+Split manifest -> /workspace/CPV301/data/nexar_cache_5f/split_manifest_seed42.json
+  val positives=3 negatives=3
+
+Val cache done: 6 videos x 3 lead times (skipped=0) in 0.0 min
+=================== stage check ===================
++ python reeval/re16_test_progress_protocol.py
+test_dataset_items (__main__.TestDataAndGates.test_dataset_items) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpp56jd4vz/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpp56jd4vz/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpp56jd4vz/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_dev_run_refuses_mismatched_sidecar (__main__.TestDataAndGates.test_dev_run_refuses_mismatched_sidecar) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2n61o4uc/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2n61o4uc/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2n61o4uc/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:488: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp2n61o4uc/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr_index = json.load(open(os.path.join(self.cache, "train_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_full_run_refused_with_limits_or_wrong_lambda (__main__.TestDataAndGates.test_full_run_refused_with_limits_or_wrong_lambda) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:440: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump(lk, open(lock, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:442: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/audit.json' mode='w' encoding='utf-8'>
+  json.dump({"pass": True, "limited": False, "complete": True, "probed_videos": 4, "scanned_cache": 4},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:488: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr_index = json.load(open(os.path.join(self.cache, "train_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:453: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump(lk, open(lock, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:220: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/audit.json' mode='r' encoding='utf-8'>
+  au = json.load(open(a.audit))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:138: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/man.json' mode='r' encoding='utf-8'>
+  man = json.load(open(a.split_manifest))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:139: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr = json.load(open(tr_path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:239: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/LOCK.json' mode='r' encoding='utf-8'>
+  why += lock_errors(a, json.load(open(a.lock_file)), current or {})
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:240: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/man.json' mode='r' encoding='utf-8'>
+  man = json.load(open(a.split_manifest))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:241: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr = json.load(open(os.path.join(a.cache_root, "train_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:242: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/c5/val_index.json' mode='r' encoding='utf-8'>
+  va = json.load(open(os.path.join(a.cache_5f, "val_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:462: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump(lk2, open(lock, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:464: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump(lk, open(lock, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:479: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpd_45qxhn/audit.json' mode='w' encoding='utf-8'>
+  json.dump({"pass": True, "limited": False, "complete": False}, open(audit, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+verifying train cache content digest (hashing every cached .pt) ...
+ok
+test_full_run_refused_without_lock_and_audit (__main__.TestDataAndGates.test_full_run_refused_without_lock_and_audit) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9ya4nsb6/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9ya4nsb6/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9ya4nsb6/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:138: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9ya4nsb6/man.json' mode='r' encoding='utf-8'>
+  man = json.load(open(a.split_manifest))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:139: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9ya4nsb6/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr = json.load(open(tr_path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+verifying train cache content digest (hashing every cached .pt) ...
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:240: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9ya4nsb6/man.json' mode='r' encoding='utf-8'>
+  man = json.load(open(a.split_manifest))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:241: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9ya4nsb6/cache_rp/train_index.json' mode='r' encoding='utf-8'>
+  tr = json.load(open(os.path.join(a.cache_root, "train_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:242: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp9ya4nsb6/c5/val_index.json' mode='r' encoding='utf-8'>
+  va = json.load(open(os.path.join(a.cache_5f, "val_index.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_lambda_rules (__main__.TestDataAndGates.test_lambda_rules) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpillw1yfg/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpillw1yfg/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpillw1yfg/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+usage: re16_test_progress_protocol.py [-h] --condition {B,P,S,F,FP} --seed
+                                      SEED --pairing-mode {fixed,random}
+                                      [--horizon-sec HORIZON_SEC]
+                                      [--alpha ALPHA]
+                                      [--lambda-prog LAMBDA_PROG]
+                                      [--repo-dir REPO_DIR] --cache-root
+                                      CACHE_ROOT --cache-5f CACHE_5F
+                                      [--sidecar SIDECAR] --split-manifest
+                                      SPLIT_MANIFEST [--audit AUDIT]
+                                      [--lock-file LOCK_FILE] --output-root
+                                      OUTPUT_ROOT [--tag TAG]
+                                      [--max-epochs MAX_EPOCHS]
+                                      [--max-steps MAX_STEPS]
+                                      [--limit-videos LIMIT_VIDEOS]
+                                      [--limit-val LIMIT_VAL]
+                                      [--num-workers NUM_WORKERS]
+                                      [--model {riskprop,dummy}]
+                                      [--device DEVICE] [--full-run]
+                                      [--stop-after-epochs STOP_AFTER_EPOCHS]
+                                      [--check-complete]
+re16_test_progress_protocol.py: error: condition P needs an explicit --lambda-prog > 0 (no default; PRE-ACT's 10 is not transferable)
+usage: re16_test_progress_protocol.py [-h] --condition {B,P,S,F,FP} --seed
+                                      SEED --pairing-mode {fixed,random}
+                                      [--horizon-sec HORIZON_SEC]
+                                      [--alpha ALPHA]
+                                      [--lambda-prog LAMBDA_PROG]
+                                      [--repo-dir REPO_DIR] --cache-root
+                                      CACHE_ROOT --cache-5f CACHE_5F
+                                      [--sidecar SIDECAR] --split-manifest
+                                      SPLIT_MANIFEST [--audit AUDIT]
+                                      [--lock-file LOCK_FILE] --output-root
+                                      OUTPUT_ROOT [--tag TAG]
+                                      [--max-epochs MAX_EPOCHS]
+                                      [--max-steps MAX_STEPS]
+                                      [--limit-videos LIMIT_VIDEOS]
+                                      [--limit-val LIMIT_VAL]
+                                      [--num-workers NUM_WORKERS]
+                                      [--model {riskprop,dummy}]
+                                      [--device DEVICE] [--full-run]
+                                      [--stop-after-epochs STOP_AFTER_EPOCHS]
+                                      [--check-complete]
+re16_test_progress_protocol.py: error: condition B has no CPS term; do not pass --lambda-prog
+ok
+test_limit_videos_balanced (__main__.TestDataAndGates.test_limit_videos_balanced) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpmj357h9o/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpmj357h9o/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpmj357h9o/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_resume_fingerprint (__main__.TestDataAndGates.test_resume_fingerprint) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp3pksj2pi/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp3pksj2pi/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp3pksj2pi/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_sidecar_target_mismatch_raises (__main__.TestDataAndGates.test_sidecar_target_mismatch_raises) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpgw3efxhk/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(self.cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpgw3efxhk/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump({"00009": {}}, open(os.path.join(self.c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:396: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpgw3efxhk/man.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": self.ids, "val_ids": ["00009"]}, open(self.man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_clamped_duplicate_post_event_and_pts (__main__.TestDenseGateAndDecision.test_clamped_duplicate_post_event_and_pts) ... ok
+test_clean_grid_passes (__main__.TestDenseGateAndDecision.test_clean_grid_passes) ... ok
+test_decision_rule (__main__.TestDenseGateAndDecision.test_decision_rule) ... ok
+test_stale_predictions_detected (__main__.TestEvalProvenance.test_stale_predictions_detected) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:249: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpyo8oe30m/best.pth'>
+  open(ck, "wb").write(b"weights-v1")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:252: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpyo8oe30m/run_best.json' mode='w' encoding='utf-8'>
+  json.dump({"ckpt_sha256": ev.file_sha(ck), "val_cache_digest": "v"}, open(out.replace(".npz", ".json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpyo8oe30m/run_best.json' mode='r' encoding='utf-8'>
+  m = json.load(open(js))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+  [STALE] run_best.npz does not match the current checkpoint/val cache -> recompute
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re16_test_progress_protocol.py:256: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpyo8oe30m/best2.pth'>
+  open(ck2, "wb").write(b"weights-v2 (retrained)")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+  [STALE] run_best.npz does not match the current checkpoint/val cache -> recompute
+  [STALE] run.npz -> recompute
+  [STALE] run.npz -> recompute
+ok
+test_empty_mask_zero_and_finite (__main__.TestLoss.test_empty_mask_zero_and_finite) ... ok
+test_gradient_only_on_valid (__main__.TestLoss.test_gradient_only_on_valid) ... ok
+test_parity_with_cell32 (__main__.TestLoss.test_parity_with_cell32)
+B total == cell32.riskprop_loss; P total - lambda*cps == same base (same RNG). ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+ok
+test_per_video_then_mean_reduction (__main__.TestLoss.test_per_video_then_mean_reduction) ... ok
+test_decode_zero_post_event_negative (__main__.TestMasks.test_decode_zero_post_event_negative) ... ok
+test_early_event_duplicates (__main__.TestMasks.test_early_event_duplicates) ... ok
+test_nonmonotonic (__main__.TestMasks.test_nonmonotonic) ... ok
+test_normal_positive (__main__.TestMasks.test_normal_positive) ... ok
+test_p_and_s_same_mask (__main__.TestMasks.test_p_and_s_same_mask) ... ok
+test_dummy_model_shapes (__main__.TestModelContract.test_dummy_model_shapes) ... ok
+test_model_sees_only_video (__main__.TestModelContract.test_model_sees_only_video) ... ok
+test_nonfinite_time_never_supervised (__main__.TestPtsAndZero.test_nonfinite_time_never_supervised) ... ok
+test_pts_nonincreasing_or_negative_rejected (__main__.TestPtsAndZero.test_pts_nonincreasing_or_negative_rejected) ... ok
+test_pts_offset_subtracted (__main__.TestPtsAndZero.test_pts_offset_subtracted) ... ok
+test_pts_zero_start_no_offset (__main__.TestPtsAndZero.test_pts_zero_start_no_offset) ... ok
+test_zero_kinds (__main__.TestPtsAndZero.test_zero_kinds) ... ok
+test_binary_and_h15_boundaries (__main__.TestTargets.test_binary_and_h15_boundaries) ... ok
+test_continuous_values (__main__.TestTargets.test_continuous_values) ... ok
+test_grid_values (__main__.TestTargets.test_grid_values) ... ok
+test_monotone_and_bounded (__main__.TestTargets.test_monotone_and_bounded) ... ok
+test_scalar_matches_tensor_and_preact_formula (__main__.TestTargets.test_scalar_matches_tensor_and_preact_formula) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.138s
+
+OK
++ python reeval/re21_test_v4_regression.py
+test_v4_14_accuracy_cohort_not_shrunk_by_dense (__main__.TestEvaluation.test_v4_14_accuracy_cohort_not_shrunk_by_dense) ... ok
+test_v4_15_raw_float_precision (__main__.TestEvaluation.test_v4_15_raw_float_precision) ... ok
+test_v4_16_research_gate (__main__.TestEvaluation.test_v4_16_research_gate) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:371: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump({"x": 1}, open(lockp, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/B42/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/B42/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B42/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B42/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/B43/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/B43/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B43/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B43/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/B44/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/B44/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B44/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B44/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/P42/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/P42/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P42/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P42/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/P43/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/P43/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P43/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P43/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/P44/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/P44/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P44/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P44/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/S42/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/S42/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S42/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S42/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/S43/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/S43/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S43/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S43/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/S44/best.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:378: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/S44/latest.pth'>
+  open(os.path.join(rd, f"{k}.pth"), "wb").write(f"{c}{s}{k}".encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:379: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S44/config.json' mode='w' encoding='utf-8'>
+  json.dump({"config": {"research_result": True, "full_run": True},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:383: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S44/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"checkpoints": {k: pc.sha256_file(os.path.join(rd, f"{k}.pth")) for k in ("best", "latest")}},
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B42/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B42/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B43/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B43/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B44/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/B44/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P42/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P42/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P43/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P43/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P44/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P44/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S42/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S42/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S43/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S43/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S44/config.json' mode='r' encoding='utf-8'>
+  man = json.load(open(cfgp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:186: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/S44/COMPLETE.json' mode='r' encoding='utf-8'>
+  cj = json.load(open(comp))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:390: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P43/config.json' mode='r' encoding='utf-8'>
+  cfg = json.load(open(os.path.join(runs["P43"], "config.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:392: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpr_54goqj/P43/config.json' mode='w' encoding='utf-8'>
+  json.dump(cfg, open(os.path.join(runs["P43"], "config.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:394: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpr_54goqj/B42/best.pth'>
+  open(os.path.join(runs["B42"], "best.pth"), "wb").write(b"changed")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_g5_lock_requires_evidence_and_is_immutable (__main__.TestLock.test_g5_lock_requires_evidence_and_is_immutable) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:56: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:66: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump(vidx, open(os.path.join(c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:68: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/manifest.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": tr_ids, "val_ids": va_ids, "train_csv_sha256": "x"}, open(man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:76: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/sidecar.json' mode='w' encoding='utf-8'>
+  json.dump({"meta": meta, "videos": side}, open(sc, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:435: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/prepare.json' mode='w' encoding='utf-8'>
+  json.dump(body, open(ev_[name], "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:435: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/audit.json' mode='w' encoding='utf-8'>
+  json.dump(body, open(ev_[name], "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:435: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/preflight.json' mode='w' encoding='utf-8'>
+  json.dump(body, open(ev_[name], "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:436: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/sidecar_summary.json' mode='w' encoding='utf-8'>
+  json.dump({"usable_for_full_run": True}, open(os.path.join(d, "sidecar_summary.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/prepare.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/audit.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/sidecar_summary.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/preflight.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:91: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/sidecar.json' mode='r' encoding='utf-8'>
+  side = json.load(open(a.sidecar)) if os.path.exists(a.sidecar) else {"meta": {}}
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+[FATAL] LOCK refused:
+  - G4 mini: no COMPLETE.json for condition B under /tmp/tmpahngsi69/dev
+  - G4 mini: no COMPLETE.json for condition P under /tmp/tmpahngsi69/dev
+  - G4 mini: no COMPLETE.json for condition S under /tmp/tmpahngsi69/dev
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:446: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/dev/B_x_mini/COMPLETE.json' mode='w' encoding='utf-8'>
+  open(os.path.join(mini, f"{c}_x_mini", "COMPLETE.json"), "w").write("{}")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:446: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/dev/P_x_mini/COMPLETE.json' mode='w' encoding='utf-8'>
+  open(os.path.join(mini, f"{c}_x_mini", "COMPLETE.json"), "w").write("{}")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:446: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/dev/S_x_mini/COMPLETE.json' mode='w' encoding='utf-8'>
+  open(os.path.join(mini, f"{c}_x_mini", "COMPLETE.json"), "w").write("{}")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+{
+  "pairing_mode": "fixed",
+  "horizon_sec": 2.0,
+  "alpha": 3.0,
+  "lambda_prog": 1.0,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "conditions": [
+    "B",
+    "P",
+    "S"
+  ],
+  "epochs": 50
+}
+LOCK written: /tmp/tmpahngsi69/LOCK.json (sha256 in /tmp/tmpahngsi69/LOCK.json.sha256)
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/prepare.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/audit.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/sidecar_summary.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/preflight.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:91: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/sidecar.json' mode='r' encoding='utf-8'>
+  side = json.load(open(a.sidecar)) if os.path.exists(a.sidecar) else {"meta": {}}
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:141: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/LOCK.json' mode='r' encoding='utf-8'>
+  old = json.load(open(a.out))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+LOCK unchanged: /tmp/tmpahngsi69/LOCK.json
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/prepare.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/audit.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/sidecar_summary.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:77: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/preflight.json' mode='r' encoding='utf-8'>
+  j = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:91: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/sidecar.json' mode='r' encoding='utf-8'>
+  side = json.load(open(a.sidecar)) if os.path.exists(a.sidecar) else {"meta": {}}
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re20_lock_progress.py:141: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/LOCK.json' mode='r' encoding='utf-8'>
+  old = json.load(open(a.out))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+[FATAL] /tmp/tmpahngsi69/LOCK.json already exists with different content; LOCK is immutable. Differences in: ['content_sha256', 'lambda_prog']
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:451: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpahngsi69/LOCK.json' mode='r' encoding='utf-8'>
+  lock = json.load(open(os.path.join(d, "LOCK.json")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+[FATAL] set LOCK_CONFIRMED=1 only after the team agreed on the design printed in the README
+ok
+test_v4_17_exact_ids (__main__.TestOfficialTest.test_v4_17_exact_ids) ... ok
+test_v4_18_freeze_requires_research_gate (__main__.TestOfficialTest.test_v4_18_freeze_requires_research_gate) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:418: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpc0ksi3cn/chosen_checkpoints.json' mode='w' encoding='utf-8'>
+  json.dump({"chosen": {}}, open(os.path.join(d, "chosen_checkpoints.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:419: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpc0ksi3cn/rq3_decision.json' mode='w' encoding='utf-8'>
+  json.dump({"available": True, "research_gate_passed": False}, open(os.path.join(d, "rq3_decision.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:421: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpc0ksi3cn/LOCK.json' mode='w' encoding='utf-8'>
+  json.dump({}, open(lockp, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re19_test_progress.py:96: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpc0ksi3cn/rq3_decision.json' mode='r' encoding='utf-8'>
+  dec = json.load(open(dec_p))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+[FATAL] re15 research gate did not pass -> the official test is not run (None)
+ok
+test_v4_01_all_modules_import_and_cli_help (__main__.TestPackageAndBaseline.test_v4_01_all_modules_import_and_cli_help) ... ok
+test_v4_22_baseline_files_unchanged_vs_base_commit (__main__.TestPackageAndBaseline.test_v4_22_baseline_files_unchanged_vs_base_commit) ... ok
+test_build_and_serialize (__main__.TestPrepare.test_build_and_serialize) ... ok
+test_metadata_problems_are_fatal (__main__.TestPrepare.test_metadata_problems_are_fatal) ... ok
+test_v4_03_complete_marker (__main__.TestProvenance.test_v4_03_complete_marker) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:237: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpwr2fl_25/best.pth'>
+  open(os.path.join(d, f"{k}.pth"), "wb").write(k.encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:237: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpwr2fl_25/latest.pth'>
+  open(os.path.join(d, f"{k}.pth"), "wb").write(k.encode())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:240: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpwr2fl_25/COMPLETE.json' mode='w' encoding='utf-8'>
+  json.dump({"fingerprint": fp, "checkpoints": {k: pc.sha256_file(os.path.join(d, f"{k}.pth"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpwr2fl_25/COMPLETE.json' mode='r' encoding='utf-8'>
+  c = json.load(open(p))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:245: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpwr2fl_25/best.pth'>
+  open(os.path.join(d, "best.pth"), "wb").write(b"other")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_v4_08_pixel_mutation_changes_val_and_dense_digest (__main__.TestProvenance.test_v4_08_pixel_mutation_changes_val_and_dense_digest) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:56: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxt3un65r/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:66: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxt3un65r/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump(vidx, open(os.path.join(c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:68: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxt3un65r/manifest.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": tr_ids, "val_ids": va_ids, "train_csv_sha256": "x"}, open(man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:76: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxt3un65r/sidecar.json' mode='w' encoding='utf-8'>
+  json.dump({"meta": meta, "videos": side}, open(sc, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:215: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxt3un65r/dense/meta.json' mode='w' encoding='utf-8'>
+  json.dump({"vid_ids": ["a", "b"]}, open(os.path.join(dense, "meta.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:221: ResourceWarning: unclosed file <_io.BufferedWriter name='/tmp/tmpxt3un65r/best.pth'>
+  open(ck, "wb").write(b"w")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:224: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxt3un65r/r_best.json' mode='w' encoding='utf-8'>
+  json.dump({"ckpt_sha256": pc.sha256_file(ck), "val_cache_digest": v0}, open(out[:-4] + ".json", "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re15_eval_progress_riskprop.py:126: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpxt3un65r/r_best.json' mode='r' encoding='utf-8'>
+  m = json.load(open(js))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+  [STALE] r_best.npz does not match the current checkpoint/val cache -> recompute
+ok
+test_v4_09_fingerprint_code_init_lock (__main__.TestProvenance.test_v4_09_fingerprint_code_init_lock) ... ok
+test_v4_11_atomic_save_keeps_last_valid (__main__.TestProvenance.test_v4_11_atomic_save_keeps_last_valid) ... ok
+test_failing_step_stops_stage_and_keeps_log (__main__.TestShell.test_failing_step_stops_stage_and_keeps_log) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:492: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpvdzqdylp/calls.txt' mode='r' encoding='utf-8'>
+  return open(self.calls).read().splitlines() if os.path.exists(self.calls) else []
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:500: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpvdzqdylp/out/logs/unit_tests.log' mode='r' encoding='utf-8'>
+  log = open(os.path.join(self.tmp, "out", "logs", "unit_tests.log")).read()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_filter_without_matches_is_not_a_failure_and_child_failure_is (__main__.TestShell.test_filter_without_matches_is_not_a_failure_and_child_failure_is) ... ok
+test_full_skips_only_verified_and_fails_unverified (__main__.TestShell.test_full_skips_only_verified_and_fails_unverified) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:512: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp7c1n4_x0/out/LOCK.json' mode='w' encoding='utf-8'>
+  open(os.path.join(self.tmp, "out", "LOCK.json"), "w").write("{}")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:492: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp7c1n4_x0/calls.txt' mode='r' encoding='utf-8'>
+  return open(self.calls).read().splitlines() if os.path.exists(self.calls) else []
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_lead_and_dense_rules_match_re01_re07 (__main__.TestTimingAndSplit.test_lead_and_dense_rules_match_re01_re07) ... ok
+test_split_order_change_detected (__main__.TestTimingAndSplit.test_split_order_change_detected) ... ok
+test_v4_06_pts_policy (__main__.TestTimingAndSplit.test_v4_06_pts_policy) ... ok
+test_v4_13_val_timing_rows (__main__.TestTimingAndSplit.test_v4_13_val_timing_rows) ... ok
+test_cuda_resume (__main__.TestTrainerIntegration.test_cuda_resume) ... skipped 'CUDA not available -> NOT RUN'
+test_resume_equals_uninterrupted_and_marker (__main__.TestTrainerIntegration.test_resume_equals_uninterrupted_and_marker) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:56: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpaxoba7ml/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:66: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpaxoba7ml/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump(vidx, open(os.path.join(c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:68: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpaxoba7ml/manifest.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": tr_ids, "val_ids": va_ids, "train_csv_sha256": "x"}, open(man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:76: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpaxoba7ml/sidecar.json' mode='w' encoding='utf-8'>
+  json.dump({"meta": meta, "videos": side}, open(sc, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": false,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "a4c5edd9abddd250f7f34d79c2709ce8d94e5e95baf4245782ec2dd5ac585a5d",
+    "train_index_sha256": "ac2397f11a01a4ebc5203bff06ac649e76a7a7a8bcd46fc667dab090261f45af",
+    "val_index_sha256": "985e411703bb57e42beb61284b17b2e363ec44f26e9fdf58e0e0bacd21897c65",
+    "sidecar_sha256": "f5b24b970feb45e695e61e832b77eee622024f5bdf19481e52aaa98f80be13e0",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=4 total=0.7516 base=0.6835 (bce=0.6829 reg=0.0000 mono=0.0013) cps=0.0680 amp_skipped=0 g_base=0.525 g_cps=0.0747 val_loss=3.4214 val_AP@1.0=0.5000 lr=0.01000 (0s)
+  * best.pth (val_loss=3.4214)
+[P_fixed_H2_a3_lam1_seed42] epoch  1 steps=8 total=0.7520 base=0.6851 (bce=0.6842 reg=0.0000 mono=0.0017) cps=0.0669 amp_skipped=0 g_base=0.104 g_cps=0.0761 val_loss=3.5303 val_AP@1.0=0.4167 lr=0.01000 (0s)
+[P_fixed_H2_a3_lam1_seed42] COMPLETE -> /tmp/tmpaxoba7ml/o1/dev/P_fixed_H2_a3_lam1_seed42
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": false,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "a4c5edd9abddd250f7f34d79c2709ce8d94e5e95baf4245782ec2dd5ac585a5d",
+    "train_index_sha256": "ac2397f11a01a4ebc5203bff06ac649e76a7a7a8bcd46fc667dab090261f45af",
+    "val_index_sha256": "985e411703bb57e42beb61284b17b2e363ec44f26e9fdf58e0e0bacd21897c65",
+    "sidecar_sha256": "f5b24b970feb45e695e61e832b77eee622024f5bdf19481e52aaa98f80be13e0",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=4 total=0.7516 base=0.6835 (bce=0.6829 reg=0.0000 mono=0.0013) cps=0.0680 amp_skipped=0 g_base=0.525 g_cps=0.0747 val_loss=3.4214 val_AP@1.0=0.5000 lr=0.01000 (0s)
+  * best.pth (val_loss=3.4214)
+[P_fixed_H2_a3_lam1_seed42] --stop-after-epochs 1: simulated interruption at epoch 1
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": false,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "a4c5edd9abddd250f7f34d79c2709ce8d94e5e95baf4245782ec2dd5ac585a5d",
+    "train_index_sha256": "ac2397f11a01a4ebc5203bff06ac649e76a7a7a8bcd46fc667dab090261f45af",
+    "val_index_sha256": "985e411703bb57e42beb61284b17b2e363ec44f26e9fdf58e0e0bacd21897c65",
+    "sidecar_sha256": "f5b24b970feb45e695e61e832b77eee622024f5bdf19481e52aaa98f80be13e0",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+Resumed P_fixed_H2_a3_lam1_seed42 at epoch 1 (best_val_loss=3.4214)
+[P_fixed_H2_a3_lam1_seed42] epoch  1 steps=8 total=0.7520 base=0.6851 (bce=0.6842 reg=0.0000 mono=0.0017) cps=0.0669 amp_skipped=0 g_base=0.104 g_cps=0.0761 val_loss=3.5303 val_AP@1.0=0.4167 lr=0.01000 (0s)
+[P_fixed_H2_a3_lam1_seed42] COMPLETE -> /tmp/tmpaxoba7ml/o2/dev/P_fixed_H2_a3_lam1_seed42
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re14_train_progress_riskprop.py:385: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpaxoba7ml/o2/dev/P_fixed_H2_a3_lam1_seed42/COMPLETE.json' mode='r' encoding='utf-8'>
+  c = json.load(open(p))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+[check-complete] P_fixed_H2_a3_lam1_seed42: COMPLETE (complete)
+ok
+test_resume_refused_when_config_or_data_changes (__main__.TestTrainerIntegration.test_resume_refused_when_config_or_data_changes) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:56: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpek6d5vmp/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:66: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpek6d5vmp/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump(vidx, open(os.path.join(c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:68: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpek6d5vmp/manifest.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": tr_ids, "val_ids": va_ids, "train_csv_sha256": "x"}, open(man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:76: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpek6d5vmp/sidecar.json' mode='w' encoding='utf-8'>
+  json.dump({"meta": meta, "videos": side}, open(sc, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": false,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "a4c5edd9abddd250f7f34d79c2709ce8d94e5e95baf4245782ec2dd5ac585a5d",
+    "train_index_sha256": "ac2397f11a01a4ebc5203bff06ac649e76a7a7a8bcd46fc667dab090261f45af",
+    "val_index_sha256": "985e411703bb57e42beb61284b17b2e363ec44f26e9fdf58e0e0bacd21897c65",
+    "sidecar_sha256": "f5b24b970feb45e695e61e832b77eee622024f5bdf19481e52aaa98f80be13e0",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=4 total=0.7516 base=0.6835 (bce=0.6829 reg=0.0000 mono=0.0013) cps=0.0680 amp_skipped=0 g_base=0.525 g_cps=0.0747 val_loss=3.4214 val_AP@1.0=0.5000 lr=0.01000 (0s)
+  * best.pth (val_loss=3.4214)
+[P_fixed_H2_a3_lam1_seed42] --stop-after-epochs 1: simulated interruption at epoch 1
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:292: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpek6d5vmp/sidecar.json' mode='r' encoding='utf-8'>
+  side = json.load(open(fx["sidecar"]))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:294: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpek6d5vmp/sidecar.json' mode='w' encoding='utf-8'>
+  json.dump(side, open(fx["sidecar"], "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": false,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "a4c5edd9abddd250f7f34d79c2709ce8d94e5e95baf4245782ec2dd5ac585a5d",
+    "train_index_sha256": "ac2397f11a01a4ebc5203bff06ac649e76a7a7a8bcd46fc667dab090261f45af",
+    "val_index_sha256": "985e411703bb57e42beb61284b17b2e363ec44f26e9fdf58e0e0bacd21897c65",
+    "sidecar_sha256": "d0a5ca146cb19588b29e8f15a463901d47fbe31e523d517005bd77c156032199",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+ok
+test_v4_12_same_init_for_conditions_and_lambda0_parity (__main__.TestTrainerIntegration.test_v4_12_same_init_for_conditions_and_lambda0_parity) ... /tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:56: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpneopq8un/cache_rp/train_index.json' mode='w' encoding='utf-8'>
+  json.dump(idx, open(os.path.join(cache, "train_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:66: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpneopq8un/c5/val_index.json' mode='w' encoding='utf-8'>
+  json.dump(vidx, open(os.path.join(c5, "val_index.json"), "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:68: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpneopq8un/manifest.json' mode='w' encoding='utf-8'>
+  json.dump({"train_ids": tr_ids, "val_ids": va_ids, "train_csv_sha256": "x"}, open(man, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:76: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpneopq8un/sidecar.json' mode='w' encoding='utf-8'>
+  json.dump({"meta": meta, "videos": side}, open(sc, "w"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "B",
+    "cps_mode": "none",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 0.0,
+    "seed": 42,
+    "epochs": 50,
+    "max_steps": 1,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": false,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 2,
+    "run_name": "B_fixed_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "a4c5edd9abddd250f7f34d79c2709ce8d94e5e95baf4245782ec2dd5ac585a5d",
+    "train_index_sha256": "ac2397f11a01a4ebc5203bff06ac649e76a7a7a8bcd46fc667dab090261f45af",
+    "val_index_sha256": "985e411703bb57e42beb61284b17b2e363ec44f26e9fdf58e0e0bacd21897c65",
+    "sidecar_sha256": "f5b24b970feb45e695e61e832b77eee622024f5bdf19481e52aaa98f80be13e0",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+[B_fixed_seed42] epoch  0 steps=1 total=0.7576 base=0.7576 (bce=0.7556 reg=0.0001 mono=0.0039) cps=0.0000 amp_skipped=0 g_base=0.525 g_cps=0 val_loss=3.4162 val_AP@1.0=0.5000 lr=0.01000 (0s)
+  * best.pth (val_loss=3.4162)
+[B_fixed_seed42] --max-steps 1 reached -> stop (dev run, not a result)
+[B_fixed_seed42] stopped before the budget (epoch 1/50); no COMPLETE.json
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:306: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpneopq8un/o/dev/B_fixed_seed42/config.json' mode='r' encoding='utf-8'>
+  inits.append(json.load(open(os.path.join(rd, "config.json")))["init_state_sha256"])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 50,
+    "max_steps": 1,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": false,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 2,
+    "run_name": "P_fixed_H2_a3_lam1_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "a4c5edd9abddd250f7f34d79c2709ce8d94e5e95baf4245782ec2dd5ac585a5d",
+    "train_index_sha256": "ac2397f11a01a4ebc5203bff06ac649e76a7a7a8bcd46fc667dab090261f45af",
+    "val_index_sha256": "985e411703bb57e42beb61284b17b2e363ec44f26e9fdf58e0e0bacd21897c65",
+    "sidecar_sha256": "f5b24b970feb45e695e61e832b77eee622024f5bdf19481e52aaa98f80be13e0",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+[P_fixed_H2_a3_lam1_seed42] epoch  0 steps=1 total=0.8479 base=0.7576 (bce=0.7556 reg=0.0001 mono=0.0039) cps=0.0903 amp_skipped=0 g_base=0.525 g_cps=0.0747 val_loss=3.4183 val_AP@1.0=0.5000 lr=0.01000 (0s)
+  * best.pth (val_loss=3.4183)
+[P_fixed_H2_a3_lam1_seed42] --max-steps 1 reached -> stop (dev run, not a result)
+[P_fixed_H2_a3_lam1_seed42] stopped before the budget (epoch 1/50); no COMPLETE.json
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:306: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpneopq8un/o/dev/P_fixed_H2_a3_lam1_seed42/config.json' mode='r' encoding='utf-8'>
+  inits.append(json.load(open(os.path.join(rd, "config.json")))["init_state_sha256"])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "S",
+    "cps_mode": "binary",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 50,
+    "max_steps": 1,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": false,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 2,
+    "run_name": "S_fixed_H2_a3_lam1_seed42",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "a4c5edd9abddd250f7f34d79c2709ce8d94e5e95baf4245782ec2dd5ac585a5d",
+    "train_index_sha256": "ac2397f11a01a4ebc5203bff06ac649e76a7a7a8bcd46fc667dab090261f45af",
+    "val_index_sha256": "985e411703bb57e42beb61284b17b2e363ec44f26e9fdf58e0e0bacd21897c65",
+    "sidecar_sha256": "f5b24b970feb45e695e61e832b77eee622024f5bdf19481e52aaa98f80be13e0",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+[S_fixed_H2_a3_lam1_seed42] epoch  0 steps=1 total=0.8757 base=0.7576 (bce=0.7556 reg=0.0001 mono=0.0039) cps=0.1182 amp_skipped=0 g_base=0.525 g_cps=0.0492 val_loss=3.4176 val_AP@1.0=0.5000 lr=0.01000 (0s)
+  * best.pth (val_loss=3.4176)
+[S_fixed_H2_a3_lam1_seed42] --max-steps 1 reached -> stop (dev run, not a result)
+[S_fixed_H2_a3_lam1_seed42] stopped before the budget (epoch 1/50); no COMPLETE.json
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/reeval/re21_test_v4_regression.py:306: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpneopq8un/o/dev/S_fixed_H2_a3_lam1_seed42/config.json' mode='r' encoding='utf-8'>
+  inits.append(json.load(open(os.path.join(rd, "config.json")))["init_state_sha256"])
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 7.340s
+
+OK (skipped=1)
++ python reeval/re11_audit_progress_data.py --data-dir /workspace/CPV301/data/nexar_kaggle_style --split-manifest /workspace/CPV301/synth/split_manifest.json --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --id-map /workspace/CPV301/synth/id_to_hf_source.csv --prepare-report /workspace/CPV301/outputs_progress/prepare/prepare_report.json --output-dir /workspace/CPV301/outputs_progress/audit
+AUDIT PASS complete=True (2s)
+counts: {'csv_rows': 30, 'csv_pos': 15, 'train': 24, 'val': 6, 'probed': 30, 'train_scanned': 24, 'val_scanned': 6}
+val timing: {'val_videos': 6, 'val_positives': 3, 'lead_future_frames': 0, 'dense_future_frames': 0, 'dense_max_abs_dev_frames': 0.8500133514404062, 'dense_windows_dev_gt_1_frame': 0}
+
+FATAL:
+
+WARNINGS:
+  - 5 positives with time_of_event < 6.0 s -> nominal clamp at 0.4 s (duplicate endpoints are masked by re12): ['00002', '00007', '00020', '00027', '00028']
+  - Episode-level leakage NOT verifiable: Nexar metadata has no episode/source-drive key.
++ python reeval/re12_build_progress_sidecar.py --audit /workspace/CPV301/outputs_progress/audit/audit_summary.json --data-dir /workspace/CPV301/data/nexar_kaggle_style --split-manifest /workspace/CPV301/synth/split_manifest.json --cache-root /workspace/CPV301/data/nexar_cache_riskprop --output-dir /workspace/CPV301/outputs_progress/sidecar_sample --limit-videos 8 --verify-pixels 8
+hashing cached .pt files ...
+{
+  "pass": true,
+  "complete": false,
+  "usable_for_full_run": false,
+  "not_usable_because": [
+    "limited",
+    "pixel check 8/8 (need >= 24, all identical, both labels)"
+  ],
+  "fatal": [],
+  "warnings": [],
+  "created": "2026-10-05 15:10:00",
+  "audit": "/workspace/CPV301/outputs_progress/audit/audit_summary.json",
+  "audit_pass": true,
+  "audit_sha256": "da9304cee012c8f2c1377c4705090ccb32c28fee86306908ab70d86a68d7a92b",
+  "version": "v4.0.0",
+  "synthetic": true,
+  "cps_coverage_note": "positives with 0 CPS-valid snippets are still trained with BCE/FFR/AMC",
+  "nominal_clamped_snippets_positive": 10,
+  "abnormal_videos_pixel_checked": [
+    "00002",
+    "00007"
+  ],
+  "n_videos": 8,
+  "n_pos": 4,
+  "reason_counts_positive": {
+    "ok": 33,
+    "negative": 0,
+    "anchor_first": 4,
+    "anchor_last": 4,
+    "decode_fail": 0,
+    "zero_decode_fail": 0,
+    "zero_black": 0,
+    "zero_cache_only": 0,
+    "zero_unchecked": 0,
+    "nonfinite_time": 0,
+    "post_event": 0,
+    "duplicate_endpoint": 7,
+    "nonmonotonic_time": 0
+  },
+  "zero_snippets_all_videos": {
+    "decode_fail": 0,
+    "black": 0,
+    "cache_only": 0
+  },
+  "videos_with_pts_offset": 0,
+  "valid_snippets_per_positive": {
+    "5": 1,
+    "8": 1,
+    "10": 2
+  },
+  "positives_without_valid_snippet": 0,
+  "valid_tau_coverage": {
+    "tau<1.5": 8,
+    "1.5<=tau<2.0": 4,
+    "tau>=2.0": 21
+  },
+  "tau_actual_minus_cache_s": {
+    "mean": 0.009777816385030835,
+    "max_abs": 0.03200011920928958
+  },
+  "timing_sources": {
+    "pts": 8
+  },
+  "sidecar_sha256": "d8d3d3fa6f526d115bdb2cc6acfedc6a038ee28a6d8b0a0186426be9c8026550"
+}
+pixel verification: 8/8 videos identical (full run needs >= 24)
+-> /workspace/CPV301/outputs_progress/sidecar_sample/sidecar.json (1s)
++ python reeval/re12_build_progress_sidecar.py --audit /workspace/CPV301/outputs_progress/audit/audit_summary.json --data-dir /workspace/CPV301/data/nexar_kaggle_style --split-manifest /workspace/CPV301/synth/split_manifest.json --cache-root /workspace/CPV301/data/nexar_cache_riskprop --output-dir /workspace/CPV301/outputs_progress/sidecar --verify-pixels 24
+hashing cached .pt files ...
+{
+  "pass": true,
+  "complete": true,
+  "usable_for_full_run": true,
+  "not_usable_because": [],
+  "fatal": [],
+  "warnings": [],
+  "created": "2026-10-05 15:10:04",
+  "audit": "/workspace/CPV301/outputs_progress/audit/audit_summary.json",
+  "audit_pass": true,
+  "audit_sha256": "da9304cee012c8f2c1377c4705090ccb32c28fee86306908ab70d86a68d7a92b",
+  "version": "v4.0.0",
+  "synthetic": true,
+  "cps_coverage_note": "positives with 0 CPS-valid snippets are still trained with BCE/FFR/AMC",
+  "nominal_clamped_snippets_positive": 13,
+  "abnormal_videos_pixel_checked": [
+    "00002",
+    "00007",
+    "00020",
+    "00027"
+  ],
+  "n_videos": 24,
+  "n_pos": 12,
+  "reason_counts_positive": {
+    "ok": 113,
+    "negative": 0,
+    "anchor_first": 12,
+    "anchor_last": 12,
+    "decode_fail": 0,
+    "zero_decode_fail": 0,
+    "zero_black": 0,
+    "zero_cache_only": 0,
+    "zero_unchecked": 0,
+    "nonfinite_time": 0,
+    "post_event": 0,
+    "duplicate_endpoint": 7,
+    "nonmonotonic_time": 0
+  },
+  "zero_snippets_all_videos": {
+    "decode_fail": 0,
+    "black": 0,
+    "cache_only": 0
+  },
+  "videos_with_pts_offset": 0,
+  "valid_snippets_per_positive": {
+    "5": 1,
+    "8": 1,
+    "10": 10
+  },
+  "positives_without_valid_snippet": 0,
+  "valid_tau_coverage": {
+    "tau<1.5": 24,
+    "1.5<=tau<2.0": 12,
+    "tau>=2.0": 77
+  },
+  "tau_actual_minus_cache_s": {
+    "mean": 0.01296993666059438,
+    "max_abs": 0.03200011920928958
+  },
+  "timing_sources": {
+    "pts": 24
+  },
+  "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf"
+}
+pixel verification: 24/24 videos identical (full run needs >= 24)
+-> /workspace/CPV301/outputs_progress/sidecar/sidecar.json (2s)
+SIDECAR usable_for_full_run: True []
+zero snippets: {'decode_fail': 0, 'black': 0, 'cache_only': 0} | PTS offset videos: 0 | pixel check: 24 / 24
+CPS-valid snippets per positive: {'5': 1, '8': 1, '10': 10}
+=================== stage smoke ===================
++ python reeval/re14_train_progress_riskprop.py --condition B --seed 42 --horizon-sec 2.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/synth/split_manifest.json --output-root /workspace/CPV301/outputs_progress --num-workers 0 --model dummy --max-steps 2 --limit-val 16 --tag smoke
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "B",
+    "cps_mode": "none",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 0.0,
+    "seed": 42,
+    "epochs": 50,
+    "max_steps": 2,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": true,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 16,
+    "run_name": "B_fixed_seed42_smoke",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+    "train_index_sha256": "1a42c025a2c531f642c95e81ae2d16bfdf159d774334c9590c2e0eb85866564f",
+    "val_index_sha256": "dc7980d1a4dfe5c4b0b8fd8b3ed04ad60f60e19ed64ae0c2e4a6e0371a411023",
+    "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[B_fixed_seed42_smoke] epoch  0 steps=2 total=0.6762 base=0.6762 (bce=0.6760 reg=0.0000 mono=0.0004) cps=0.0000 amp_skipped=0 g_base=0.0951 g_cps=0 val_loss=3.4453 val_AP@1.0=0.6333 lr=0.01000 (2s)
+  * best.pth (val_loss=3.4453)
+[B_fixed_seed42_smoke] --max-steps 2 reached -> stop (dev run, not a result)
+[B_fixed_seed42_smoke] stopped before the budget (epoch 1/50); no COMPLETE.json
++ python reeval/re14_train_progress_riskprop.py --condition P --seed 42 --horizon-sec 2.0 --lambda-prog 1.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/synth/split_manifest.json --output-root /workspace/CPV301/outputs_progress --num-workers 0 --model dummy --max-steps 2 --limit-val 16 --tag smoke
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 50,
+    "max_steps": 2,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": true,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 16,
+    "run_name": "P_fixed_H2_a3_lam1_seed42_smoke",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+    "train_index_sha256": "1a42c025a2c531f642c95e81ae2d16bfdf159d774334c9590c2e0eb85866564f",
+    "val_index_sha256": "dc7980d1a4dfe5c4b0b8fd8b3ed04ad60f60e19ed64ae0c2e4a6e0371a411023",
+    "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[P_fixed_H2_a3_lam1_seed42_smoke] epoch  0 steps=2 total=0.7569 base=0.6762 (bce=0.6760 reg=0.0000 mono=0.0004) cps=0.0806 amp_skipped=0 g_base=0.0951 g_cps=0.00986 val_loss=3.4478 val_AP@1.0=0.6333 lr=0.01000 (2s)
+  * best.pth (val_loss=3.4478)
+[P_fixed_H2_a3_lam1_seed42_smoke] --max-steps 2 reached -> stop (dev run, not a result)
+[P_fixed_H2_a3_lam1_seed42_smoke] stopped before the budget (epoch 1/50); no COMPLETE.json
++ python reeval/re14_train_progress_riskprop.py --condition S --seed 42 --horizon-sec 2.0 --lambda-prog 1.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/synth/split_manifest.json --output-root /workspace/CPV301/outputs_progress --num-workers 0 --model dummy --max-steps 2 --limit-val 16 --tag smoke
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "S",
+    "cps_mode": "binary",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 50,
+    "max_steps": 2,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": true,
+    "model": "dummy",
+    "limit_videos": 0,
+    "limit_val": 16,
+    "run_name": "S_fixed_H2_a3_lam1_seed42_smoke",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+    "train_index_sha256": "1a42c025a2c531f642c95e81ae2d16bfdf159d774334c9590c2e0eb85866564f",
+    "val_index_sha256": "dc7980d1a4dfe5c4b0b8fd8b3ed04ad60f60e19ed64ae0c2e4a6e0371a411023",
+    "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[S_fixed_H2_a3_lam1_seed42_smoke] epoch  0 steps=2 total=0.8000 base=0.6763 (bce=0.6761 reg=0.0000 mono=0.0004) cps=0.1237 amp_skipped=0 g_base=0.0951 g_cps=0.0428 val_loss=3.4443 val_AP@1.0=0.6333 lr=0.01000 (2s)
+  * best.pth (val_loss=3.4443)
+[S_fixed_H2_a3_lam1_seed42_smoke] --max-steps 2 reached -> stop (dev run, not a result)
+[S_fixed_H2_a3_lam1_seed42_smoke] stopped before the budget (epoch 1/50); no COMPLETE.json
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+[B_fixed_seed42_smoke] epoch  0 steps=2 total=0.6762 base=0.6762 (bce=0.6760 reg=0.0000 mono=0.0004) cps=0.0000 amp_skipped=0 g_base=0.0951 g_cps=0 val_loss=3.4453 val_AP@1.0=0.6333 lr=0.01000 (2s)
+[B_fixed_seed42_smoke] stopped before the budget (epoch 1/50); no COMPLETE.json
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+[P_fixed_H2_a3_lam1_seed42_smoke] epoch  0 steps=2 total=0.7569 base=0.6762 (bce=0.6760 reg=0.0000 mono=0.0004) cps=0.0806 amp_skipped=0 g_base=0.0951 g_cps=0.00986 val_loss=3.4478 val_AP@1.0=0.6333 lr=0.01000 (2s)
+[P_fixed_H2_a3_lam1_seed42_smoke] stopped before the budget (epoch 1/50); no COMPLETE.json
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+[S_fixed_H2_a3_lam1_seed42_smoke] epoch  0 steps=2 total=0.8000 base=0.6763 (bce=0.6761 reg=0.0000 mono=0.0004) cps=0.1237 amp_skipped=0 g_base=0.0951 g_cps=0.0428 val_loss=3.4443 val_AP@1.0=0.6333 lr=0.01000 (2s)
+[S_fixed_H2_a3_lam1_seed42_smoke] stopped before the budget (epoch 1/50); no COMPLETE.json
+=================== stage mini ===================
++ python reeval/re14_train_progress_riskprop.py --condition B --seed 42 --horizon-sec 2.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/synth/split_manifest.json --output-root /workspace/CPV301/outputs_progress --num-workers 0 --model dummy --limit-videos 40 --max-epochs 2 --tag mini
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "B",
+    "cps_mode": "none",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 0.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": true,
+    "model": "dummy",
+    "limit_videos": 40,
+    "limit_val": 0,
+    "run_name": "B_fixed_seed42_mini",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+    "train_index_sha256": "1a42c025a2c531f642c95e81ae2d16bfdf159d774334c9590c2e0eb85866564f",
+    "val_index_sha256": "dc7980d1a4dfe5c4b0b8fd8b3ed04ad60f60e19ed64ae0c2e4a6e0371a411023",
+    "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[B_fixed_seed42_mini] epoch  0 steps=12 total=0.6855 base=0.6855 (bce=0.6853 reg=0.0000 mono=0.0005) cps=0.0000 amp_skipped=0 g_base=0.527 g_cps=0 val_loss=3.4578 val_AP@1.0=0.6333 lr=0.01000 (12s)
+  * best.pth (val_loss=3.4578)
+[B_fixed_seed42_mini] epoch  1 steps=24 total=0.6778 base=0.6778 (bce=0.6776 reg=0.0000 mono=0.0004) cps=0.0000 amp_skipped=0 g_base=0.0882 g_cps=0 val_loss=3.5924 val_AP@1.0=0.6333 lr=0.01000 (12s)
+[B_fixed_seed42_mini] COMPLETE -> /workspace/CPV301/outputs_progress/dev/B_fixed_seed42_mini
++ python reeval/re14_train_progress_riskprop.py --condition P --seed 42 --horizon-sec 2.0 --lambda-prog 1.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/synth/split_manifest.json --output-root /workspace/CPV301/outputs_progress --num-workers 0 --model dummy --limit-videos 40 --max-epochs 2 --tag mini
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": true,
+    "model": "dummy",
+    "limit_videos": 40,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42_mini",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+    "train_index_sha256": "1a42c025a2c531f642c95e81ae2d16bfdf159d774334c9590c2e0eb85866564f",
+    "val_index_sha256": "dc7980d1a4dfe5c4b0b8fd8b3ed04ad60f60e19ed64ae0c2e4a6e0371a411023",
+    "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[P_fixed_H2_a3_lam1_seed42_mini] epoch  0 steps=12 total=0.7563 base=0.6832 (bce=0.6829 reg=0.0000 mono=0.0005) cps=0.0731 amp_skipped=0 g_base=0.527 g_cps=0.065 val_loss=3.5401 val_AP@1.0=0.6333 lr=0.01000 (12s)
+  * best.pth (val_loss=3.5401)
+[P_fixed_H2_a3_lam1_seed42_mini] epoch  1 steps=24 total=0.7413 base=0.6726 (bce=0.6724 reg=0.0000 mono=0.0004) cps=0.0687 amp_skipped=0 g_base=0.0755 g_cps=0.0688 val_loss=3.8105 val_AP@1.0=0.6333 lr=0.01000 (11s)
+[P_fixed_H2_a3_lam1_seed42_mini] COMPLETE -> /workspace/CPV301/outputs_progress/dev/P_fixed_H2_a3_lam1_seed42_mini
++ python reeval/re14_train_progress_riskprop.py --condition S --seed 42 --horizon-sec 2.0 --lambda-prog 1.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/synth/split_manifest.json --output-root /workspace/CPV301/outputs_progress --num-workers 0 --model dummy --limit-videos 40 --max-epochs 2 --tag mini
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "S",
+    "cps_mode": "binary",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": true,
+    "model": "dummy",
+    "limit_videos": 40,
+    "limit_val": 0,
+    "run_name": "S_fixed_H2_a3_lam1_seed42_mini",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+    "train_index_sha256": "1a42c025a2c531f642c95e81ae2d16bfdf159d774334c9590c2e0eb85866564f",
+    "val_index_sha256": "dc7980d1a4dfe5c4b0b8fd8b3ed04ad60f60e19ed64ae0c2e4a6e0371a411023",
+    "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[S_fixed_H2_a3_lam1_seed42_mini] epoch  0 steps=12 total=0.7839 base=0.6844 (bce=0.6841 reg=0.0000 mono=0.0005) cps=0.0995 amp_skipped=0 g_base=0.527 g_cps=0.0365 val_loss=3.5025 val_AP@1.0=0.6333 lr=0.01000 (12s)
+  * best.pth (val_loss=3.5025)
+[S_fixed_H2_a3_lam1_seed42_mini] epoch  1 steps=24 total=0.7711 base=0.6746 (bce=0.6744 reg=0.0000 mono=0.0004) cps=0.0964 amp_skipped=0 g_base=0.0813 g_cps=0.0449 val_loss=3.7177 val_AP@1.0=0.6333 lr=0.01000 (12s)
+[S_fixed_H2_a3_lam1_seed42_mini] COMPLETE -> /workspace/CPV301/outputs_progress/dev/S_fixed_H2_a3_lam1_seed42_mini
++ python reeval/re14_train_progress_riskprop.py --condition P --seed 42 --horizon-sec 2.0 --lambda-prog 1.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/synth/split_manifest.json --output-root /workspace/CPV301/outputs_progress --num-workers 0 --model dummy --limit-videos 40 --max-epochs 2 --tag mini_resume --stop-after-epochs 1
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": true,
+    "model": "dummy",
+    "limit_videos": 40,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42_mini_resume",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+    "train_index_sha256": "1a42c025a2c531f642c95e81ae2d16bfdf159d774334c9590c2e0eb85866564f",
+    "val_index_sha256": "dc7980d1a4dfe5c4b0b8fd8b3ed04ad60f60e19ed64ae0c2e4a6e0371a411023",
+    "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[P_fixed_H2_a3_lam1_seed42_mini_resume] epoch  0 steps=12 total=0.7563 base=0.6832 (bce=0.6829 reg=0.0000 mono=0.0005) cps=0.0731 amp_skipped=0 g_base=0.527 g_cps=0.065 val_loss=3.5401 val_AP@1.0=0.6333 lr=0.01000 (13s)
+  * best.pth (val_loss=3.5401)
+[P_fixed_H2_a3_lam1_seed42_mini_resume] --stop-after-epochs 1: simulated interruption at epoch 1
++ python reeval/re14_train_progress_riskprop.py --condition P --seed 42 --horizon-sec 2.0 --lambda-prog 1.0 --pairing-mode fixed --alpha 3.0 --cache-root /workspace/CPV301/data/nexar_cache_riskprop --cache-5f /workspace/CPV301/data/nexar_cache_5f --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --split-manifest /workspace/CPV301/synth/split_manifest.json --output-root /workspace/CPV301/outputs_progress --num-workers 0 --model dummy --limit-videos 40 --max-epochs 2 --tag mini_resume
+{
+  "version": "v4.0.0",
+  "config": {
+    "condition": "P",
+    "cps_mode": "continuous",
+    "use_ffr": true,
+    "use_amc": true,
+    "pairing_mode": "fixed",
+    "horizon_sec": 2.0,
+    "alpha": 3.0,
+    "lambda_prog": 1.0,
+    "seed": 42,
+    "epochs": 2,
+    "max_steps": 0,
+    "epochs_budget": null,
+    "batch_size": 2,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0001,
+    "lr_decay_epochs": [
+      20,
+      40
+    ],
+    "checkpoint_rule_train": "best = lowest val BCE @1.0s lead; latest = last epoch",
+    "cps_boundary": "tau<=0 excluded (PRE-ACT assigns 1); anchors k=0,k=11 excluded",
+    "cps_loss": "smooth_l1(beta=1) on sigmoid(z) fp32, per-video mean then mean over videos",
+    "full_run": false,
+    "research_result": false,
+    "synthetic": true,
+    "model": "dummy",
+    "limit_videos": 40,
+    "limit_val": 0,
+    "run_name": "P_fixed_H2_a3_lam1_seed42_mini_resume",
+    "resume_policy": "epoch boundary only; RNG restored on CPU; no bitwise mid-epoch continuation"
+  },
+  "init_state_sha256": "3ed5a162b49f5bbe281423b2ea4030cee0758b97fff3e8482b46fba3e32b00cc",
+  "inputs": {
+    "split_manifest_sha256": "bcd97bfabf519485c6dc2f885e1fcc27165be26b8ba7accc85e1151897387027",
+    "train_index_sha256": "1a42c025a2c531f642c95e81ae2d16bfdf159d774334c9590c2e0eb85866564f",
+    "val_index_sha256": "dc7980d1a4dfe5c4b0b8fd8b3ed04ad60f60e19ed64ae0c2e4a6e0371a411023",
+    "sidecar_sha256": "90f23cfed3f92464833a7bc9e4f18bf20084a8b49c5317c2b1b673cbb08eb7cf",
+    "audit_sha256": null,
+    "lock_sha256": null,
+    "audit": null,
+    "lock_file": null,
+    "val_cache_digest": null,
+    "train_cache_digest": null
+  }
+}
+Resumed P_fixed_H2_a3_lam1_seed42_mini_resume at epoch 1 (best_val_loss=3.5401)
+/tmp/claude-0/-home-claude/8fed43ab-a53b-5446-8f23-b7053e1927f3/scratchpad/e2e4/CPV301/pipeline/cell32_riskprop_loss.py:154: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  return total, {"bce": L_bce.item(), "reg": float(L_reg), "mono": float(L_mono)}
+[P_fixed_H2_a3_lam1_seed42_mini_resume] epoch  1 steps=24 total=0.7413 base=0.6726 (bce=0.6724 reg=0.0000 mono=0.0004) cps=0.0687 amp_skipped=0 g_base=0.0755 g_cps=0.0688 val_loss=3.8105 val_AP@1.0=0.6333 lr=0.01000 (12s)
+[P_fixed_H2_a3_lam1_seed42_mini_resume] COMPLETE -> /workspace/CPV301/outputs_progress/dev/P_fixed_H2_a3_lam1_seed42_mini_resume
++ python reeval/re15_eval_progress_riskprop.py --runs-root /workspace/CPV301/outputs_progress/dev --conditions B,P,S --seeds 42 --horizon-sec 2.0 --tag mini --pairing-mode fixed --alpha 3.0 --lambda-prog 1.0 --data-dir /workspace/CPV301/data/nexar_kaggle_style --cache-5f /workspace/CPV301/data/nexar_cache_5f --dense-cache /workspace/CPV301/data/nexar_cache_dense --split-manifest /workspace/CPV301/synth/split_manifest.json --val-timing /workspace/CPV301/outputs_progress/audit/val_timing.csv --model dummy --out-dir /workspace/CPV301/outputs_progress/eval_mini --n-boot 200
+device=cpu
+[1] 3-lead validation predictions (best + latest)
+  loaded lead 0.5s: 6 windows
+  loaded lead 1.0s: 6 windows
+  loaded lead 1.5s: 6 windows
+  [OK] B_fixed_seed42_mini best epoch=1
+  [OK] B_fixed_seed42_mini latest epoch=2
+  [OK] P_fixed_H2_a3_lam1_seed42_mini best epoch=1
+  [OK] P_fixed_H2_a3_lam1_seed42_mini latest epoch=2
+  [OK] S_fixed_H2_a3_lam1_seed42_mini best epoch=1
+  [OK] S_fixed_H2_a3_lam1_seed42_mini latest epoch=2
+
+[2] Checkpoint choice (per_run rule; exact tie -> best)
+  B_fixed_seed42_mini: best=0.5500 latest=0.5500 -> best
+  P_fixed_H2_a3_lam1_seed42_mini: best=0.5500 latest=0.5500 -> best
+  S_fixed_H2_a3_lam1_seed42_mini: best=0.5500 latest=0.5500 -> best
+
+[3] Dense risk curves (re07 sweep)
+  dense cache done: 6 videos x 30 windows (failed=0) in 0.0 min
+
+[4] Paired stratified bootstrap B=200: ['P - B', 'S - B', 'P - S']
+# RQ3 -- Progressive RiskProp, internal validation
+
+Generated 2026-10-05 15:12 | accuracy cohort 6 videos (3 positives) | temporal cohort 3 positives | pairing=fixed H=2.0 alpha=3.0 lambda=1.0 | checkpoint rule: per_run, tie -> best | research_result=False
+
+Dense timing gate: PASS
+
+## 0. Pre-registered decision: not available (no lock file or no contrasts)
+
+## 1. Accuracy / low-FAR (mean +/- SD over seeds; all validation videos)
+
+| Condition | n_seeds | mAP | AP@0.5s | AP@1.0s | AP@1.5s | mAUC01 | Recall@1.0s | ActualFAR@1.0s | mTTA_detected | Coverage |
+|---|---|---|---|---|---|---|---|---|---|---|
+| B | 1 | 0.5500 | 0.3833 | 0.6333 | 0.6333 | 0.2222 | 0.3333 | 0.0000 | 1.5000 | 0.3333 |
+| P | 1 | 0.5500 | 0.3833 | 0.6333 | 0.6333 | 0.2222 | 0.3333 | 0.0000 | 1.5000 | 0.3333 |
+| S | 1 | 0.5500 | 0.3833 | 0.6333 | 0.6333 | 0.2222 | 0.3333 | 0.0000 | 1.5000 | 0.3333 |
+
+mTTA_detected = largest of the 3 discrete leads detected at FAR <= 0.1 (discrete lead-time summary, not PRE-ACT's mTTA, not an onset metric); always read with Coverage.
+
+## 2. Temporal metrics WITH score amplitude (positives, dense curves; PVR/ADS/RCJ lower = better)
+
+| Condition | PVR | ADS | RCJ | score_early_pos | score_late_pos | rise_pos | range_pos | score_neg_mean | score_neg_p95 |
+|---|---|---|---|---|---|---|---|---|---|
+| B | 0.0000 | 0.0001 | 0.0000 | 0.4554 | 0.4547 | -0.0007 | 0.0032 | 0.4557 | 0.4569 |
+| P | 0.0000 | 0.0001 | 0.0000 | 0.4451 | 0.4444 | -0.0007 | 0.0032 | 0.4454 | 0.4466 |
+| S | 0.0000 | 0.0001 | 0.0000 | 0.4498 | 0.4491 | -0.0007 | 0.0032 | 0.4501 | 0.4513 |
+
+A low PVR/RCJ with a small rise/range means a flat curve, not better early warning.
+
+## 3. Target fit (diagnostic only, unclamped dense windows)
+
+| Condition | fit_MAE_continuous | fit_MAE_binary |
+|---|---|---|
+| B | 0.3789 | 0.5123 |
+| P | 0.3796 | 0.5150 |
+| S | 0.3792 | 0.5138 |
+
+## 4. Alert-event gap groups (validation; mean over seeds; positives of the group + all negatives)
+
+| gap_group | condition | n_pos | mAP_group | AP@1.5s | PVR | rise_pos |
+|---|---|---|---|---|---|---|
+| 1.0-1.5 | B | 3.0 | 0.55 | 0.6333 | 0.0 | -0.0007 |
+| 1.0-1.5 | P | 3.0 | 0.55 | 0.6333 | 0.0 | -0.0007 |
+| 1.0-1.5 | S | 3.0 | 0.55 | 0.6333 | 0.0 | -0.0007 |
+
+## 5. Contrasts (paired label-stratified bootstrap 95% CI, B=200, seed 12345)
+
+| contrast | metric | role | cohort | estimate | ci_low | ci_high | verdict | direction | non_inferiority |
+|---|---|---|---|---|---|---|---|---|---|
+| P - B | mAP | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - B | AP@1.5s | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - B | mAUC01 | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - B | PVR | supporting | temporal n=3 positives | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - B | ADS | supporting | temporal n=3 positives | -0.0000 | -0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - B | RCJ | supporting | temporal n=3 positives | -0.0000 | -0.0000 | -0.0000 | decrease (CI < 0) | better |  |
+| S - B | mAP | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| S - B | AP@1.5s | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| S - B | mAUC01 | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| S - B | PVR | supporting | temporal n=3 positives | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| S - B | ADS | supporting | temporal n=3 positives | -0.0000 | -0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| S - B | RCJ | supporting | temporal n=3 positives | -0.0000 | -0.0000 | -0.0000 | decrease (CI < 0) | better |  |
+| P - S | mAP | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - S | AP@1.5s | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - S | mAUC01 | accuracy | accuracy n=6 videos | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - S | PVR | supporting | temporal n=3 positives | +0.0000 | +0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - S | ADS | supporting | temporal n=3 positives | -0.0000 | -0.0000 | +0.0000 | inconclusive (CI includes 0) |  |  |
+| P - S | RCJ | supporting | temporal n=3 positives | -0.0000 | -0.0000 | -0.0000 | decrease (CI < 0) | better |  |
+
+Notes: validation only (internal; CIs after checkpoint choice are not an independent confirmation; video bootstrap does not cover training-seed uncertainty -- see mean +/- SD). Official test: re19.
+
+Written to /workspace/CPV301/outputs_progress/eval_mini
+>>> mini = feasibility check only (dev, not a research result); do not pick lambda/H from it.
+=================== stage lock ===================
++ python reeval/re20_lock_progress.py --out /workspace/CPV301/outputs_progress/LOCK.json --prepare /workspace/CPV301/outputs_progress/prepare/prepare_report.json --audit /workspace/CPV301/outputs_progress/audit/audit_summary.json --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --preflight /workspace/CPV301/outputs_progress/preflight/preflight.json --mini-root /workspace/CPV301/outputs_progress/dev --cache-5f /workspace/CPV301/data/nexar_cache_5f --pairing fixed --horizon 2.0 --alpha 3.0 --lam 1.0 --seeds 42,43,44 --conditions B,P,S
+[FATAL] PROGRESS_SYNTHETIC_COUNTS is set: a LOCK is never created on synthetic data
+[FAIL] rc=2: python reeval/re20_lock_progress.py --out /workspace/CPV301/outputs_progress/LOCK.json --prepare /workspace/CPV301/outputs_progress/prepare/prepare_report.json --audit /workspace/CPV301/outputs_progress/audit/audit_summary.json --sidecar /workspace/CPV301/outputs_progress/sidecar/sidecar.json --preflight /workspace/CPV301/outputs_progress/preflight/preflight.json --mini-root /workspace/CPV301/outputs_progress/dev --cache-5f /workspace/CPV301/data/nexar_cache_5f --pairing fixed --horizon 2.0 --alpha 3.0 --lam 1.0 --seeds 42,43,44 --conditions B,P,S (full log: /workspace/CPV301/outputs_progress/logs/lock.log)
+=================== stage full ===================
+[FAIL] missing /workspace/CPV301/outputs_progress/LOCK.json -- run the 'lock' stage first
