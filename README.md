@@ -18,12 +18,12 @@ The paper's RQ numbering changed once already (the pairing experiment was promot
 | RQ1 (TOP vs AdaLEA vs RiskProp) | `results/RESULTS_RQ1.md` | `pipeline/` (`top_*`, `adalea_*`, `riskprop_*`) + `reeval/*.py` (flat files) | `results/official_test/`, `results/reeval_corrected/`, `results/top/`, `results/adalea/`, `results/riskprop/` |
 | RQ2 (pairing, fixed vs random lag) | `results/RESULTS_RQ3.md` *(old filename, kept)* | `reeval/pairing_sensitivity/` | `results/pairing_sensitivity/` |
 | Supporting evidence, not its own RQ (FFR/AMC 2×2 ablation) | `results/RESULTS_RQ2.md` *(old filename, kept)* | `reeval/ablation_ffr_amc/` | `results/ablation_ffr_amc/` |
-| RQ3 (Progressive RiskProp / CPS, v4) — **not supported** | `results/progress_cps_v4/eval_val/summary_rq3_progress.md`, `results/progress_cps_v4/test/test_summary.md` | `reeval/progress_cps_v4/` | `results/progress_cps_v4/` |
+| RQ3 (PRE-ACT-inspired CPS adaptation, v4) — **not supported** | [partner results page](results/progress_cps_v4/README.md); [validation](results/progress_cps_v4/eval_val/summary_rq3_progress.md); [official test](results/progress_cps_v4/test/test_summary.md) | `reeval/progress_cps_v4/` | `results/progress_cps_v4/` |
 | RQ1b (authors' own code) | `rq1b_authors_riskprop/README_RQ1B.md` | `rq1b_authors_riskprop/` | `results/reeval_corrected/` (shares the RQ1 checkpoint rule) |
 
 One more overloaded word: **"test"** means two different things here — the official held-out Nexar test set (1,344 clips, scored once: `reeval/infer_official_test.py`, `reeval/score_official_test.py`, `reeval/progress_cps_v4/official_test_protocol.py`, `results/official_test/`, `results/progress_cps_v4/test/`) vs. a software/regression test (`reeval/progress_cps_v4/unit_tests_v3.py`, `regression_tests_v4.py` — plain checks that run on CPU with no real data). When in doubt: "official test" = the Nexar leaderboard set, "unit/regression test" = code correctness checks.
 
-`pipeline/` is the one folder that is genuinely never touched after the fact: it is imported by filename from several places (`reeval/`, `rq1b_authors_riskprop/`), so a file disappearing or changing behavior there would silently change every downstream result. `reeval/progress_cps_v4/LOCK.json`-style files (inside `results/progress_cps_v4/`) are immutable, hash-sealed snapshots of one specific run — they may mention script names as they existed on 2026-10, which can differ slightly from today's names below; that is expected archival behavior, not a bug.
+`pipeline/` is the one folder that is genuinely never touched after the fact: it is imported by filename from several places (`reeval/`, `rq1b_authors_riskprop/`), so a file disappearing or changing behavior there would silently change every downstream result. `results/progress_cps_v4/log/LOCK.json` and `results/progress_cps_v4/log/LOCK.json.sha256` are immutable, hash-sealed snapshots of one specific run — they may mention script names as they existed on 2026-10, which can differ slightly from today's names below; that is expected archival behavior, not a bug.
 
 ---
 
@@ -46,7 +46,7 @@ All numbers are means over 3 training seeds, with 95% bootstrap confidence inter
 |---|---|
 | Read all results in one place | [`results/RESULTS.md`](results/RESULTS.md) |
 | Read RQ1 / pairing / the ablation in detail | [`RESULTS_RQ1.md`](results/RESULTS_RQ1.md), [`RESULTS_RQ2.md`](results/RESULTS_RQ2.md) (ablation, supporting evidence), [`RESULTS_RQ3.md`](results/RESULTS_RQ3.md) (pairing, "RQ2" in the paper — see the table above) |
-| Read the CPS experiment (Progressive RiskProp, v4, "RQ3" in the paper) | [`reeval/progress_cps_v4/README.md`](reeval/progress_cps_v4/README.md) (run guide), [`results/progress_cps_v4/eval_val/summary_rq3_progress.md`](results/progress_cps_v4/eval_val/summary_rq3_progress.md) (validation), and [`results/progress_cps_v4/test/test_summary.md`](results/progress_cps_v4/test/test_summary.md) (official test) |
+| Read the CPS experiment (Progressive RiskProp, v4, "RQ3" in the paper) | [partner results page](results/progress_cps_v4/README.md) (PRE-ACT-inspired, not a reproduction), [run guide](reeval/progress_cps_v4/README.md), [validation](results/progress_cps_v4/eval_val/summary_rq3_progress.md), [official test](results/progress_cps_v4/test/test_summary.md) |
 | See the raw numbers (CSV, predictions, logs) | the sub-folders of [`results/`](results/) (table below) |
 | Read the original training and evaluation code | [`pipeline/`](pipeline/) — never modified after the fact, see the note above |
 | Re-run the corrected evaluation | [`reeval/`](reeval/) flat scripts (`precache_val.py` → `score_official_test.py`) |
@@ -132,7 +132,7 @@ results/
   official_test/                submissions of all 21 original-scope runs, official scorer output, test CIs
   ablation_ffr_amc/             FFR/AMC ablation logs, analysis, raw predictions and risk curves
   pairing_sensitivity/          pairing-experiment logs, analysis, raw predictions and risk curves
-  progress_cps_v4/              CPS experiment: LOCK.json, all 9 runs, validation eval, official test
+  progress_cps_v4/              Partner README, validation and official test at root; log/ contains the sealed lock, 9 run records and audit trail
   repro/                        split manifest, video-id map, environment
   top/, adalea/, riskprop/      original training logs (evaluation there is superseded by reeval_corrected/)
 ```

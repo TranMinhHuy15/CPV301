@@ -130,7 +130,7 @@ The experiment compares a retrained RiskProp baseline (B), continuous progress s
 | Validation, non-inferiority | P − B mAP | −0.0081 [−0.0366, +0.0207] | Margin 0.02 not met |
 | Official Nexar test | P − B mAP | −0.0016 [−0.0184, +0.0156] | Inconclusive |
 
-The score curve became steeper and negative scores were lower under CPS, but validation contrasts for PVR, ADS and RCJ were inconclusive. These shape diagnostics do not change the pre-registered accuracy conclusion. Read the [validation report](progress_cps_v4/eval_val/summary_rq3_progress.md), [official-test report](progress_cps_v4/test/test_summary.md), and [run guide](../reeval/progress_cps_v4/README.md).
+The score curve became steeper and negative scores were lower under CPS, but validation contrasts for PVR, ADS and RCJ were inconclusive. These shape diagnostics do not change the pre-registered accuracy conclusion. This is a PRE-ACT-inspired loss-level adaptation, not a PRE-ACT reproduction. Start with the [partner-facing results guide](progress_cps_v4/README.md); the full evidence is in the [validation report](progress_cps_v4/eval_val/summary_rq3_progress.md), [official-test report](progress_cps_v4/test/test_summary.md), and [run guide](../reeval/progress_cps_v4/README.md).
 
 ## 5.6 Summary
 

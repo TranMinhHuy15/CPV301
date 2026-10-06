@@ -17,7 +17,7 @@
 #   bash reeval/progress_cps_v4/run_all.sh eval        # eval_val.py --research on all 300 val videos             [G7]
 #   bash reeval/progress_cps_v4/run_all.sh sens        # optional: P, H = 1.5 s, seed 42 + eval vs B
 #   bash reeval/progress_cps_v4/run_all.sh test-freeze | test-infer | test-score   # official_test_protocol.py: official test  [G8]
-#   bash reeval/progress_cps_v4/run_all.sh pack        # small result files -> results/progress_cps_v4/
+#   bash reeval/progress_cps_v4/run_all.sh pack        # eval/test at root; provenance and logs under results/progress_cps_v4/log/
 set -euo pipefail
 REPO=${REPO:-/workspace/CPV301}
 cd "$REPO"
@@ -181,24 +181,31 @@ test-score)
   ;;
 pack)
   DST=$REPO/results/progress_cps_v4
-  mkdir -p "$DST"
-  for f in LOCK.json LOCK.json.sha256; do [ -f "$OUT/$f" ] && cp -v "$OUT/$f" "$DST/"; done
-  for d in prepare preflight audit sidecar sidecar_sample test; do
+  mkdir -p "$DST/log"
+  for f in LOCK.json LOCK.json.sha256; do [ -f "$OUT/$f" ] && cp -v "$OUT/$f" "$DST/log/"; done
+  for d in prepare preflight audit sidecar sidecar_sample; do
     [ -d "$OUT/$d" ] || continue
-    mkdir -p "$DST/$d"
+    mkdir -p "$DST/log/$d"
     find "$OUT/$d" -maxdepth 1 -type f \( -name '*.json' -o -name '*.txt' -o -name '*.csv' -o -name '*.md' \) \
-      ! -name 'sidecar.json' -exec cp {} "$DST/$d/" \;
+      ! -name 'sidecar.json' -exec cp {} "$DST/log/$d/" \;
   done
+  if [ -d "$OUT/test" ]; then
+    mkdir -p "$DST/test"
+    find "$OUT/test" -maxdepth 1 -type f \( -name '*.json' -o -name '*.csv' -o -name '*.md' \) -exec cp {} "$DST/test/" \;
+    find "$OUT/test" -maxdepth 1 -type f \( -name '*.log' -o -name '*.txt' \) -exec mkdir -p "$DST/log/test" \; -exec cp {} "$DST/log/test/" \;
+  fi
   for r in "$OUT"/runs/*/; do
-    [ -d "$r" ] || continue; n=$(basename "$r"); mkdir -p "$DST/runs/$n"
-    cp "$r"config.json "$r"train_log.csv "$DST/runs/$n/"; [ -f "$r"COMPLETE.json ] && cp "$r"COMPLETE.json "$DST/runs/$n/"
+    [ -d "$r" ] || continue; n=$(basename "$r"); mkdir -p "$DST/log/runs/$n"
+    cp "$r"config.json "$r"train_log.csv "$DST/log/runs/$n/"; [ -f "$r"COMPLETE.json ] && cp "$r"COMPLETE.json "$DST/log/runs/$n/"
   done
   for e in "$OUT"/eval_val*; do
     [ -d "$e" ] || continue; n=$(basename "$e"); mkdir -p "$DST/$n"
     find "$e" -maxdepth 1 -type f \( -name '*.md' -o -name '*.csv' -o -name '*.json' \) -exec cp {} "$DST/$n/" \;
+    find "$e" -maxdepth 1 -type f \( -name '*.log' -o -name '*.txt' \) -exec mkdir -p "$DST/log/$n" \; -exec cp {} "$DST/log/$n/" \;
     cp -r "$e/preds_val" "$e/dense_val" "$DST/$n/" 2>/dev/null || true
   done
-  cp "$OUT"/logs/*.log "$DST/" 2>/dev/null || true
+  cp "$OUT"/logs/*.log "$DST/log/" 2>/dev/null || true
+  cp "$OUT"/logs/*.txt "$DST/log/" 2>/dev/null || true
   if grep -rlE "hf_[A-Za-z0-9]{20,}" "$DST"; then die "token-like string found in $DST -- do not commit"; fi
   du -sh "$DST"
   echo "Ready: git add results/progress_cps_v4 (no .pth, no video, no cache)"

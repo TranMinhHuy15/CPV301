@@ -21,7 +21,7 @@ RQ1b is out of scope.
 | (component analysis) | FFR/AMC 2×2 (formerly RQ2) | results unchanged (`results/RESULTS_RQ2.md`) |
 | **RQ3** | *Can event-distance-aware progress supervision improve RiskProp's early collision anticipation and temporal risk progression while maintaining predictive accuracy under the temporal-pairing configuration selected in RQ2?* | this pipeline |
 
-The result files keep their historical names and numbers, and none of them is rewritten. The root `README.md` is untouched in v4.
+The result files keep their historical names and numbers; this repository's partner-facing result page now lives at `results/progress_cps_v4/README.md`. The v4 run did not rewrite the historical result files.
 
 ## Locked design (team decision, 2026-10-05)
 
@@ -86,10 +86,10 @@ bash reeval/progress_cps_v4/run_all.sh eval                 # G7: research-mode 
 bash reeval/progress_cps_v4/run_all.sh sens                 # optional sensitivity (H = 1.5 s)
 bash reeval/progress_cps_v4/run_all.sh test-freeze && bash reeval/progress_cps_v4/run_all.sh test-infer \
   && bash reeval/progress_cps_v4/run_all.sh test-score      # G8: official test, once
-bash reeval/progress_cps_v4/run_all.sh pack                 # small files -> results/progress_cps_v4/ (no .pth/video/token)
+bash reeval/progress_cps_v4/run_all.sh pack                 # eval/test at root; logs and audit under log/ (no .pth/video/token)
 ```
 
-**Outputs.**
+**Outputs.** The pack step keeps `eval_val/` and `test/` at the result-folder root; the sealed lock, execution logs, training records, and supporting audit folders go under `log/`.
 
 | Stage | Files |
 |---|---|
