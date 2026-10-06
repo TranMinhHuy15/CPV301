@@ -1,7 +1,7 @@
 """
 infer_val_rq2 -- RQ2 inference on the internal validation split (GPU part).
 
-Produces everything ablation_ffr_amc/analyze_ablation.py needs; computes no statistics
+Produces everything rq2_ablation_riskprop_ffr_amc/analyze_ablation.py needs; computes no statistics
 itself except the (already locked) per-run checkpoint choice.
 
 Runs covered (15 runs x {best, latest} = 30 checkpoints):
@@ -35,7 +35,7 @@ Step 3  Dense risk curves (RQ2_THEORY.md, Group 3), for the chosen checkpoint
         -> reeval_out/dense_rq2/<run>.npz  (scores (N, 30), vid_ids, targets)
 
 Usage (defaults match the vast.ai layout, so normally no arguments):
-    python reeval/ablation_ffr_amc/infer_val.py
+    python reeval/rq2_ablation_riskprop_ffr_amc/infer_val.py
 """
 import argparse
 import json
@@ -315,7 +315,7 @@ def main():
     print("\n[3b] Dense risk curves for chosen checkpoints")
     step3_dense(args, chosen, device)
 
-    print(f"\nDone in {(time.time()-t_all)/60:.1f} min. Next: python reeval/ablation_ffr_amc/analyze_ablation.py")
+    print(f"\nDone in {(time.time()-t_all)/60:.1f} min. Next: python reeval/rq2_ablation_riskprop_ffr_amc/analyze_ablation.py")
 
 
 if __name__ == "__main__":

@@ -21,13 +21,13 @@ AMC per proposal Sec 5.4; PAIRING_MODE is still overridable if ever
 needed):
     # A: neither
     RISKPROP_SEED=42 RISKPROP_USE_FFR=0 RISKPROP_USE_AMC=0 \
-        python reeval/ablation_ffr_amc/train_ablation.py
+        python reeval/rq2_ablation_riskprop_ffr_amc/train_ablation.py
     # B: FFR-only
     RISKPROP_SEED=42 RISKPROP_USE_FFR=1 RISKPROP_USE_AMC=0 \
-        python reeval/ablation_ffr_amc/train_ablation.py
+        python reeval/rq2_ablation_riskprop_ffr_amc/train_ablation.py
     # C: AMC-only (random)
     RISKPROP_SEED=42 RISKPROP_USE_FFR=0 RISKPROP_USE_AMC=1 \
-        python reeval/ablation_ffr_amc/train_ablation.py
+        python reeval/rq2_ablation_riskprop_ffr_amc/train_ablation.py
 Repeat each for RISKPROP_SEED in {42,43,44} -- 9 runs total.
 
 Output files go to the SAME /workspace/CPV301/outputs_riskprop/ directory

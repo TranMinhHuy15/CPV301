@@ -174,7 +174,7 @@ class TestTimingAndSplit(unittest.TestCase):
         self.assertTrue(any(r["future_frame"] for r in late))
 
     def test_lead_and_dense_rules_match_precache_val_and_infer_val(self):
-        sys.path.insert(0, os.path.join(REPO, "reeval", "ablation_ffr_amc")); import infer_val as r7
+        sys.path.insert(0, os.path.join(REPO, "reeval", "rq2_ablation_riskprop_ffr_amc")); import infer_val as r7
         for toe in (3.2, 9.87, 30.0):
             row = {"target": 1, "time_of_event": toe}
             self.assertEqual(au.dense_t_obs(1, toe, 40.0), r7.dense_t_obs(pd.Series(row), 40.0))

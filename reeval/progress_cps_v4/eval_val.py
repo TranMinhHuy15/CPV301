@@ -323,7 +323,7 @@ def decision(ci, lock, research_issues=()):
 # ----------------------------------------------------------------------------
 def gpu_steps(a, runs):
     import torch
-    sys.path.insert(0, os.path.join(REPO, "reeval", "ablation_ffr_amc"))
+    sys.path.insert(0, os.path.join(REPO, "reeval", "rq2_ablation_riskprop_ffr_amc"))
     import infer_val_24ckpt as r2
     import infer_val as r7
     from adalea_dataset import _to_tensor

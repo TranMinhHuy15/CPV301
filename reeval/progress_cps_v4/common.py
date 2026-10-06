@@ -54,7 +54,7 @@ BASELINE_FILES = [
     "pipeline/riskprop_model.py", "pipeline/riskprop_loss_ffr_amc.py",
     "pipeline/riskprop_dataset.py", "pipeline/riskprop_train.py",
     "reeval/precache_val.py", "reeval/infer_val_24ckpt.py", "reeval/analyze_rq1_and_pairing.py",
-    "reeval/infer_official_test.py", "reeval/score_official_test.py", "reeval/ablation_ffr_amc/infer_val.py",
+    "reeval/infer_official_test.py", "reeval/score_official_test.py", "reeval/rq2_ablation_riskprop_ffr_amc/infer_val.py",
     "reeval/pairing_sensitivity/eval_sensitivity.py",
 ]
 

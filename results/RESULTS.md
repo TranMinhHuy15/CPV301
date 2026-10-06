@@ -30,7 +30,7 @@ The same checkpoint rule was later applied unchanged to the original FFR/AMC abl
 
 A CI that contains 0 is reported as *inconclusive*.
 
-Code: [`../reeval/`](../reeval/). Data: [`reeval_corrected/`](reeval_corrected/), [`official_test/`](official_test/), [`ablation_ffr_amc/`](ablation_ffr_amc/), [`pairing_sensitivity/`](pairing_sensitivity/), [`repro/`](repro/).
+Code: [`../reeval/`](../reeval/). Data: [`reeval_corrected/`](reeval_corrected/), [`official_test/`](official_test/), [`rq2_ablation_riskprop_ffr_amc/`](rq2_ablation_riskprop_ffr_amc/), [`pairing_sensitivity/`](pairing_sensitivity/), [`repro/`](repro/).
 
 ## 5.2 RQ1: TOP vs. AdaLEA vs. RiskProp
 

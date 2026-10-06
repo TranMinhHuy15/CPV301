@@ -5,7 +5,7 @@
 Which runs are new: the random-offset and FixedLag τ = 1.0 s runs (3 seeds each) were trained together with the RQ1 models, and their training logs are in `results/riskprop/`. Only the six τ = 0.5 / 1.5 s sensitivity runs were trained for this analysis.
 
 Sources:
-- Main comparison on validation: `results/reeval_corrected/`, plus the temporal add-on in `results/ablation_ffr_amc/analysis/summary_rq2.md` §6.
+- Main comparison on validation: `results/reeval_corrected/`, plus the temporal add-on in `results/rq2_ablation_riskprop_ffr_amc/analysis/summary_rq2.md` §6.
 - Official test: `results/official_test/`.
 - τ sensitivity: `results/pairing_sensitivity/`, produced by `reeval/pairing_sensitivity/train_tau_sweep.py` and `reeval/pairing_sensitivity/eval_sensitivity.py`.
 
@@ -184,7 +184,7 @@ The CI column assumes normally distributed seed effects and is only a rough guid
 
 ## 6. Exploratory (post hoc): curve level and shape
 
-This was not planned in advance. It is computed from the saved dense curves (`results/ablation_ffr_amc/raw/dense_rq2/`, `results/pairing_sensitivity/raw/dense_rq3s/`) to check whether the PVR differences come from flatter curves, as they partly did in RQ2 (`RESULTS_RQ2.md` §6). Each value is the mean over the three seeds.
+This was not planned in advance. It is computed from the saved dense curves (`results/rq2_ablation_riskprop_ffr_amc/raw/dense_rq2/`, `results/pairing_sensitivity/raw/dense_rq3s/`) to check whether the PVR differences come from flatter curves, as they partly did in RQ2 (`RESULTS_RQ2.md` §6). Each value is the mean over the three seeds.
 
 | Condition | Mean positive score | Rise (last 0.3 s − first 0.3 s) | Positive curves with range < 0.05 | RCJ / curve range (median) | Mean negative score | RCJ on negatives |
 |---|---|---|---|---|---|---|

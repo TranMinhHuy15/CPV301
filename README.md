@@ -11,13 +11,13 @@ We compare three collision-anticipation methods (**TOP**, **AdaLEA**, **RiskProp
 
 ## Folders are named by topic, not by RQ number
 
-The paper's RQ numbering changed once already (the pairing experiment was promoted to RQ2 and the FFR/AMC ablation was demoted to supporting evidence — team decision, 2026-10-05) and may change again. Code and result **folders** are named by what they test (`ablation_ffr_amc/`, `pairing_sensitivity/`, `progress_cps_v4/`, …), so a future renumbering is a one-line edit to the table below, never a file rename. The `RESULTS_RQ*.md` **write-up files** still carry their original numbers, because that's what the first version of the paper cites them as — use this table to go from "the paper calls it RQ…" to "the file/folder is called…":
+The paper's RQ numbering changed once already (the pairing experiment was promoted to RQ2 and the FFR/AMC ablation was demoted to supporting evidence — team decision, 2026-10-05) and may change again. Code and result **folders** are named by what they test (`rq2_ablation_riskprop_ffr_amc/`, `pairing_sensitivity/`, `progress_cps_v4/`, …), so a future renumbering is a one-line edit to the table below, never a file rename. The `RESULTS_RQ*.md` **write-up files** still carry their original numbers, because that's what the first version of the paper cites them as — use this table to go from "the paper calls it RQ…" to "the file/folder is called…":
 
 | Paper calls it… | Write-up | Code | Raw results |
 |---|---|---|---|
 | RQ1 (TOP vs AdaLEA vs RiskProp) | `results/RESULTS_RQ1.md` | `pipeline/` (`top_*`, `adalea_*`, `riskprop_*`) + `reeval/*.py` (flat files) | `results/official_test/`, `results/reeval_corrected/`, `results/top/`, `results/adalea/`, `results/riskprop/` |
 | RQ2 (pairing, fixed vs random lag) | `results/RESULTS_RQ3.md` *(old filename, kept)* | `reeval/pairing_sensitivity/` | `results/pairing_sensitivity/` |
-| Supporting evidence, not its own RQ (FFR/AMC 2×2 ablation) | `results/RESULTS_RQ2.md` *(old filename, kept)* | `reeval/ablation_ffr_amc/` | `results/ablation_ffr_amc/` |
+| Supporting evidence, not its own RQ (FFR/AMC 2×2 ablation) | `results/RESULTS_RQ2.md` *(old filename, kept)* | `reeval/rq2_ablation_riskprop_ffr_amc/` | `results/rq2_ablation_riskprop_ffr_amc/` |
 | RQ3 (PRE-ACT-inspired CPS adaptation, v4) — **not supported** | [partner results page](results/progress_cps_v4/README.md); [validation](results/progress_cps_v4/eval_val/summary_rq3_progress.md); [official test](results/progress_cps_v4/test/test_summary.md) | `reeval/progress_cps_v4/` | `results/progress_cps_v4/` |
 | RQ1b (authors' own code) | `rq1b_authors_riskprop/README_RQ1B.md` | `rq1b_authors_riskprop/` | `results/reeval_corrected/` (shares the RQ1 checkpoint rule) |
 
@@ -50,7 +50,7 @@ All numbers are means over 3 training seeds, with 95% bootstrap confidence inter
 | See the raw numbers (CSV, predictions, logs) | the sub-folders of [`results/`](results/) (table below) |
 | Read the original training and evaluation code | [`pipeline/`](pipeline/) — never modified after the fact, see the note above |
 | Re-run the corrected evaluation | [`reeval/`](reeval/) flat scripts (`precache_val.py` → `score_official_test.py`) |
-| Re-run the ablation / pairing / CPS experiments | [`reeval/ablation_ffr_amc/`](reeval/ablation_ffr_amc/), [`reeval/pairing_sensitivity/`](reeval/pairing_sensitivity/), [`reeval/progress_cps_v4/`](reeval/progress_cps_v4/) (each has its own `run_all.sh`) |
+| Re-run the ablation / pairing / CPS experiments | [`reeval/rq2_ablation_riskprop_ffr_amc/`](reeval/rq2_ablation_riskprop_ffr_amc/), [`reeval/pairing_sensitivity/`](reeval/pairing_sensitivity/), [`reeval/progress_cps_v4/`](reeval/progress_cps_v4/) (each has its own `run_all.sh`) |
 | Run RQ1b (RiskProp with the authors' code) | [`rq1b_authors_riskprop/README_RQ1B.md`](rq1b_authors_riskprop/README_RQ1B.md) |
 | Look up the ablation's losses and metric formulas | [`RQ2_THEORY.md`](RQ2_THEORY.md) |
 
@@ -107,7 +107,7 @@ reeval/                        corrected evaluation + every experiment after the
   infer_official_test.py, score_official_test.py        shared RQ1 infra: rebuild val cache, score the
                                                           24 original checkpoints, lock the eval rules,
                                                           official-test inference + scorer
-  ablation_ffr_amc/              FFR/AMC 2x2 ablation (supporting evidence, not its own RQ)
+  rq2_ablation_riskprop_ffr_amc/              FFR/AMC 2x2 ablation (supporting evidence, not its own RQ)
     train_ablation.py, infer_val.py, analyze_ablation.py, run_all.sh
   pairing_sensitivity/           pairing experiment ("RQ2" in the paper): fixed vs random lag, tau sensitivity
     train_tau_sweep.py, eval_sensitivity.py, run_all.sh
@@ -130,7 +130,7 @@ results/
   RESULTS_SUPPLEMENTARY_ensemble_calibration.md                 ensemble/calibration side-analysis, not a numbered RQ
   reeval_corrected/             locked evaluation rules, per-run validation metrics, CIs (RQ1 + pairing)
   official_test/                submissions of all 21 original-scope runs, official scorer output, test CIs
-  ablation_ffr_amc/             FFR/AMC ablation logs, analysis, raw predictions and risk curves
+  rq2_ablation_riskprop_ffr_amc/             FFR/AMC ablation logs, analysis, raw predictions and risk curves
   pairing_sensitivity/          pairing-experiment logs, analysis, raw predictions and risk curves
   progress_cps_v4/              Partner README, validation and official test at root; log/ contains the sealed lock, 9 run records and audit trail
   repro/                        split manifest, video-id map, environment
@@ -172,7 +172,7 @@ python reeval/infer_val_24ckpt.py --ckpt-dir <folder with the 24 checkpoints>
 python reeval/analyze_rq1_and_pairing.py --preds-dir reeval_out/preds_val --results-dir results --out-dir reeval_out/analysis
 
 # 4. FFR/AMC ablation (supporting evidence)
-bash reeval/ablation_ffr_amc/run_all.sh && python reeval/ablation_ffr_amc/infer_val.py && python reeval/ablation_ffr_amc/analyze_ablation.py
+bash reeval/rq2_ablation_riskprop_ffr_amc/run_all.sh && python reeval/rq2_ablation_riskprop_ffr_amc/infer_val.py && python reeval/rq2_ablation_riskprop_ffr_amc/analyze_ablation.py
 
 # 5. official test (once, after the rules are locked)
 python reeval/infer_official_test.py --ckpt-dir <checkpoints> --locked-config reeval_out/analysis/locked_config.json --with-rq2
@@ -196,7 +196,7 @@ bash reeval/progress_cps_v4/run_all.sh prepare && bash reeval/progress_cps_v4/ru
 | Ablation (FFR/AMC) | 18 | `{best,latest}_riskprop_random_seedS_{neither,ffronly,amconly}.pth` |
 | Pairing sensitivity | 12 | `{best,latest}_riskprop_fixed_seedS_tau{0.5,1.5}.pth` |
 
-Checkpoint *filenames* on disk were not touched by the repo reorganization — only the code/result **folders** that reference them were renamed. The checkpoint actually used for each run is listed in `results/reeval_corrected/locked_config.json`, `results/ablation_ffr_amc/analysis/rq2_chosen_checkpoints.json` and `results/pairing_sensitivity/analysis/rq3_sensitivity_chosen_checkpoints.json`.
+Checkpoint *filenames* on disk were not touched by the repo reorganization — only the code/result **folders** that reference them were renamed. The checkpoint actually used for each run is listed in `results/reeval_corrected/locked_config.json`, `results/rq2_ablation_riskprop_ffr_amc/analysis/rq2_chosen_checkpoints.json` and `results/pairing_sensitivity/analysis/rq3_sensitivity_chosen_checkpoints.json`.
 </details>
 
 <details>

@@ -27,7 +27,7 @@ as "inconclusive".
 Each condition value M(.) is the mean over its 3 seeds.
 
 Usage:
-    python reeval/ablation_ffr_amc/analyze_ablation.py
+    python reeval/rq2_ablation_riskprop_ffr_amc/analyze_ablation.py
 """
 import argparse
 import glob

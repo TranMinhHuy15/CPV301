@@ -9,7 +9,7 @@ out identical -- this is checked against results/reeval_corrected/).
 Inputs:
   * RiskProp-full predictions from infer_rq1b.py --stage val
   * TOP / AdaLEA predictions from reeval/infer_val_24ckpt.py (their 6 chosen checkpoints)
-  * RiskProp (random) predictions already on GitHub: results/ablation_ffr_amc/raw/preds_val_rq2
+  * RiskProp (random) predictions already on GitHub: results/rq2_ablation_riskprop_ffr_amc/raw/preds_val_rq2
   Checkpoints of the old runs follow results/reeval_corrected/locked_config.json.
 
 Stage "test": runs reeval/score_official_test.py unchanged on the 21 old submissions
@@ -245,7 +245,7 @@ def main():
     ap.add_argument("--new-preds", default="/workspace/CPV301/reeval_out/rq1b/preds_val_rq1b")
     ap.add_argument("--rq1b-chosen", default="/workspace/CPV301/reeval_out/rq1b/rq1b_chosen_checkpoints.json")
     ap.add_argument("--old-preds", nargs="+", default=["/workspace/CPV301/reeval_out/preds_val",
-                                                       "/workspace/CPV301/results/ablation_ffr_amc/raw/preds_val_rq2"])
+                                                       "/workspace/CPV301/results/rq2_ablation_riskprop_ffr_amc/raw/preds_val_rq2"])
     ap.add_argument("--locked-config", default="/workspace/CPV301/results/reeval_corrected/locked_config.json")
     ap.add_argument("--ref-per-run", default="/workspace/CPV301/results/reeval_corrected/per_run_metrics.csv")
     ap.add_argument("--ref-ci", default="/workspace/CPV301/results/reeval_corrected/bootstrap_ci.csv")
