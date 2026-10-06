@@ -2,7 +2,7 @@
 
 > RQ1: How do AdaLEA, TOP, and RiskProp compare in official test mAP and, on labeled internal validation data, early-warning performance at FAR ≤ 0.1?
 
-Sources: `results/official_test/` (`reeval/re04_infer_test.py`, `reeval/re05_eval_test.py`) for the primary outcome, and `results/reeval_corrected/` (`reeval/re01`–`re03`) for the validation analysis.
+Sources: `results/official_test/` (`reeval/infer_official_test.py`, `reeval/score_official_test.py`) for the primary outcome, and `results/reeval_corrected/` (`reeval/precache_val.py – analyze_rq1_and_pairing.py`) for the validation analysis.
 
 ## 0. Tóm tắt nhanh — chỉ số riêng từng phương pháp (không phải Δ)
 

@@ -112,7 +112,7 @@ All computed on the **same internal validation split** already re-validated for 
 | mTTA@0.1 | mean, over detected positives, of the earliest horizon (0.5/1.0/1.5s) whose score clears the FAR≤0.1 threshold | Average warning lead time |
 | Coverage | fraction of positive videos detected at any of the 3 horizons | What share of accidents get *any* warning under this FAR budget |
 
-*(Identical formulas to the ones already implemented and validated in `reeval/re03_analyze_rq.py` for RQ1/RQ3 — reused as-is, no new code needed for this group.)*
+*(Identical formulas to the ones already implemented and validated in `reeval/analyze_rq1_and_pairing.py` for RQ1/RQ3 — reused as-is, no new code needed for this group.)*
 
 ### Group 3 — Temporal monotonicity (new for RQ2/RQ3; not yet implemented)
 

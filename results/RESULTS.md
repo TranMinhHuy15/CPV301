@@ -1,6 +1,7 @@
 # Results
 
-This chapter summarises the three research questions. The detailed reports, with every table, contrast and deviation, are:
+> **RQ numbering.** This summary keeps historical numbering in older sections: the FFR/AMC ablation was the original RQ2 and is now supporting evidence; fixed-lag pairing was the original RQ3 and is paper RQ2; Progressive RiskProp / CPS v4 is the paper's new RQ3. See the [repository map](../README.md).
+This chapter summarises the completed experiments and their findings. The detailed reports, with every table, contrast and deviation, are:
 - [`RESULTS_RQ1.md`](RESULTS_RQ1.md): TOP vs AdaLEA vs RiskProp
 - [`RESULTS_RQ2.md`](RESULTS_RQ2.md): FFR × AMC ablation
 - [`RESULTS_RQ3.md`](RESULTS_RQ3.md): fixed-lag vs random-offset AMC pairing, including the τ sensitivity runs
@@ -17,11 +18,11 @@ All 24 saved checkpoints (4 configurations × 3 seeds × {best, latest}) were re
 - **TOP head rule:** one fixed head, `head_2.0`, chosen by mean validation mAP; the oracle head was excluded from candidacy.
 - **Checkpoint rule:** per run, keep whichever of {best, latest} has the higher mean validation AP over 0.5/1.0/1.5 s.
 
-The same checkpoint rule was later applied unchanged to the RQ2 and RQ3 runs.
+The same checkpoint rule was later applied unchanged to the original FFR/AMC ablation, pairing-sensitivity and CPS runs.
 
 **Outcomes.**
 - **Primary outcome for RQ1: mAP on the official Nexar test set.** The set has 1,344 clips and was scored once, after all rules were locked, with Nexar's unmodified `evaluate_submission.py`. A group-wise re-implementation reproduces the official public and private mAP of every run exactly and adds mAUC@0.1.
-- **RQ2 and RQ3 are answered on the internal validation split.** Their temporal metrics need known event times: pairwise violation rate PVR (ε = 0.01), average downward step ADS and risk-curve jitter RCJ, computed on 30 causal windows per positive video. Official-test rows for these RQs are supplementary.
+- **The original FFR/AMC ablation and pairing experiment are evaluated on the internal validation split.** Their temporal metrics need known event times: pairwise violation rate PVR (ε = 0.01), average downward step ADS and risk-curve jitter RCJ, computed on 30 causal windows per positive video. Official-test rows for these RQs are supplementary.
 
 **Statistics.** Paired bootstrap 95% CIs (B = 2,000; seed 12345) apply the same resampled videos to every method:
 - validation: label-stratified
@@ -29,7 +30,7 @@ The same checkpoint rule was later applied unchanged to the RQ2 and RQ3 runs.
 
 A CI that contains 0 is reported as *inconclusive*.
 
-Code: [`../reeval/`](../reeval/). Data: [`reeval_corrected/`](reeval_corrected/), [`official_test/`](official_test/), [`rq2/`](rq2/), [`rq3_sensitivity/`](rq3_sensitivity/), [`repro/`](repro/).
+Code: [`../reeval/`](../reeval/). Data: [`reeval_corrected/`](reeval_corrected/), [`official_test/`](official_test/), [`ablation_ffr_amc/`](ablation_ffr_amc/), [`pairing_sensitivity/`](pairing_sensitivity/), [`repro/`](repro/).
 
 ## 5.2 RQ1: TOP vs. AdaLEA vs. RiskProp
 
@@ -66,9 +67,9 @@ Every pairwise validation difference is inconclusive, for example TOP − AdaLEA
 
 **Conclusion for RQ1.** No single method is best. TOP has the highest mean official-test mAP, but it does not significantly outperform RiskProp. TOP and RiskProp perform comparably, and both significantly outperform AdaLEA.
 
-**From RQ1 to RQ2 and RQ3.** RiskProp does not significantly outperform TOP, but it performs comparably and significantly outperforms AdaLEA. It is the published method that this project reproduces. Unlike TOP and AdaLEA, which are trained here on independent windows, RiskProp also shapes how the risk score evolves over time through two dedicated losses, FFR and AMC. This makes it a competitive basis for the component ablation in RQ2 and the fixed-temporal-lag study in RQ3. Both follow-up questions were planned in the proposal and do not depend on RiskProp ranking first in RQ1.
+**Follow-up experiments.** The FFR/AMC component ablation is supporting evidence. The fixed-temporal-lag study is paper RQ2; Progressive RiskProp / CPS v4 is paper RQ3. Both build on the reproduced RiskProp method and are reported separately below.
 
-## 5.3 RQ2: Contribution of FFR and random-pair AMC
+## 5.3 Supporting analysis (historical RQ2): Contribution of FFR and random-pair AMC
 
 2×2 ablation inside RiskProp on internal validation. D is the RQ1 RiskProp model.
 
@@ -94,7 +95,7 @@ Every pairwise validation difference is inconclusive, for example TOP − AdaLEA
 - **The official test shows the same pattern** (supplementary): FFR +0.12 / +0.10 mAP, and AMC has no accuracy effect.
 - **Agreement with the paper:** the result reproduces the direction of the RiskProp paper's Table 3 for FFR (+0.073 / +0.085 mAP in the paper). The paper's small AMC gain (+0.016 mAP on top of FFR) lies within our uncertainty and could not be confirmed.
 
-## 5.4 RQ3: Fixed-lag vs. random-offset AMC pairing
+## 5.4 Paper RQ2 (historical RQ3): Fixed-lag vs. random-offset AMC pairing
 
 Only the way AMC pairs are drawn differs. Random-offset uses gaps of 0.5–5.0 s (mean 2.75 s); FixedLag uses a constant gap τ. τ = 1.0 s is the main condition and was trained together with the RQ1 models (logs in [`riskprop/`](riskprop/)). τ = 0.5 / 1.5 s are secondary sensitivity runs, trained afterwards (6 new runs).
 
@@ -117,25 +118,36 @@ Only the way AMC pairs are drawn differs. Random-offset uses gaps of 0.5–5.0 s
 - **Fixed-lag pairing slightly reduces large pairwise violations, more so with shorter lags.** PVR: τ 0.5 < 1.0 < 1.5 < random. The trend holds for ε = 0.01 only, and differences between adjacent lags are inconclusive.
 - **τ = 1.0 s also increases jitter, but τ = 0.5 / 1.5 s do not.** This most likely reflects those three seeds rather than a mechanism.
 - **Our earlier interim finding that fixed-lag training reduces seed-to-seed variance is withdrawn.** It rested on τ = 1.0 s alone (SD 0.005 vs 0.033). At τ = 1.5 s the SD is 0.030, and on the official test τ = 1.0 s and random have similar SDs (0.013 vs 0.015).
-- **Overall:** the proposal's RQ3 success criterion (an improvement in temporal violations *or* seed variance) is met only weakly, through PVR.
+- **Overall:** the original pairing study's success criterion (an improvement in temporal violations *or* seed variance) is met only weakly, through PVR.
 
-## 5.5 Summary
+## 5.5 Paper RQ3: Progressive RiskProp / CPS v4 — not supported
 
-1. **Method comparison (RQ1).** On the official Nexar test set, TOP and RiskProp both beat AdaLEA by about 0.04 mAP, and the two cannot be separated. The 300-video validation split with three seeds cannot resolve differences of this size, which is why the official test was used as the primary outcome.
-2. **What makes RiskProp work (RQ2).** RiskProp's accuracy comes from future-frame regularization (FFR). The adaptive monotonic constraint (AMC) affects the shape of the risk curve (fewer violations), not ranking accuracy, and that effect is small once FFR is present.
-3. **How AMC pairs are sampled (RQ3).** Replacing random offsets with a fixed lag does not affect accuracy. It gives a small, metric-dependent temporal benefit and no reliable reduction in seed variance.
-4. **Accuracy and temporal consistency are separate outcomes.** Components that raise mAP (FFR) can raise absolute violation counts, and components that improve monotonicity (AMC, fixed lag) leave mAP unchanged. Both need to be reported when collision-anticipation models are compared.
+The experiment compares a retrained RiskProp baseline (B), continuous progress supervision (P) and a dense binary control (S). The pre-registered validation rule required both a positive lower confidence bound for P − B on AP@1.5 s and a lower bound above −0.02 for mAP. Neither condition passed.
 
-This summary replaces the interim §5.4 of the earlier draft ("none of the RQ1 or RQ3 comparisons reach significance … fixed-lag's main benefit is variance reduction"). That draft predated the official test run and the RQ3 sensitivity runs.
+| Evaluation | Contrast | Estimate [95% CI] | Outcome |
+|---|---|---|---|
+| Validation, primary | P − B AP@1.5 s | −0.0285 [−0.0614, +0.0084] | Criterion not met |
+| Validation, non-inferiority | P − B mAP | −0.0081 [−0.0366, +0.0207] | Margin 0.02 not met |
+| Official Nexar test | P − B mAP | −0.0016 [−0.0184, +0.0156] | Inconclusive |
 
-## 5.6 Limitations
+The score curve became steeper and negative scores were lower under CPS, but validation contrasts for PVR, ADS and RCJ were inconclusive. These shape diagnostics do not change the pre-registered accuracy conclusion. Read the [validation report](progress_cps_v4/eval_val/summary_rq3_progress.md), [official-test report](progress_cps_v4/test/test_summary.md), and [run guide](../reeval/progress_cps_v4/README.md).
+
+## 5.6 Summary
+
+1. **Paper RQ1 — method comparison.** On the official Nexar test set, TOP and RiskProp both beat AdaLEA by about 0.04 mAP; TOP and RiskProp cannot be separated statistically.
+2. **Supporting component analysis — FFR/AMC.** FFR provides most of RiskProp's accuracy gain. AMC improves risk-curve monotonicity without a measurable accuracy change.
+3. **Paper RQ2 — temporal pairing.** Fixed-lag pairing does not change accuracy; it gives a small, metric-dependent temporal benefit and no reliable reduction in seed variance.
+4. **Paper RQ3 — CPS v4.** Progressive RiskProp changes score-curve shape but does not meet the pre-registered accuracy-support rule on validation; official-test mAP is also inconclusive.
+5. **Accuracy and temporal consistency are separate outcomes.** Report both when comparing collision-anticipation models.
+
+## 5.7 Limitations
 
 - **Three seeds per condition.** Bootstrap CIs resample videos, not seeds, and seed SDs from three runs are imprecise.
 - **Smaller training setup than the papers.** Batch 2 videos on one GPU, λ1 = λ2 = 0.5, and 12-snippet sequences instead of frame-level ones. Absolute scores are therefore lower than published, and only effect directions are compared with the RiskProp paper.
-- **Only two checkpoints saved per run.** The per-run rule therefore picks the better of {lowest validation loss, final epoch}, not the best of all 50 epochs. The final epoch was chosen for 11 of 12 RQ1/RQ3 runs, 7 of 9 new RQ2 runs and all 6 sensitivity runs.
+- **Only two checkpoints saved per run.** The per-run rule therefore picks the better of {lowest validation loss, final epoch}, not the best of all 50 epochs. The final epoch was chosen for 11 of 12 original RQ1/pairing runs, 7 of 9 ablation runs and all 6 pairing-sensitivity runs; CPS uses its separate per-run validation checkpoint rule.
 - **Temporal metrics on validation only.** Test clips hide the event time, so dense risk curves cannot be built for them. The ε = 0.01 threshold was fixed before these metrics were computed; the curve-amplitude analyses are post hoc.
 - **Multiple comparisons.** Many contrasts are reported without multiplicity correction. CIs whose bound lies within about 0.002 of zero should be read as weak evidence.
-- **Different training sessions.** Runs were trained in different sessions (the RQ2 and RQ3 sensitivity runs on one RTX 4080), with identical code and hyperparameters.
+- **Different training sessions.** Runs were trained in different sessions (the original ablation and pairing-sensitivity runs on one RTX 4080), with identical code and hyperparameters.
 
 **Compute** (training time from the logs):
 
@@ -144,18 +156,9 @@ This summary replaces the interim §5.4 of the earlier draft ("none of the RQ1 o
 | TOP | 3 | 0.8 |
 | AdaLEA | 3 | 1.0 |
 | RiskProp random-offset + fixed τ = 1.0 s | 6 | 10.7 |
-| RQ2 ablation (A, B, C) | 9 | 11.4 |
-| RQ3 sensitivity (τ = 0.5 / 1.5 s) | 6 | 7.7 |
-| **Total** | **27** | **31.5** |
+| FFR/AMC ablation (supporting analysis) | 9 | 11.4 |
+| Pairing sensitivity (paper RQ2) | 6 | 7.7 |
+| Progressive RiskProp / CPS v4 | 9 | ~12.5 |
+| **Total** | **36** | **~44.0** |
 
 Official-test inference for all 21 runs took about 5 minutes on one RTX 4080.
-
-## Ghi chú nội bộ để họp nhóm (xóa mục này trước khi nộp)
-
-1. **File này thay hẳn bản `RESULTS.md` cũ.** Bản cũ có §5.4 ghi "không có khác biệt nào có ý nghĩa" và "fixed-lag chủ yếu giảm phương sai", nay đã sai sau khi có official test và các run sensitivity. Nhóm đồng ý bỏ bản cũ không?
-2. **Kết luận tổng (mục 5.5).** Có 4 ý: TOP ≈ RiskProp > AdaLEA; FFR là thành phần chính; fixed-lag không đổi độ chính xác; accuracy và tính nhất quán theo thời gian là hai trục khác nhau. Ý 4 có nên đưa vào Discussion/Conclusion không?
-3. **Các file chi tiết `RESULTS_RQ1/2/3.md`.** Giữ trong repo làm phụ lục, còn bài báo chỉ dùng bảng rút gọn như file này. Hay gộp hết vào một file?
-4. **Đã sửa lỗi làm tròn** (lệch 0,001) trong RQ1 và RQ2, theo số tính trực tiếp từ dữ liệu từng run. CI giữ đúng như file CSV (4 chữ số, làm tròn một lần). Bảng RQ3 để CI 4 chữ số vì nhiều cận sát 0. Nhóm muốn thống nhất 3 hay 4 chữ số cho CI trong bài?
-5. **Trước khi nộp:** xóa mục ghi chú nội bộ ở cả 4 file (RESULTS, RQ1 §7, RQ2 §10, RQ3 §9).
-6. **Kết luận RQ1 và đoạn chuyển sang RQ2/RQ3 (§5.2, đã thống nhất với partner ngày 25/9).** Không có model tốt nhất tuyệt đối: TOP có mean cao nhất nhưng không hơn RiskProp có ý nghĩa thống kê. Lưu ý khi viết bài: RiskProp là phương pháp đã công bố mà nhóm tái lập, không phải "proposed method" của nhóm. Biến thể nhóm đề xuất là FixedLag-RiskProp (RQ3).
-7. **Chi phí tiền thuê máy:** bổ sung số credit vast.ai đã dùng vào mục 5.6 nếu thầy yêu cầu báo cáo chi phí.

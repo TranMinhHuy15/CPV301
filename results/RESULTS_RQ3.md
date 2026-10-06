@@ -5,9 +5,9 @@
 Which runs are new: the random-offset and FixedLag τ = 1.0 s runs (3 seeds each) were trained together with the RQ1 models, and their training logs are in `results/riskprop/`. Only the six τ = 0.5 / 1.5 s sensitivity runs were trained for this analysis.
 
 Sources:
-- Main comparison on validation: `results/reeval_corrected/`, plus the temporal add-on in `results/rq2/analysis/summary_rq2.md` §6.
+- Main comparison on validation: `results/reeval_corrected/`, plus the temporal add-on in `results/ablation_ffr_amc/analysis/summary_rq2.md` §6.
 - Official test: `results/official_test/`.
-- τ sensitivity: `results/rq3_sensitivity/`, produced by `reeval/re09_train_rq3_sensitivity.py` and `reeval/re10_rq3_sensitivity_eval.py`.
+- τ sensitivity: `results/pairing_sensitivity/`, produced by `reeval/pairing_sensitivity/train_tau_sweep.py` and `reeval/pairing_sensitivity/eval_sensitivity.py`.
 
 The RQ3 conclusions come from the **internal validation split**, because the temporal metrics need the known event time. The official-test rows in Section 3 are supplementary.
 
@@ -70,7 +70,7 @@ The proposal states that "secondary sensitivity runs use τ = 0.5 and 1.5 second
 - SGD, LR 0.01 with the same step schedule, 50 epochs, batch 2 videos
 - λ1 = λ2 = 0.5, W_coll = 8.0, M = 8 AMC pairs per positive video, margin δ = 0.01 · Δt · c̄ (so the required rise grows with the lag)
 
-The random-offset and τ = 1.0 s runs come from `pipeline/cell34_train_riskprop_cached.py`, with `RISKPROP_PAIRING=random` and `fixed` respectively. The τ = 0.5 / 1.5 s runs come from `reeval/re09_train_rq3_sensitivity.py`. That script is a copy of `cell34` that only passes `fixed_gap = round(τ / dt)` to `cell32.riskprop_loss`; `cell32` and `cell34` are unchanged.
+The random-offset and τ = 1.0 s runs come from `pipeline/riskprop_train.py`, with `RISKPROP_PAIRING=random` and `fixed` respectively. The τ = 0.5 / 1.5 s runs come from `reeval/pairing_sensitivity/train_tau_sweep.py`. That script is a copy of `riskprop_train.py` that only passes `fixed_gap = round(τ / dt)` to `riskprop_loss_ffr_amc.riskprop_loss`; `riskprop_loss_ffr_amc.py` and `riskprop_train.py` are unchanged.
 
 **Training sanity checks.**
 
@@ -184,7 +184,7 @@ The CI column assumes normally distributed seed effects and is only a rough guid
 
 ## 6. Exploratory (post hoc): curve level and shape
 
-This was not planned in advance. It is computed from the saved dense curves (`results/rq2/raw/dense_rq2/`, `results/rq3_sensitivity/raw/dense_rq3s/`) to check whether the PVR differences come from flatter curves, as they partly did in RQ2 (`RESULTS_RQ2.md` §6). Each value is the mean over the three seeds.
+This was not planned in advance. It is computed from the saved dense curves (`results/ablation_ffr_amc/raw/dense_rq2/`, `results/pairing_sensitivity/raw/dense_rq3s/`) to check whether the PVR differences come from flatter curves, as they partly did in RQ2 (`RESULTS_RQ2.md` §6). Each value is the mean over the three seeds.
 
 | Condition | Mean positive score | Rise (last 0.3 s − first 0.3 s) | Positive curves with range < 0.05 | RCJ / curve range (median) | Mean negative score | RCJ on negatives |
 |---|---|---|---|---|---|---|
